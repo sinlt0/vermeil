@@ -3,6 +3,8 @@ node_modules/
 
 # Environment Variables (Sensitive)
 .env
+config.js
+webconfig.js
 
 # Logs
 logs
