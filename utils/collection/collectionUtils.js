@@ -63,7 +63,7 @@ async function fetchRandomCharacter(gender = null) {
 /**
  * Get or initialize user collection data
  */
-async function getUserData(guildDb, guildId, userId) {
+async function getUserData(guildDb, guildId, userId, settings = null) {
   const Model = CollectorUser(guildDb.connection);
   let data = await Model.findOne({ guildId, userId });
   
@@ -73,11 +73,19 @@ async function getUserData(guildDb, guildId, userId) {
 
   // ── Handle Roll Reset Logic ──
   const now = new Date();
-  const resetInterval = 60 * 60 * 1000; // 1 hour reset
+  const rollInterval = (settings?.rollResetMinutes || 60) * 60 * 1000;
   
-  if (now - data.lastRollReset >= resetInterval) {
+  if (now - data.lastRollReset >= rollInterval) {
     data.rollsAvailable = data.maxRolls;
     data.lastRollReset = now;
+    await data.save();
+  }
+
+  // ── Handle Claim Reset Logic ──
+  const claimInterval = (settings?.claimResetMinutes || 180) * 60 * 1000;
+  if (now - data.lastClaimReset >= claimInterval) {
+    data.claimsAvailable = 1; // Default 1 claim
+    data.lastClaimReset = now;
     await data.save();
   }
 

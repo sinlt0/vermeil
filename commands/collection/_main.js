@@ -5,6 +5,7 @@ const workers = {
   "inventory": require("./inventory"),
   "wishlist":  require("./wishlist"),
   "divorce":   require("./divorce"),
+  "config":    require("./collconfig"),
 };
 
 module.exports = {
@@ -31,6 +32,12 @@ module.exports = {
     )
     // Divorce
     .addSubcommand(s => s.setName("divorce").setDescription("Remove a character from your collection.").addStringOption(o => o.setName("character").setDescription("Name or ID of character").setRequired(true)))
+    // Config
+    .addSubcommand(s => s.setName("config").setDescription("Configure collection system settings.")
+      .addChannelOption(o => o.setName("channel").setDescription("Set the spawn channel").addChannelTypes(ChannelType.GuildText))
+      .addIntegerOption(o => o.setName("roll_minutes").setDescription("Minutes between roll resets"))
+      .addIntegerOption(o => o.setName("claim_minutes").setDescription("Minutes between claim resets"))
+    )
     .toJSON(),
 
   async execute(client, ctx) {

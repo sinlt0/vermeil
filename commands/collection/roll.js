@@ -2,6 +2,7 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentTyp
 const { reply } = require("../../utils/commandRunner");
 const { fetchRandomCharacter, getUserData, getCooldownString } = require("../../utils/collection/collectionUtils");
 const { fromConnection: CharacterClaim } = require("../../models/collector/CharacterClaim");
+const { fromConnection: CollectorSettings } = require("../../models/collector/CollectorSettings");
 const e = require("../../emojis/collectionemoji");
 
 module.exports = {
@@ -17,9 +18,21 @@ module.exports = {
   async execute(client, ctx) {
     const guild = ctx.type === "prefix" ? ctx.message.guild : ctx.interaction.guild;
     const author = ctx.type === "prefix" ? ctx.message.author : ctx.interaction.user;
+    const channel = ctx.type === "prefix" ? ctx.message.channel : ctx.interaction.channel;
 
     const guildDb = await client.db.getGuildDb(guild.id);
     if (!guildDb || guildDb.isDown) return;
+
+    // ── 0. Load & Check Settings ──
+    const SettingsModel = CollectorSettings(guildDb.connection);
+    let settings = await SettingsModel.findOne({ guildId: guild.id });
+    if (!settings) settings = await SettingsModel.create({ guildId: guild.id });
+
+    if (!settings.enabled) return reply(ctx, { content: "❌ The collection system is disabled in this server." });
+
+    if (settings.spawnChannelId && channel.id !== settings.spawnChannelId) {
+      return reply(ctx, { content: `❌ You can only roll in <#${settings.spawnChannelId}>!` });
+    }
 
     // ── 1. Determine Gender ──
     let gender = null;
@@ -33,9 +46,10 @@ module.exports = {
     }
 
     // ── 2. Check User Data & Rolls ──
-    const userData = await getUserData(guildDb, guild.id, author.id);
+    const userData = await getUserData(guildDb, guild.id, author.id, settings);
     if (userData.rollsAvailable <= 0) {
-      const nextReset = new Date(userData.lastRollReset.getTime() + 60 * 60 * 1000);
+      const rollInterval = (settings.rollResetMinutes || 60) * 60 * 1000;
+      const nextReset = new Date(userData.lastRollReset.getTime() + rollInterval);
       const waitTime = nextReset - new Date();
       return reply(ctx, { content: `❌ You are out of rolls! Next reset in **${getCooldownString(waitTime)}**.` });
     }
@@ -70,8 +84,13 @@ module.exports = {
     const collector = targetMsg.createMessageComponentCollector({ componentType: ComponentType.Button, time: 30000 });
 
     collector.on("collect", async i => {
-      const claimerData = await getUserData(guildDb, guild.id, i.user.id);
-      if (claimerData.claimsAvailable <= 0) return i.reply({ content: "❌ No claims available!", ephemeral: true });
+      const claimerData = await getUserData(guildDb, guild.id, i.user.id, settings);
+      if (claimerData.claimsAvailable <= 0) {
+        const claimInterval = (settings.claimResetMinutes || 180) * 60 * 1000;
+        const nextClaim = new Date(claimerData.lastClaimReset.getTime() + claimInterval);
+        const waitTime = nextClaim - new Date();
+        return i.reply({ content: `❌ You have no claims available! Next reset in **${getCooldownString(waitTime)}**.`, ephemeral: true });
+      }
 
       try {
         const ClaimModel = CharacterClaim(guildDb.connection);
