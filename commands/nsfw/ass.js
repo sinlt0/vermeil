@@ -1,5 +1,6 @@
-const { executeNsfw } = require("../../utils/nsfw/nsfwBase");
-const e = require("../../emojis/nsfwemoji");
+const { EmbedBuilder } = require("discord.js");
+const { reply } = require("../../utils/commandRunner");
+const { fetchNsfw } = require("../../utils/nsfwApiUtils");
 
 module.exports = {
   name: "ass",
@@ -10,6 +11,11 @@ module.exports = {
   slash: false,
 
   async execute(client, ctx) {
-    return executeNsfw(client, ctx, { category: "ass", title: "Ass", emoji: e.ass, type: "dual" });
-  },
+    if (!ctx.message.channel.nsfw) return reply(ctx, { content: "NSFW only!" });
+    try {
+      const { url } = await fetchNsfw("ass");
+      const embed = new EmbedBuilder().setColor(0xED4245).setTitle("Random Ass").setImage(url);
+      return reply(ctx, { embeds: [embed] });
+    } catch { return reply(ctx, { content: "Error fetching image." }); }
+  }
 };

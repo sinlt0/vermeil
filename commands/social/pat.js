@@ -1,6 +1,6 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { executeSocial } = require("../../utils/social/socialBase");
-const e = require("../../emojis/socialemoji");
+const { EmbedBuilder } = require("discord.js");
+const { reply } = require("../../utils/commandRunner");
+const { fetchSocial } = require("../../utils/socialApiUtils");
 
 module.exports = {
   name: "pat",
@@ -8,15 +8,15 @@ module.exports = {
   category: "social",
   usage: "<user>",
   cooldown: 3,
-  slash: true,
-
-  slashData: new SlashCommandBuilder()
-    .setName("pat")
-    .setDescription("Pat a user.")
-    .addUserOption(o => o.setName("user").setDescription("The user to pat.").setRequired(true))
-    .toJSON(),
+  slash: false,
 
   async execute(client, ctx) {
-    return executeSocial(client, ctx, { action: "pat", label: "patted", emoji: e.pat });
-  },
+    const target = ctx.message.mentions.users.first();
+    if (!target) return reply(ctx, { content: "Mention a user!" });
+    try {
+      const { url } = await fetchSocial("pat");
+      const embed = new EmbedBuilder().setColor(0x5865F2).setDescription(`**${ctx.message.author.username}** patted **${target.username}**!`).setImage(url);
+      return reply(ctx, { embeds: [embed] });
+    } catch { return reply(ctx, { content: "Error fetching image." }); }
+  }
 };

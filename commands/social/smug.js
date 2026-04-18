@@ -1,6 +1,6 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { executeSocial } = require("../../utils/social/socialBase");
-const e = require("../../emojis/socialemoji");
+const { EmbedBuilder } = require("discord.js");
+const { reply } = require("../../utils/commandRunner");
+const { fetchSocial } = require("../../utils/socialApiUtils");
 
 module.exports = {
   name: "smug",
@@ -8,14 +8,13 @@ module.exports = {
   category: "social",
   usage: "",
   cooldown: 3,
-  slash: true,
-
-  slashData: new SlashCommandBuilder()
-    .setName("smug")
-    .setDescription("Show how smug you are.")
-    .toJSON(),
+  slash: false,
 
   async execute(client, ctx) {
-    return executeSocial(client, ctx, { action: "smug", label: "is feeling smug", emoji: e.smug, requiresTarget: false });
-  },
+    try {
+      const { url } = await fetchSocial("smug");
+      const embed = new EmbedBuilder().setColor(0x5865F2).setDescription(`**${ctx.message.author.username}** is feeling smug!`).setImage(url);
+      return reply(ctx, { embeds: [embed] });
+    } catch { return reply(ctx, { content: "Error fetching image." }); }
+  }
 };

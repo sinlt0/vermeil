@@ -1,5 +1,6 @@
-const { executeNsfw } = require("../../utils/nsfw/nsfwBase");
-const e = require("../../emojis/nsfwemoji");
+const { EmbedBuilder } = require("discord.js");
+const { reply } = require("../../utils/commandRunner");
+const { fetchNsfw } = require("../../utils/nsfwApiUtils");
 
 module.exports = {
   name: "nsfwwaifu",
@@ -11,6 +12,11 @@ module.exports = {
   slash: false,
 
   async execute(client, ctx) {
-    return executeNsfw(client, ctx, { category: "waifu", title: "Waifu", emoji: e.waifu });
-  },
+    if (!ctx.message.channel.nsfw) return reply(ctx, { content: "NSFW only!" });
+    try {
+      const { url } = await fetchNsfw("waifu");
+      const embed = new EmbedBuilder().setColor(0xED4245).setTitle("Random Waifu").setImage(url);
+      return reply(ctx, { embeds: [embed] });
+    } catch { return reply(ctx, { content: "Error fetching image." }); }
+  }
 };
