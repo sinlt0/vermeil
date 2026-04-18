@@ -1,0 +1,38 @@
+// ============================================================
+//  config.js.example — Central configuration template
+//  Copy this to config.js and fill in your values
+// ============================================================
+
+module.exports = {
+  // ── Bot Core ──────────────────────────────────────────
+  token: process.env.TOKEN || "",
+  prefix: "!",
+  owners: ["YOUR_DISCORD_ID"],
+  
+  // ── MongoDB Configuration ─────────────────────────────
+  mongodb: {
+    // Main connection for users/global data
+    main: process.env.MONGODB_URI || "mongodb://localhost:27017/vermeil_main",
+    
+    // Multi-cluster setup for guilds
+    clusters: [
+      { name: "cluster1", uri: "mongodb://localhost:27017/cluster1" },
+      { name: "cluster2", uri: "mongodb://localhost:27017/cluster2" }
+    ],
+    maxServersPerCluster: 50,
+  },
+
+  // ── Lavalink (Music) ──────────────────────────────────
+  lavalink: {
+    host: "localhost",
+    port: 2333,
+    password: "youshallnotpass",
+    secure: false,
+    restVersion: "v4",
+    name: "Main Node",
+  },
+
+  // ── Links ─────────────────────────────────────────────
+  inviteLink: "https://discord.com/api/oauth2/authorize?client_id=YOUR_ID&permissions=8&scope=bot%20applications.commands",
+  supportServer: "https://discord.gg/yourserver",
+};

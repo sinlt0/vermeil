@@ -1,0 +1,35 @@
+// ============================================================
+//  webconfig.js.example — Bot Website & Dashboard template
+//  Copy this to webconfig.js and fill in your values
+// ============================================================
+
+module.exports = {
+  // ── General Settings ──────────────────────────────────
+  enabled:      true,
+  port:         25104,
+  botName:      "Vermeil",
+  botLogo:      "https://cdn.discordapp.com/embed/avatars/0.png",
+  footerText:   "© 2026 Vermeil Team",
+  supportServer: "https://discord.gg/yourserver",
+  githubLink:    "", 
+  prefix:       "!",
+
+  // ── Features (shown on home page) ─────────────────────
+  features: [
+    { icon: "🛡️", title: "Advanced Anti-Nuke",     description: "Maximum security for your server. Includes Panic Mode, Quarantining, and Whitelisting." },
+    { icon: "💰", title: "Economy & RPG",          description: "A deep economy system with work, crimes, hunts, battles, clans, and marriage."                },
+    { icon: "🎵", title: "Premium Music",          description: "High-quality, lag-free music powered by Lavalink with filters and manual autoplay." },
+    { icon: "📈", title: "Leveling System",        description: "Amari-style XP system with voice leveling and beautiful premium rank cards." },
+    { icon: "🔞", title: "NSFW Module",            description: "A comprehensive adult category with multi-API support and interaction commands." },
+  ],
+
+  // ── Dashboard / OAuth2 ────────────────────────────────
+  dashboard: {
+    enabled:      true,
+    port:         8080,
+    secret:       "YOUR_SESSION_SECRET", // Random string for session encryption
+    callbackURL:  "http://localhost:8080/auth/callback",
+    clientId:     "YOUR_BOT_CLIENT_ID",
+    clientSecret: "YOUR_BOT_CLIENT_SECRET",
+  },
+};
