@@ -30,17 +30,18 @@ async function fetchRandomCharacter(gender = null) {
   if (gender === "male")   targetGender = "MALE";
   if (gender === "female") targetGender = "FEMALE";
 
-  // Top characters (smaller range if filtered for better quality)
+  // Top characters
   const maxPage = targetGender ? 300 : 500;
   const randomPage = Math.floor(Math.random() * maxPage) + 1;
+
+  // Build variables object (only include gender if it's set)
+  const variables = { page: randomPage };
+  if (targetGender) variables.gender = targetGender;
 
   try {
     const res = await axios.post("https://graphql.anilist.co", {
       query,
-      variables: { 
-        page: randomPage,
-        gender: targetGender
-      }
+      variables
     }, { timeout: 5000 });
 
     const char = res.data.data.Page.characters[0];
