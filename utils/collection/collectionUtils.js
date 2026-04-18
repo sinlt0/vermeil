@@ -1,5 +1,8 @@
 const axios = require("axios");
+const https = require("https");
 const { fromConnection: CollectorUser } = require("../../models/collector/CollectorUser");
+
+const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
 /**
  * Fetch a random character from AniList with smart filtering
@@ -28,21 +31,26 @@ async function fetchRandomCharacter(gender = null) {
   // Filter valid gender strings for AniList
   let targetGender = null;
   if (gender === "male")   targetGender = "MALE";
-  if (gender === "female") targetGender = "FEMALE";
+  else if (gender === "female") targetGender = "FEMALE";
 
-  // Top characters
-  const maxPage = targetGender ? 300 : 500;
+  // Top characters (reduced range for higher reliability)
+  const maxPage = targetGender ? 200 : 300;
   const randomPage = Math.floor(Math.random() * maxPage) + 1;
 
-  // Build variables object (only include gender if it's set)
-  const variables = { page: randomPage };
-  if (targetGender) variables.gender = targetGender;
+  // Build variables object
+  const variables = { 
+    page: randomPage,
+    gender: targetGender // Explicitly include even if null
+  };
 
   try {
     const res = await axios.post("https://graphql.anilist.co", {
       query,
       variables
-    }, { timeout: 5000 });
+    }, { 
+      timeout: 10000,
+      httpsAgent: httpsAgent
+    });
 
     const char = res.data.data.Page.characters[0];
     if (!char) return null;
@@ -89,6 +97,9 @@ async function searchCharacter(query) {
     const res = await axios.post("https://graphql.anilist.co", {
       query: graphqlQuery,
       variables: isId ? { id: parseInt(query) } : { search: query }
+    }, { 
+      timeout: 10000,
+      httpsAgent: httpsAgent
     });
     
     const char = res.data.data.Character;
