@@ -9,5 +9,10 @@ module.exports = {
   tod: "🤔",
   truth: "📝",
   dare: "🔥",
+  iq: "🧠",
+  pp: "📏",
+  ship: "❤️",
+  fact: "📖",
+  roast: "🔥",
   warning: "⚠️"
 };
