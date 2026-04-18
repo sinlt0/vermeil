@@ -10,7 +10,7 @@ module.exports = {
   aliases: ["meow", "pussy"],
   usage: "",
   cooldown: 3,
-  slash: true,
+  slash: false,
 
   slashData: new SlashCommandBuilder()
     .setName("cat")

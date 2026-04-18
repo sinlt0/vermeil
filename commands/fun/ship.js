@@ -10,7 +10,7 @@ module.exports = {
   aliases: ["love", "match"],
   usage: "<user1> [user2]",
   cooldown: 5,
-  slash: true,
+  slash: false,
 
   slashData: new SlashCommandBuilder()
     .setName("ship")

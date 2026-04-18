@@ -9,7 +9,7 @@ module.exports = {
   aliases: ["penis", "size"],
   usage: "[user]",
   cooldown: 5,
-  slash: true,
+  slash: false,
 
   slashData: new SlashCommandBuilder()
     .setName("pp")

@@ -9,7 +9,7 @@ module.exports = {
   aliases: ["eightball"],
   usage: "<question>",
   cooldown: 3,
-  slash: true,
+  slash: false,
 
   slashData: new SlashCommandBuilder()
     .setName("8ball")

@@ -8,7 +8,7 @@ module.exports = {
   aliases: ["akinator"],
   usage: "[region]",
   cooldown: 10,
-  slash: true,
+  slash: false,
 
   slashData: new SlashCommandBuilder()
     .setName("aki")

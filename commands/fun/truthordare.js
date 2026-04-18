@@ -10,7 +10,7 @@ module.exports = {
   aliases: ["tod", "truth", "dare"],
   usage: "[rating: pg|pg13|r]",
   cooldown: 3,
-  slash: true,
+  slash: false,
 
   slashData: new SlashCommandBuilder()
     .setName("truthordare")

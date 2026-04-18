@@ -8,7 +8,7 @@ module.exports = {
   category: "fun",
   usage: "[user]",
   cooldown: 5,
-  slash: true,
+  slash: false,
 
   slashData: new SlashCommandBuilder()
     .setName("iq")

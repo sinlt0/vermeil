@@ -9,7 +9,7 @@ module.exports = {
   category: "fun",
   usage: "",
   cooldown: 5,
-  slash: true,
+  slash: false,
 
   slashData: new SlashCommandBuilder()
     .setName("fact")
