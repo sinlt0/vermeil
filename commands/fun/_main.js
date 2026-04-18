@@ -14,6 +14,7 @@ const workers = {
   "roast":      require("./roast"),
   "ship":       require("./ship"),
   "truthordare": require("./truthordare"),
+  "guesswho":    require("./guesswho"),
 };
 
 module.exports = {
@@ -28,14 +29,8 @@ module.exports = {
     .setName("fun")
     .setDescription("Various fun and game commands.")
     // Games
-    .addSubcommand(s => s.setName("aki").setDescription("Play a game of Akinator.")
-      .addStringOption(o => o.setName("language").setDescription("The language to play in.").setRequired(false))
-      .addStringOption(o => o.setName("mode").setDescription("What should Akinator guess?").addChoices(
-        { name: "Character", value: "character" },
-        { name: "Animal", value: "animal" },
-        { name: "Object", value: "object" }
-      ).setRequired(false))
-    )
+    .addSubcommand(s => s.setName("aki").setDescription("Play a game of Akinator.").addStringOption(o => o.setName("language").setDescription("The language to play in.").setRequired(false)).addStringOption(o => o.setName("mode").setDescription("What should Akinator guess?").addChoices({ name: "Character", value: "character" }, { name: "Animal", value: "animal" }, { name: "Object", value: "object" }).setRequired(false)))
+    .addSubcommand(s => s.setName("guesswho").setDescription("Guess the anime character!"))
     .addSubcommand(s => s.setName("truthordare").setDescription("Play Truth or Dare!").addStringOption(o => o.setName("rating").setDescription("Rating of questions").addChoices({ name: "PG", value: "pg" }, { name: "PG13", value: "pg13" }, { name: "R", value: "r" })))
     .addSubcommand(s => s.setName("ship").setDescription("Matchmaking machine.").addUserOption(o => o.setName("user1").setDescription("First user").setRequired(true)).addUserOption(o => o.setName("user2").setDescription("Second user")))
     // Interaction/Random
