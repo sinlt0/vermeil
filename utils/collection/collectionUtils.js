@@ -61,6 +61,54 @@ async function fetchRandomCharacter(gender = null) {
 }
 
 /**
+ * Search for a specific character by name or ID
+ */
+async function searchCharacter(query) {
+  const isId = !isNaN(query);
+  const graphqlQuery = `
+    query ($id: Int, $search: String) {
+      Character(id: $id, search: $search) {
+        id
+        name { full }
+        image { large }
+        gender
+        description
+        siteUrl
+        media(perPage: 1, sort: POPULARITY_DESC) {
+          nodes {
+            title { romaji }
+            bannerImage
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const res = await axios.post("https://graphql.anilist.co", {
+      query: graphqlQuery,
+      variables: isId ? { id: parseInt(query) } : { search: query }
+    });
+    
+    const char = res.data.data.Character;
+    if (!char) return null;
+
+    return {
+      id:     char.id,
+      name:   char.name.full,
+      image:  char.image.large,
+      gender: char.gender || "Unknown",
+      desc:   char.description || "No description available.",
+      url:    char.siteUrl,
+      anime:  char.media.nodes[0]?.title.romaji || "Unknown",
+      banner: char.media.nodes[0]?.bannerImage || null
+    };
+  } catch (err) {
+    return null;
+  }
+}
+
+/**
  * Get or initialize user collection data
  */
 async function getUserData(guildDb, guildId, userId, settings = null) {
@@ -103,6 +151,7 @@ function getCooldownString(ms) {
 
 module.exports = {
   fetchRandomCharacter,
+  searchCharacter,
   getUserData,
   getCooldownString
 };

@@ -19,6 +19,7 @@ const collectorUserSchema = new mongoose.Schema({
   
   // Leveling/Wishlist
   wishlist: [{ type: Number }], // Character IDs
+  favoriteCharacterId: { type: Number, default: null },
   totalClaims: { type: Number, default: 0 },
 });
 
