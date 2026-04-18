@@ -34,7 +34,7 @@ module.exports = async (client) => {
 
   // ── Helper: get category emoji ────────────────────────
   function getCategoryEmoji(cat) {
-    const map = { utility: "🔧", moderation: "🔨", admin: "⚙️", music: "🎵", fun: "🎉", nsfw: "🔞", economy: "💰", leveling: "📈", info: "📋", ticket: "🎫", modmail: "📬", autorole: "👋", welcome: "🎊", owner: "👑", general: "📌" };
+    const map = { utility: "🔧", moderation: "🔨", admin: "⚙️", music: "🎵", fun: "🎉", nsfw: "🔞", collection: "🎴", economy: "💰", leveling: "📈", info: "📋", ticket: "🎫", modmail: "📬", autorole: "👋", welcome: "🎊", owner: "👑", general: "📌" };
     return map[cat.toLowerCase()] || "📁";
   }
 
