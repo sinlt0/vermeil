@@ -66,8 +66,8 @@ module.exports = {
   dashboard: {
     enabled:      false,
     port:         8080,
-    secret:       "IvxFw3Yg8JYHeC6AIck3M8RByre3SgASTHISISASECRETKEYDONTUSEANYTHINGELSE",
-    callbackURL:  "http://192.0.0.4:8080/auth/callback",
+    secret:       "",
+    callbackURL:  "http://../auth/callback",
     clientId:     "1483795068606353428",
     clientSecret: "Mdmwm2aeGvuVGIFTBwVGByPUXmiY2oGD",
   },
