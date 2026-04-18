@@ -11,6 +11,7 @@
     "@napi-rs/canvas": "^0.1.51",
     "@resvg/resvg-js": "^2.6.2",
     "aki-api": "^7.0.1",
+    "axios": "^1.15.0",
     "chalk": "^4.1.2",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5",

@@ -1,4 +1,7 @@
 const axios = require("axios");
+const https = require("https");
+
+const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
 const PROVIDERS = {
   waifu_pics: {
@@ -20,16 +23,12 @@ const PROVIDERS = {
     baseUrl: "https://purrbot.site/api/img/sfw/",
     categories: ["hug", "kiss", "pat", "slap", "cuddle", "poke", "tickle", "dance", "smile", "bite", "blush"],
     parse: (data) => data.link
-  },
-  otakugifs: {
-    baseUrl: "https://api.otakugifs.xyz/gif?reaction=",
-    categories: ["hug", "kiss", "pat", "slap", "cuddle", "poke", "tickle", "dance", "smile", "wave", "bite", "blush", "smug"],
-    parse: (data) => data.url
   }
 };
 
 async function fetchSocial(category) {
-  const order = ["waifu_pics", "nekos_best", "otakugifs", "purrbot", "nekos_life"];
+  // Define fallback order (removed broken otakugifs)
+  const order = ["waifu_pics", "nekos_best", "purrbot", "nekos_life"];
   
   for (const providerKey of order) {
     const provider = PROVIDERS[providerKey];
@@ -37,10 +36,14 @@ async function fetchSocial(category) {
 
     try {
       const url = `${provider.baseUrl}${category}${providerKey === 'purrbot' ? '/gif' : ''}`;
-      const res = await axios.get(url, { timeout: 5000 });
+      const res = await axios.get(url, { 
+        timeout: 5000,
+        httpsAgent: httpsAgent
+      });
       const imgUrl = provider.parse(res.data);
       if (imgUrl && imgUrl.startsWith("http")) return { url: imgUrl, provider: providerKey };
-    } catch {
+    } catch (err) {
+      console.error(`[Social API] ${providerKey} failed:`, err.message);
       continue;
     }
   }

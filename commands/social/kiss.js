@@ -1,5 +1,6 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { executeSocial } = require("../../utils/social/socialBase");
+const { EmbedBuilder } = require("discord.js");
+const { reply } = require("../../utils/commandRunner");
+const { fetchSocial } = require("../../utils/socialApiUtils");
 const e = require("../../emojis/socialemoji");
 
 module.exports = {
@@ -8,15 +9,26 @@ module.exports = {
   category: "social",
   usage: "<user>",
   cooldown: 3,
-  slash: true,
-
-  slashData: new SlashCommandBuilder()
-    .setName("kiss")
-    .setDescription("Kiss a user.")
-    .addUserOption(o => o.setName("user").setDescription("The user to kiss.").setRequired(true))
-    .toJSON(),
+  slash: false,
 
   async execute(client, ctx) {
-    return executeSocial(client, ctx, { action: "kiss", label: "kissed", emoji: e.kiss });
+    const target = ctx.message.mentions.users.first();
+    const author = ctx.message.author;
+
+    if (!target) return reply(ctx, { content: "Please mention a user to kiss!" });
+    if (target.id === author.id) return reply(ctx, { content: "You can't kiss yourself!" });
+
+    try {
+      const { url, provider } = await fetchSocial("kiss");
+      const embed = new EmbedBuilder()
+        .setColor(0x5865F2)
+        .setDescription(`**${author.username}** kissed **${target.username}**! ${e.kiss}`)
+        .setImage(url)
+        .setFooter({ text: `Source: ${provider}` });
+      
+      return reply(ctx, { embeds: [embed] });
+    } catch (err) {
+      return reply(ctx, { content: "Failed to fetch animation." });
+    }
   },
 };

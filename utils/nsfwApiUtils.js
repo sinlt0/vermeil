@@ -1,4 +1,9 @@
 const axios = require("axios");
+const https = require("https");
+
+// This agent allows fetching even if the hosting environment's 
+// SSL certificate store is outdated (common in Pterodactyl/Termux).
+const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
 /**
  * NSFW API Configuration & Fallback System
@@ -28,15 +33,6 @@ const PROVIDERS = {
       return cat;
     }
   },
-  hmtai: {
-    baseUrl: "https://hmtai.hatsunemiku-api.com/v1/",
-    categories: ["hentai", "nsfwNeko", "neko", "yuri", "panties", "thighs", "ass", "boobs"],
-    parse: (data) => data.url,
-    transformCategory: (cat) => {
-      if (cat === "neko") return "nsfwNeko";
-      return cat;
-    }
-  },
   nekobot: {
     baseUrl: "https://nekobot.xyz/api/image?type=",
     categories: ["hass", "hboobs", "hentai", "pussy", "4k", "gonewild", "ass", "pgif", "boobs"],
@@ -55,8 +51,8 @@ const PROVIDERS = {
  * @param {string} category The category to search for (e.g., 'hentai', 'neko')
  */
 async function fetchNsfw(category) {
-  // Define fallback order
-  const order = ["waifu_pics", "nekos_best", "nekos_life", "purrbot", "hmtai", "nekobot"];
+  // Define fallback order (removed broken hmtai)
+  const order = ["waifu_pics", "nekos_best", "nekos_life", "purrbot", "nekobot"];
   
   for (const providerKey of order) {
     const provider = PROVIDERS[providerKey];
@@ -69,16 +65,22 @@ async function fetchNsfw(category) {
 
     try {
       const url = `${provider.baseUrl}${targetCat}${providerKey === 'purrbot' ? '/gif' : ''}`;
-      const res = await axios.get(url, { timeout: 5000 });
+      const res = await axios.get(url, { 
+        timeout: 5000,
+        httpsAgent: httpsAgent // Use the custom agent here
+      });
       const imgUrl = provider.parse(res.data);
       
       if (imgUrl && imgUrl.startsWith("http")) return { url: imgUrl, provider: providerKey };
     } catch (err) {
+      console.error(`[NSFW API] ${providerKey} failed:`, err.message);
       continue; // Try next provider
     }
   }
 
   throw new Error(`All NSFW providers failed for category: ${category}`);
 }
+
+module.exports = { fetchNsfw };
 
 module.exports = { fetchNsfw };
