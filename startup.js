@@ -8,6 +8,8 @@ const path = require("path");
 
 const log = (msg) => console.log(`\x1b[35m[Startup]\x1b[0m ${msg}`);
 
+const REPO_URL = "https://github.com/sinlt0/vermeil.git";
+
 console.log("\x1b[36m============================================================\x1b[0m");
 log("Vermeil Autoupdate System initialized.");
 
@@ -21,16 +23,24 @@ function runCommand(cmd) {
   }
 }
 
-// ── 1. Update from GitHub ────────────────────────────────
-if (fs.existsSync(path.join(__dirname, ".git"))) {
-  log("Checking for GitHub updates...");
-  runCommand("git pull");
+// ── 1. Update or Initialize Git ──────────────────────────
+if (!fs.existsSync(path.join(__dirname, ".git"))) {
+  log("No .git folder found. Initializing repository...");
+  if (runCommand("git init")) {
+    runCommand(`git remote add origin ${REPO_URL}`);
+    log(`Remote set to ${REPO_URL}`);
+    
+    // Attempt to pull current files to establish link
+    log("Fetching remote data...");
+    runCommand("git fetch origin");
+    runCommand("git reset --hard origin/main"); // Force sync with main branch
+  }
 } else {
-  log("No .git folder found. Skipping auto-update.");
+  log("Checking for GitHub updates...");
+  runCommand("git pull origin main");
 }
 
 // ── 2. Install Dependencies ──────────────────────────────
-// Runs if node_modules is missing or if you want to ensure they are up to date
 if (!fs.existsSync(path.join(__dirname, "node_modules"))) {
   log("Dependencies missing. Running npm install...");
   runCommand("npm install --omit=dev");
@@ -40,7 +50,6 @@ if (!fs.existsSync(path.join(__dirname, "node_modules"))) {
 log("Ready to boot. Launching index.js...");
 console.log("\x1b[36m============================================================\x1b[0m\n");
 
-// We use require to boot the bot in the same process
 try {
   require("./index.js");
 } catch (err) {
