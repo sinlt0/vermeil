@@ -1,16 +1,25 @@
 // ============================================================
 //  commands/info/botinfo.js
-//  Shows detailed information about the bot
+//  Upgraded detailed information about the bot
 // ============================================================
-const { SlashCommandBuilder, EmbedBuilder, version: discordVersion } = require("discord.js");
+const { 
+  SlashCommandBuilder, 
+  EmbedBuilder, 
+  ActionRowBuilder, 
+  ButtonBuilder, 
+  ButtonStyle, 
+  version: discordVersion 
+} = require("discord.js");
 const { reply } = require("../../utils/commandRunner");
 const pkg = require("../../package.json");
+const e = require("../../emojis/infoemoji");
+const os = require("os");
 
 module.exports = {
   name:             "botinfo",
-  description:      "View detailed information about the bot.",
+  description:      "View premium detailed information about the bot.",
   category:         "info",
-  aliases:          ["bi"],
+  aliases:          ["bi", "stats", "info"],
   usage:            "",
   cooldown:         5,
   ownerOnly:        false,
@@ -25,81 +34,86 @@ module.exports = {
 
   async execute(client, ctx) {
     const author = ctx.type === "prefix" ? ctx.message.author : ctx.interaction.user;
+    
+    // ── Data Gathering ──
+    const uptime = formatUptime(client.uptime);
+    const memory = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
+    const totalMem = (os.totalmem() / 1024 / 1024 / 1024).toFixed(2);
+    
+    const guilds = client.guilds.cache.size.toLocaleString();
+    const users = client.guilds.cache.reduce((a, b) => a + (b.memberCount || 0), 0).toLocaleString();
+    const channels = client.channels.cache.size.toLocaleString();
+    
+    const cmdCount = client.commands.size;
     const createdAt = Math.floor(client.user.createdTimestamp / 1000);
-    const memoryUsed = Math.round(process.memoryUsage().heapUsed / 1024 / 1024);
-    const commandCount = client.commands?.size ?? 0;
-    const slashCount = client.slashCmds?.size ?? 0;
 
-    const totalMembers = client.guilds.cache.reduce((total, guild) => total + (guild.memberCount ?? 0), 0);
-
+    // ── Build Embed ──
     const embed = new EmbedBuilder()
-      .setColor(0x00BCD4)
-      .setAuthor({
-        name:    `${client.user.username} | Bot Info`,
-        iconURL: client.user.displayAvatarURL({ dynamic: true }),
-      })
+      .setColor(0x5865F2)
+      .setTitle(`${e.star} Vermeil Statistics`)
+      .setDescription(`Vermeil is a high-performance, All-In-One Discord bot designed for professional community management and engagement.`)
       .setThumbnail(client.user.displayAvatarURL({ dynamic: true, size: 512 }))
       .addFields(
         {
-          name:  "🤖 Bot",
+          name: `${e.bot} General Info`,
           value: [
             `**Username:** ${client.user.tag}`,
             `**ID:** \`${client.user.id}\``,
-            `**Created:** <t:${createdAt}:F> (<t:${createdAt}:R>)`,
+            `**Created:** <t:${createdAt}:R>`,
+            `**Library:** Discord.js v${discordVersion}`,
+          ].join("\n"),
+          inline: true,
+        },
+        {
+          name: `${e.server} Statistics`,
+          value: [
+            `**Servers:** \`${guilds}\``,
+            `**Users:** \`${users}\``,
+            `**Channels:** \`${channels}\``,
+            `**Commands:** \`${cmdCount}\``,
+          ].join("\n"),
+          inline: true,
+        },
+        {
+          name: `${e.shield} System Resources`,
+          value: [
+            `**Uptime:** \`${uptime}\``,
+            `**Ping:** \`${client.ws.ping}ms\``,
+            `**Memory:** \`${memory} MB / ${totalMem} GB\``,
+            `**Platform:** \`${os.platform()}\``,
           ].join("\n"),
           inline: false,
-        },
-        {
-          name:  "📊 Stats",
-          value: [
-            `**Servers:** \`${client.guilds.cache.size.toLocaleString()}\``,
-            `**Users:** \`${totalMembers.toLocaleString()}\``,
-            `**Commands:** \`${commandCount.toLocaleString()}\``,
-            `**Slash Commands:** \`${slashCount.toLocaleString()}\``,
-          ].join("\n"),
-          inline: true,
-        },
-        {
-          name:  "⚙️ System",
-          value: [
-            `**Ping:** \`${client.ws.ping}ms\``,
-            `**Uptime:** \`${formatUptime(client.uptime)}\``,
-            `**Memory:** \`${memoryUsed} MB\``,
-          ].join("\n"),
-          inline: true,
-        },
-        {
-          name:  "📦 Versions",
-          value: [
-            `**Bot:** \`v${pkg.version}\``,
-            `**Node.js:** \`${process.version}\``,
-            `**Discord.js:** \`v${discordVersion}\``,
-          ].join("\n"),
-          inline: true,
-        },
+        }
       )
       .setFooter({
-        text:    `Requested by ${author.tag}`,
+        text: `Requested by ${author.tag}`,
         iconURL: author.displayAvatarURL({ dynamic: true }),
       })
       .setTimestamp();
 
-    return reply(ctx, { embeds: [embed] });
+    // ── Interactive Buttons ──
+    const row = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setLabel("Invite Me")
+        .setURL(client.config?.inviteLink || "https://discord.com")
+        .setStyle(ButtonStyle.Link)
+        .setEmoji(e.invite),
+      new ButtonBuilder()
+        .setLabel("Support Server")
+        .setURL(client.config?.supportServer || "https://discord.gg")
+        .setStyle(ButtonStyle.Link)
+        .setEmoji(e.support)
+    );
+
+    return reply(ctx, { embeds: [embed], components: [row] });
   },
 };
 
 function formatUptime(ms) {
-  const totalSeconds = Math.floor(ms / 1000);
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor((totalSeconds % 86400) / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  const parts = [];
-
-  if (days) parts.push(`${days}d`);
-  if (hours) parts.push(`${hours}h`);
-  if (minutes) parts.push(`${minutes}m`);
-  parts.push(`${seconds}s`);
-
-  return parts.join(" ");
+  const s = Math.floor(ms / 1000);
+  const d = Math.floor(s / 86400);
+  const h = Math.floor((s % 86400) / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  return `${d}d ${h}h ${m}m ${sec}s`;
 }

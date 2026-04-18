@@ -1,214 +1,91 @@
 // ============================================================
 //  commands/info/userinfo.js
-//  Shows detailed info about a user
-//  Works on server members AND external users by ID
-//  Different embed shown if user is not in the server
+//  Premium user information command
 // ============================================================
-const {
-  SlashCommandBuilder,
-  EmbedBuilder,
-  PermissionFlagsBits,
-} = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { reply } = require("../../utils/commandRunner");
-const embeds    = require("../../utils/embeds");
+const e = require("../../emojis/infoemoji");
 
 module.exports = {
   name:             "userinfo",
-  description:      "View detailed information about a user.",
+  description:      "View detailed premium information about a user.",
   category:         "info",
-  aliases:          ["ui", "whois"],
-  usage:            "[@user|userID]",
+  aliases:          ["ui", "whois", "user"],
+  usage:            "[@user]",
   cooldown:         5,
-  ownerOnly:        false,
-  devOnly:          false,
   requiresDatabase: false,
   slash:            true,
 
   slashData: new SlashCommandBuilder()
     .setName("userinfo")
-    .setDescription("View detailed information about a user.")
-    .addStringOption(o =>
-      o.setName("user")
-        .setDescription("Mention, username or user ID.")
-        .setRequired(false)
-    )
+    .setDescription("View detailed premium information about a user.")
+    .addUserOption(o => o.setName("user").setDescription("The user to view info for.").setRequired(false))
     .toJSON(),
 
   async execute(client, ctx) {
-    const guild  = ctx.type === "prefix" ? ctx.message.guild  : ctx.interaction.guild;
+    const user = ctx.type === "prefix" 
+      ? (ctx.message.mentions.users.first() || ctx.message.author)
+      : (ctx.interaction.options.getUser("user") || ctx.interaction.user);
+    
+    const member = await ctx.guild.members.fetch(user.id).catch(() => null);
     const author = ctx.type === "prefix" ? ctx.message.author : ctx.interaction.user;
 
-    // ── Resolve target ─────────────────────────────────
-    let targetUser   = null;
-    let targetMember = null;
+    const createdAt = Math.floor(user.createdTimestamp / 1000);
+    const joinedAt = member ? Math.floor(member.joinedTimestamp / 1000) : null;
+    
+    // ── Role List ──
+    const roles = member 
+      ? member.roles.cache
+        .filter(r => r.id !== ctx.guild.id)
+        .sort((a, b) => b.position - a.position)
+        .map(r => r.toString())
+      : [];
 
-    if (ctx.type === "prefix") {
-      const mention = ctx.message.mentions.users.first();
-      if (mention) {
-        targetUser   = mention;
-        targetMember = ctx.message.mentions.members.first();
-      } else if (ctx.args[0]) {
-        // Try ID or username search
-        const query = ctx.args[0];
-        if (/^\d{17,19}$/.test(query)) {
-          // ID — try to fetch user globally
-          targetUser   = await client.users.fetch(query).catch(() => null);
-          targetMember = await guild.members.fetch(query).catch(() => null);
-          if (targetMember) targetUser = targetMember.user;
-        } else {
-          // Username search within server
-          targetMember = guild.members.cache.find(m =>
-            m.user.username.toLowerCase() === query.toLowerCase() ||
-            m.displayName.toLowerCase()   === query.toLowerCase()
-          );
-          if (targetMember) targetUser = targetMember.user;
-        }
-      } else {
-        targetUser   = author;
-        targetMember = ctx.message.member;
-      }
-    } else {
-      const input = ctx.interaction.options.getString("user");
-      if (input) {
-        if (/^\d{17,19}$/.test(input.trim())) {
-          targetUser   = await client.users.fetch(input.trim()).catch(() => null);
-          targetMember = await guild.members.fetch(input.trim()).catch(() => null);
-          if (targetMember) targetUser = targetMember.user;
-        } else {
-          targetMember = guild.members.cache.find(m =>
-            m.user.username.toLowerCase() === input.toLowerCase() ||
-            m.displayName.toLowerCase()   === input.toLowerCase()
-          );
-          if (targetMember) targetUser = targetMember.user;
-        }
-      } else {
-        targetUser   = ctx.interaction.user;
-        targetMember = ctx.interaction.member;
-      }
-    }
-
-    if (!targetUser) {
-      return reply(ctx, { embeds: [embeds.error("User not found. Please provide a valid mention, username or user ID.")] });
-    }
-
-    // Fetch full user to get banner
-    const fullUser = await client.users.fetch(targetUser.id, { force: true }).catch(() => targetUser);
-
-    const createdAt = Math.floor(targetUser.createdTimestamp / 1000);
-
-    // ── NOT IN SERVER — limited embed ──────────────────
-    if (!targetMember) {
-      const embed = new EmbedBuilder()
-        .setColor(0x99AAB5)
-        .setAuthor({
-          name:    targetUser.tag,
-          iconURL: targetUser.displayAvatarURL({ dynamic: true }),
-        })
-        .setThumbnail(targetUser.displayAvatarURL({ dynamic: true, size: 512 }))
-        .setDescription("⚠️ This user is **not in this server**. Showing limited information.")
-        .addFields(
-          { name: "👤 Username",      value: targetUser.username,                           inline: true  },
-          { name: "🏷️ Display Name",  value: targetUser.displayName,                        inline: true  },
-          { name: "🤖 Bot",           value: targetUser.bot ? "✅ Yes" : "❌ No",            inline: true  },
-          { name: "🆔 User ID",       value: `\`${targetUser.id}\``,                        inline: true  },
-          { name: "📅 Account Created",value: `<t:${createdAt}:F>\n<t:${createdAt}:R>`,    inline: false },
-        )
-        .setFooter({
-          text:    `Requested by ${author.tag}`,
-          iconURL: author.displayAvatarURL({ dynamic: true }),
-        })
-        .setTimestamp();
-
-      // Banner if available
-      if (fullUser.bannerURL()) {
-        embed.setImage(fullUser.bannerURL({ size: 1024 }));
-      }
-
-      return reply(ctx, { embeds: [embed] });
-    }
-
-    // ── IN SERVER — full embed ─────────────────────────
-    const joinedAt  = Math.floor(targetMember.joinedTimestamp / 1000);
-
-    // Roles (exclude @everyone, sort by position)
-    const roles = targetMember.roles.cache
-      .filter(r => r.id !== guild.id)
-      .sort((a, b) => b.position - a.position);
-
-    const roleList = roles.size > 0
-      ? roles.map(r => `<@&${r.id}>`).join(" ").substring(0, 1024)
-      : "No roles";
-
-    // Boost status
-    const boostSince = targetMember.premiumSince
-      ? `<t:${Math.floor(targetMember.premiumSinceTimestamp / 1000)}:R>`
-      : "Not boosting";
-
-    // Highest role color
-    const highestRole  = targetMember.roles.highest;
-    const embedColor   = highestRole?.color || 0x5865F2;
-
-    // Join position
-    const joinPosition = (await guild.members.fetch())
-      .sort((a, b) => a.joinedTimestamp - b.joinedTimestamp)
-      .map(m => m.id)
-      .indexOf(targetMember.id) + 1;
+    const roleDisplay = roles.length > 10 
+      ? `${roles.slice(0, 10).join(", ")} and ${roles.length - 10} more...`
+      : roles.join(", ") || "None";
 
     const embed = new EmbedBuilder()
-      .setColor(embedColor)
-      .setAuthor({
-        name:    targetUser.tag,
-        iconURL: targetUser.displayAvatarURL({ dynamic: true }),
-      })
-      .setThumbnail(targetUser.displayAvatarURL({ dynamic: true, size: 512 }))
+      .setColor(member?.displayHexColor || 0x5865F2)
+      .setTitle(`${e.team} User Information`)
+      .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 512 }))
       .addFields(
         {
-          name:  "👤 User",
+          name: `${e.bot} Identity`,
           value: [
-            `**Username:** ${targetUser.username}`,
-            `**Display Name:** ${targetUser.displayName}`,
-            `**Nickname:** ${targetMember.nickname ?? "None"}`,
-            `**Bot:** ${targetUser.bot ? "✅ Yes" : "❌ No"}`,
+            `**Tag:** ${user.tag}`,
+            `**ID:** \`${user.id}\``,
+            `**Bot:** \`${user.bot ? "Yes" : "No"}\``,
           ].join("\n"),
           inline: true,
         },
         {
-          name:  "🆔 IDs",
+          name: `${e.shield} Dates`,
           value: [
-            `**User ID:** \`${targetUser.id}\``,
+            `**Registered:** <t:${createdAt}:R>`,
+            `**Joined Server:** ${joinedAt ? `<t:${joinedAt}:R>` : "Not a member"}`,
           ].join("\n"),
           inline: true,
         },
         {
-          name:  "📅 Dates",
+          name: `${e.command} Server Profile`,
           value: [
-            `**Account Created:** <t:${createdAt}:F> (<t:${createdAt}:R>)`,
-            `**Joined Server:** <t:${joinedAt}:F> (<t:${joinedAt}:R>)`,
-            `**Join Position:** \`#${joinPosition}\``,
+            `**Nickname:** ${member?.nickname || "None"}`,
+            `**Highest Role:** ${member?.roles.highest.toString() || "None"}`,
           ].join("\n"),
           inline: false,
         },
         {
-          name:  "🚀 Boost",
-          value: boostSince,
-          inline: true,
-        },
-        {
-          name:  `🎭 Roles [${roles.size}]`,
-          value: roleList,
+          name: `${e.help} Roles [${roles.length}]`,
+          value: roleDisplay,
           inline: false,
-        },
+        }
       )
       .setFooter({
-        text:    `Requested by ${author.tag}`,
+        text: `Requested by ${author.tag}`,
         iconURL: author.displayAvatarURL({ dynamic: true }),
       })
       .setTimestamp();
-
-    // Banner if available
-    if (fullUser.bannerURL()) {
-      embed.setImage(fullUser.bannerURL({ size: 1024 }));
-    }
 
     return reply(ctx, { embeds: [embed] });
   },

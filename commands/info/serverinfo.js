@@ -1,143 +1,96 @@
 // ============================================================
 //  commands/info/serverinfo.js
-//  Shows detailed information about the server
+//  Premium server information command
 // ============================================================
-const {
-  SlashCommandBuilder,
-  EmbedBuilder,
-  ChannelType,
-} = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, ChannelType } = require("discord.js");
 const { reply } = require("../../utils/commandRunner");
-
-const VERIFICATION_LEVELS = {
-  0: "None",
-  1: "Low",
-  2: "Medium",
-  3: "High",
-  4: "Highest",
-};
-
-const BOOST_TIERS = {
-  0: "No Tier",
-  1: "Tier 1",
-  2: "Tier 2",
-  3: "Tier 3",
-};
+const e = require("../../emojis/infoemoji");
 
 module.exports = {
   name:             "serverinfo",
-  description:      "View detailed information about this server.",
+  description:      "View detailed premium information about the current server.",
   category:         "info",
-  aliases:          ["si", "guildinfo"],
+  aliases:          ["si", "server"],
   usage:            "",
   cooldown:         5,
-  ownerOnly:        false,
-  devOnly:          false,
   requiresDatabase: false,
   slash:            true,
 
   slashData: new SlashCommandBuilder()
     .setName("serverinfo")
-    .setDescription("View detailed information about this server.")
+    .setDescription("View detailed premium information about the current server.")
     .toJSON(),
 
   async execute(client, ctx) {
-    const guild  = ctx.type === "prefix" ? ctx.message.guild : ctx.interaction.guild;
+    const guild = ctx.type === "prefix" ? ctx.message.guild : ctx.interaction.guild;
     const author = ctx.type === "prefix" ? ctx.message.author : ctx.interaction.user;
 
-    // Fetch full guild to get all data including banner
-    const fullGuild = await guild.fetch();
-
-    // Channel counts
-    const channels      = guild.channels.cache;
-    const textChannels  = channels.filter(c => c.type === ChannelType.GuildText).size;
-    const voiceChannels = channels.filter(c => c.type === ChannelType.GuildVoice).size;
-    const categories    = channels.filter(c => c.type === ChannelType.GuildCategory).size;
-    const totalChannels = channels.size;
-
-    // Member counts
-    const totalMembers  = guild.memberCount;
-    const botCount      = guild.members.cache.filter(m => m.user.bot).size;
-    const humanCount    = totalMembers - botCount;
-
-    // Roles (exclude @everyone)
-    const roleCount = guild.roles.cache.size - 1;
-
-    // Emoji counts
-    const emojiCount    = guild.emojis.cache.size;
-    const animatedEmoji = guild.emojis.cache.filter(e => e.animated).size;
-    const staticEmoji   = emojiCount - animatedEmoji;
-
-    // Owner
-    const owner = await guild.fetchOwner().catch(() => null);
-
-    // Creation date
+    const owner = await guild.fetchOwner();
     const createdAt = Math.floor(guild.createdTimestamp / 1000);
+    
+    // ── Member Breakdown ──
+    const totalMembers = guild.memberCount;
+    const botCount = guild.members.cache.filter(m => m.user.bot).size;
+    const humanCount = totalMembers - botCount;
+
+    // ── Channel Breakdown ──
+    const textChannels = guild.channels.cache.filter(c => c.type === ChannelType.GuildText).size;
+    const voiceChannels = guild.channels.cache.filter(c => c.type === ChannelType.GuildVoice).size;
+    const categoryCount = guild.channels.cache.filter(c => c.type === ChannelType.GuildCategory).size;
+
+    // ── Misc ──
+    const roleCount = guild.roles.cache.size;
+    const emojiCount = guild.emojis.cache.size;
+    const boostCount = guild.premiumSubscriptionCount || 0;
+    const boostTier = guild.premiumTier;
 
     const embed = new EmbedBuilder()
       .setColor(0x5865F2)
-      .setAuthor({
-        name:    guild.name,
-        iconURL: guild.iconURL({ dynamic: true }) ?? undefined,
-      })
+      .setTitle(`${e.server} ${guild.name}`)
       .setThumbnail(guild.iconURL({ dynamic: true, size: 512 }))
+      .setImage(guild.bannerURL({ size: 1024 }))
       .addFields(
         {
-          name:  "📋 General",
+          name: `${e.shield} General`,
           value: [
-            `**Owner:** ${owner ? `${owner.user.tag}` : "Unknown"} (<@${guild.ownerId}>)`,
-            `**Created:** <t:${createdAt}:F> (<t:${createdAt}:R>)`,
-            `**Verification:** ${VERIFICATION_LEVELS[guild.verificationLevel] ?? "Unknown"}`,
+            `**Owner:** ${owner.user.tag}`,
             `**ID:** \`${guild.id}\``,
+            `**Created:** <t:${createdAt}:R>`,
+            `**Verification:** \`${guild.verificationLevel}\``,
           ].join("\n"),
-          inline: false,
+          inline: true,
         },
         {
-          name:  "👥 Members",
+          name: `${e.team} Members`,
           value: [
             `**Total:** \`${totalMembers.toLocaleString()}\``,
             `**Humans:** \`${humanCount.toLocaleString()}\``,
             `**Bots:** \`${botCount.toLocaleString()}\``,
+            `**Roles:** \`${roleCount}\``,
           ].join("\n"),
           inline: true,
         },
         {
-          name:  "📢 Channels",
+          name: `${e.help} Channels`,
           value: [
-            `**Total:** \`${totalChannels}\``,
             `**Text:** \`${textChannels}\``,
             `**Voice:** \`${voiceChannels}\``,
-            `**Categories:** \`${categories}\``,
+            `**Categories:** \`${categoryCount}\``,
+            `**Emojis:** \`${emojiCount}\``,
           ].join("\n"),
           inline: true,
         },
         {
-          name:  "✨ Other",
-          value: [
-            `**Roles:** \`${roleCount}\``,
-            `**Emojis:** \`${staticEmoji}\` static · \`${animatedEmoji}\` animated`,
-          ].join("\n"),
-          inline: true,
-        },
-        {
-          name:  "🚀 Boosts",
-          value: [
-            `**Tier:** ${BOOST_TIERS[guild.premiumTier] ?? "None"}`,
-            `**Boosts:** \`${guild.premiumSubscriptionCount ?? 0}\``,
-          ].join("\n"),
-          inline: true,
-        },
+          name: `${e.star} Boost Status`,
+          value: `Level \`${boostTier}\` with \`${boostCount}\` boosts.`,
+          inline: false,
+        }
       )
       .setFooter({
-        text:    `Requested by ${author.tag}`,
+        text: `Requested by ${author.tag}`,
         iconURL: author.displayAvatarURL({ dynamic: true }),
       })
       .setTimestamp();
-
-    // Add banner if exists
-    if (fullGuild.bannerURL()) {
-      embed.setImage(fullGuild.bannerURL({ size: 1024 }));
-    }
 
     return reply(ctx, { embeds: [embed] });
   },
