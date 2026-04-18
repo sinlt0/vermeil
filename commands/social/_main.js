@@ -1,8 +1,8 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { executeSocial } = require("../../utils/social/socialBase");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { reply } = require("../../utils/commandRunner");
+const { fetchSocial } = require("../../utils/socialApiUtils");
 const e = require("../../emojis/socialemoji");
 
-// Configuration map to keep logic central
 const ACTIONS = {
   hug:      { label: "hugged",     emoji: e.hug,      target: true },
   kiss:     { label: "kissed",     emoji: e.kiss,     target: true },
@@ -56,12 +56,29 @@ module.exports = {
   async execute(client, ctx) {
     const action = ctx.interaction.options.getSubcommand();
     const config = ACTIONS[action];
-    
-    return executeSocial(client, ctx, { 
-      action, 
-      label: config.label, 
-      emoji: config.emoji, 
-      requiresTarget: config.target 
-    });
+    const author = ctx.interaction.user;
+    const target = ctx.interaction.options.getUser("user");
+
+    let description = "";
+    if (config.target) {
+      if (!target) return reply(ctx, { content: `Please mention a user!` });
+      if (target.id === author.id) return reply(ctx, { content: `You can't do that to yourself!` });
+      description = `**${author.username}** ${config.label} **${target.username}**! ${config.emoji}`;
+    } else {
+      description = `**${author.username}** ${config.label}! ${config.emoji}`;
+    }
+
+    try {
+      const { url, provider } = await fetchSocial(action);
+      const embed = new EmbedBuilder()
+        .setColor(0x5865F2)
+        .setDescription(description)
+        .setImage(url)
+        .setFooter({ text: `Source: ${provider}` });
+      
+      return reply(ctx, { embeds: [embed] });
+    } catch (err) {
+      return reply(ctx, { content: `Failed to fetch animation.` });
+    }
   },
 };

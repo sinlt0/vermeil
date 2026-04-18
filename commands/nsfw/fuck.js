@@ -1,4 +1,6 @@
-const { executeNsfw } = require("../../utils/nsfw/nsfwBase");
+const { EmbedBuilder } = require("discord.js");
+const { reply } = require("../../utils/commandRunner");
+const { fetchNsfw } = require("../../utils/nsfwApiUtils");
 const e = require("../../emojis/nsfwemoji");
 
 module.exports = {
@@ -10,6 +12,19 @@ module.exports = {
   slash: false,
 
   async execute(client, ctx) {
-    return executeNsfw(client, ctx, { category: "fuck", title: "Fucked!", emoji: "👉", type: "interaction", label: "is fucking" });
+    if (!ctx.message.channel.nsfw) return reply(ctx, { content: `${e.warning} NSFW only!` });
+    const target = ctx.message.mentions.users.first();
+    if (!target) return reply(ctx, { content: "Mention a user!" });
+
+    try {
+      const { url } = await fetchNsfw("fuck");
+      const embed = new EmbedBuilder()
+        .setColor(0xED4245)
+        .setDescription(`**${ctx.message.author.username}** is fucking **${target.username}**! 👉`)
+        .setImage(url);
+      return reply(ctx, { embeds: [embed] });
+    } catch (err) {
+      return reply(ctx, { content: "Error fetching animation." });
+    }
   },
 };

@@ -1,4 +1,6 @@
-const { executeNsfw } = require("../../utils/nsfw/nsfwBase");
+const { EmbedBuilder } = require("discord.js");
+const { reply } = require("../../utils/commandRunner");
+const { fetchNsfw } = require("../../utils/nsfwApiUtils");
 const e = require("../../emojis/nsfwemoji");
 
 module.exports = {
@@ -11,6 +13,18 @@ module.exports = {
   slash: false,
 
   async execute(client, ctx) {
-    return executeNsfw(client, ctx, { category: "hentai", title: "Hentai", emoji: e.hentai });
+    if (!ctx.message.channel.nsfw) return reply(ctx, { content: `${e.warning} NSFW only!` });
+
+    try {
+      const { url, provider } = await fetchNsfw("hentai");
+      const embed = new EmbedBuilder()
+        .setColor(0xED4245)
+        .setTitle(`${e.hentai} Random Hentai`)
+        .setImage(url)
+        .setFooter({ text: `Source: ${provider}` });
+      return reply(ctx, { embeds: [embed] });
+    } catch (err) {
+      return reply(ctx, { content: "Error fetching image." });
+    }
   },
 };
