@@ -14,7 +14,7 @@ module.exports = {
   usage:            "[@user]",
   cooldown:         5,
   requiresDatabase: false,
-  slash:            true,
+  slash: false,
 
   slashData: new SlashCommandBuilder()
     .setName("userinfo")
