@@ -1,0 +1,20 @@
+<%- include('../partials/head', { title: 'Login' }) %>
+<div class="auth-page">
+  <div class="auth-card">
+    <img src="<%= config.botLogo %>" alt="<%= config.botName %>" class="auth-logo" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+    <h1><%= config.botName %></h1>
+    <p>Sign in with Discord to access the dashboard and manage your servers.</p>
+    <% if (error) { %>
+    <div class="alert alert-error" style="margin-bottom:1.5rem; text-align:left;">
+      <i class="fa-solid fa-circle-xmark"></i> <%= error %>
+    </div>
+    <% } %>
+    <a href="/auth/discord" class="btn-discord">
+      <i class="fa-brands fa-discord"></i> Login with Discord
+    </a>
+    <p style="margin-top:1.5rem; font-size:0.8rem; color:var(--text3);">
+      Only servers where you have <strong>Manage Server</strong> permission will be shown.
+    </p>
+  </div>
+</div>
+<%- include('../partials/foot', { flash: null }) %>

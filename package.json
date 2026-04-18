@@ -1,0 +1,31 @@
+{
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "description": "AIO Discord Bot with expandable features",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.51",
+    "@resvg/resvg-js": "^2.6.2",
+    "aki-api": "^7.0.1",
+    "chalk": "^4.1.2",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.2.0",
+    "express-session": "^1.18.0",
+    "marked": "^12.0.0",
+    "mongoose": "^8.2.0",
+    "node-fetch": "^3.3.2",
+    "riffy": "^1.0.11",
+    "svg-captcha": "^1.4.0",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

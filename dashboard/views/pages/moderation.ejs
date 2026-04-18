@@ -1,0 +1,148 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><i class="fa-solid fa-shield-halved"></i> Moderation Configuration</h3>
+  </div>
+  <div class="card-body">
+    <form id="mod-form">
+      <div class="form-group">
+        <label class="form-label">Moderation Log Channel</label>
+        <input type="text" name="modLogChannel" id="mod-log-input" class="form-input" placeholder="Enter Channel ID">
+        <p class="form-hint">All moderation actions will be logged here.</p>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-title">DM Notifications</div>
+          <div class="toggle-desc">Notify users via DM when they are warned/kicked/banned</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" name="dmNotify" id="mod-dm">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid var(--border2); margin: 2rem 0;">
+
+      <h4 style="margin-bottom: 1rem;">Automated Punishments</h4>
+      <div class="table-wrap">
+        <table id="thresholds-table">
+          <thead>
+            <tr>
+              <th>Warn Count</th>
+              <th>Action</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="thresholds-body">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="addThresholdRow()" style="margin-top: 1rem;">
+          <i class="fa-solid fa-plus"></i> Add Threshold
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+let originalData = null;
+
+async function loadModData() {
+  const res = await fetch('/api/<%= guild.id %>/data');
+  const data = await res.json();
+  if (data.success) {
+    originalData = data;
+    document.getElementById('mod-log-input').value = data.settings.modLog || '';
+    
+    // We'll simulate some thresholds for this demo if not present
+    const thresholds = data.settings.moderation?.thresholds || [];
+    renderThresholds(thresholds);
+  }
+}
+
+function renderThresholds(thresholds) {
+  const body = document.getElementById('thresholds-body');
+  body.innerHTML = thresholds.map((t, index) => `
+    <tr>
+      <td><input type="number" class="form-input" style="width: 80px;" value="${t.count}" oninput="showSaveBar()"></td>
+      <td>
+        <select class="form-select" style="width: 140px;" onchange="showSaveBar()">
+          <option value="mute" ${t.action === 'mute' ? 'selected' : ''}>Mute</option>
+          <option value="kick" ${t.action === 'kick' ? 'selected' : ''}>Kick</option>
+          <option value="ban" ${t.action === 'ban' ? 'selected' : ''}>Ban</option>
+          <option value="timeout" ${t.action === 'timeout' ? 'selected' : ''}>Timeout</option>
+        </select>
+      </td>
+      <td style="text-align: right;">
+        <button class="btn btn-ghost btn-sm" onclick="this.closest('tr').remove(); showSaveBar();"><i class="fa-solid fa-trash"></i></button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function addThresholdRow() {
+  const body = document.getElementById('thresholds-body');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="number" class="form-input" style="width: 80px;" value="1"></td>
+    <td>
+      <select class="form-select" style="width: 140px;">
+        <option value="mute">Mute</option>
+        <option value="kick">Kick</option>
+        <option value="ban">Ban</option>
+        <option value="timeout">Timeout</option>
+      </select>
+    </td>
+    <td style="text-align: right;">
+      <button class="btn btn-ghost btn-sm" onclick="this.closest('tr').remove(); showSaveBar();"><i class="fa-solid fa-trash"></i></button>
+    </td>
+  `;
+  body.appendChild(tr);
+  showSaveBar();
+}
+
+function showSaveBar() {
+  document.getElementById('save-bar').classList.add('active');
+}
+
+function resetChanges() {
+  document.getElementById('save-bar').classList.remove('active');
+  loadModData(); // Reload original data
+}
+
+async function saveAllChanges() {
+  const saveBtn = document.getElementById('save-btn');
+  saveBtn.disabled = true;
+  saveBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Saving...';
+
+  // Gather data
+  const body = {
+    modLogChannel: document.getElementById('mod-log-input').value,
+    // (Add other fields as needed)
+  };
+
+  try {
+    const res = await fetch('/api/<%= guild.id %>/general', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    
+    if (res.ok) {
+      document.getElementById('save-bar').classList.remove('active');
+      alert('Changes saved successfully!');
+    }
+  } catch (err) {
+    alert('Error saving changes.');
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.innerText = 'Save Changes';
+  }
+}
+
+// Track changes on inputs
+document.getElementById('mod-form').addEventListener('input', showSaveBar);
+
+document.addEventListener('DOMContentLoaded', loadModData);
+</script>

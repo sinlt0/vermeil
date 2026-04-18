@@ -1,0 +1,17 @@
+module.exports = {
+  guild: "🏰",
+  invite: "📨",
+  list: "📋",
+  leave: "🚪",
+  purge: "🧹",
+  warning: "⚠️",
+  success: "✅",
+  error: "❌",
+  members: "👥",
+  owner: "👑",
+  id: "🆔",
+  page: "📄",
+  filter: "🔎",
+  confirm: "☑️",
+  link: "🔗",
+};

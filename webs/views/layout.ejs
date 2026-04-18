@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> — <%= config.botName %></title>
+  <meta name="description" content="<%= config.botDescription %>">
+  <meta property="og:title" content="<%= config.botName %>">
+  <meta property="og:description" content="<%= config.botDescription %>">
+  <meta property="og:image" content="<%= config.botLogo %>">
+  <meta name="theme-color" content="#5865f2">
+  <link rel="icon" href="<%= config.botLogo %>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="navbar-brand">
+    <img src="<%= config.botLogo %>" alt="<%= config.botName %>" onerror="this.style.display='none'">
+    <%= config.botName %>
+  </a>
+  <ul class="navbar-links">
+    <li><a href="/" class="<%= page === 'home' ? 'active' : '' %>">Home</a></li>
+    <li><a href="/commands" class="<%= page === 'commands' ? 'active' : '' %>">Commands</a></li>
+    <li><a href="/docs" class="<%= page === 'docs' ? 'active' : '' %>">Docs</a></li>
+    <li><a href="/changelog" class="<%= page === 'changelog' ? 'active' : '' %>">Changelog</a></li>
+    <li><a href="/credits" class="<%= page === 'credits' ? 'active' : '' %>">Credits</a></li>
+    <% if (config.supportServer) { %>
+    <li><a href="<%= config.supportServer %>" target="_blank">Support</a></li>
+    <% } %>
+  </ul>
+  <div class="navbar-actions">
+    <a href="<%= config.inviteLink %>" target="_blank" class="btn btn-primary nav-invite">
+      <i class="fa-solid fa-plus"></i> Invite Bot
+    </a>
+    <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-nav">
+  <div class="mobile-nav-header">
+    <a href="/" class="navbar-brand">
+      <img src="<%= config.botLogo %>" alt="<%= config.botName %>">
+      <%= config.botName %>
+    </a>
+    <button class="mobile-menu-close"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <ul class="mobile-nav-links">
+    <li><a href="/" class="<%= page === 'home' ? 'active' : '' %>"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="/commands" class="<%= page === 'commands' ? 'active' : '' %>"><i class="fa-solid fa-terminal"></i> Commands</a></li>
+    <li><a href="/docs" class="<%= page === 'docs' ? 'active' : '' %>"><i class="fa-solid fa-book"></i> Docs</a></li>
+    <li><a href="/changelog" class="<%= page === 'changelog' ? 'active' : '' %>"><i class="fa-solid fa-clock-rotate-left"></i> Changelog</a></li>
+    <li><a href="/credits" class="<%= page === 'credits' ? 'active' : '' %>"><i class="fa-solid fa-star"></i> Credits</a></li>
+    <li><a href="/privacy" class="<%= page === 'privacy' ? 'active' : '' %>"><i class="fa-solid fa-shield-halved"></i> Privacy</a></li>
+    <li><a href="/tos" class="<%= page === 'tos' ? 'active' : '' %>"><i class="fa-solid fa-file-contract"></i> Terms</a></li>
+    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
+    <li><a href="<%= config.inviteLink %>" target="_blank" class="mobile-invite-btn"><i class="fa-solid fa-plus"></i> Invite Bot</a></li>
+  </ul>
+</div>
+
+<div class="content">
+  <%- body %>
+</div>
+
+<footer>
+  <p>
+    <%= config.footerText %>
+    <% if (config.githubLink) { %>
+    · <a href="<%= config.githubLink %>" target="_blank">GitHub</a>
+    <% } %>
+    · <a href="<%= config.supportServer %>" target="_blank">Support</a>
+    · <a href="/privacy">Privacy</a>
+    · <a href="/tos">Terms</a>
+    · <a href="/credits">Credits</a>
+  </p>
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

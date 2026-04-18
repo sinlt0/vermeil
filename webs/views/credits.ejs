@@ -1,0 +1,33 @@
+<section>
+  <div class="section-header">
+    <span class="section-tag">Team</span>
+    <h2>Meet the Team</h2>
+    <p>The people who built and maintain <%= config.botName %>.</p>
+  </div>
+  <div class="credits-grid">
+    <% config.credits.forEach(dev => { %>
+    <div class="credit-card">
+      <img src="<%= dev.avatar %>" alt="<%= dev.name %>" class="credit-avatar" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+      <div class="credit-name"><%= dev.name %></div>
+      <div class="credit-role"><%= dev.role %></div>
+      <div class="credit-links">
+        <% if (dev.links.github) { %>
+        <a href="<%= dev.links.github %>" target="_blank" class="credit-link" title="GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <% } %>
+        <% if (dev.links.discord) { %>
+        <a href="<%= dev.links.discord %>" target="_blank" class="credit-link" title="Discord">
+          <i class="fa-brands fa-discord"></i>
+        </a>
+        <% } %>
+        <% if (dev.links.youtube) { %>
+        <a href="<%= dev.links.youtube %>" target="_blank" class="credit-link" title="YouTube">
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+        <% } %>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+</section>

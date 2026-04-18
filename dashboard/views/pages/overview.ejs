@@ -1,0 +1,158 @@
+<div class="overview-grid">
+  <!-- Stats Section -->
+  <div class="stats-grid" id="stats-container">
+    <div class="stat-card">
+      <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
+      <div class="stat-info">
+        <div class="stat-value" id="stat-members">...</div>
+        <div class="stat-label">Total Members</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon red"><i class="fa-solid fa-gavel"></i></div>
+      <div class="stat-info">
+        <div class="stat-value" id="stat-cases">...</div>
+        <div class="stat-label">Total Cases</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green"><i class="fa-solid fa-ticket"></i></div>
+      <div class="stat-info">
+        <div class="stat-value" id="stat-tickets">...</div>
+        <div class="stat-label">Open Tickets</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange"><i class="fa-solid fa-envelope"></i></div>
+      <div class="stat-info">
+        <div class="stat-value" id="stat-modmail">...</div>
+        <div class="stat-label">Modmail Threads</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Active Modules -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fa-solid fa-toggle-on"></i> Active Modules</h3>
+      </div>
+      <div class="card-body">
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-title">Leveling</div>
+            <div class="toggle-desc">XP system and rank cards</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggle-leveling" onchange="toggleFeature('leveling', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-title">Tickets</div>
+            <div class="toggle-desc">Support ticket system</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggle-tickets" onchange="toggleFeature('tickets', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-title">Modmail</div>
+            <div class="toggle-desc">User-to-staff DM threads</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggle-modmail" onchange="toggleFeature('modmail', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-title">Welcome Messages</div>
+            <div class="toggle-desc">Join/Leave notifications</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="toggle-welcome" onchange="toggleFeature('welcome', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Actions -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Mod Actions</h3>
+      </div>
+      <div class="card-body">
+        <div id="recent-cases-list">
+          <div class="empty-state">Loading...</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="/dashboard/<%= guild.id %>/moderation" class="btn btn-ghost btn-sm">View All Cases</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+async function loadData() {
+  try {
+    const res = await fetch('/api/<%= guild.id %>/data');
+    const data = await res.json();
+    
+    if (!data.success) throw new Error(data.error);
+
+    // Update Stats
+    document.getElementById('stat-members').innerText = data.stats.members;
+    document.getElementById('stat-cases').innerText = data.stats.cases;
+    document.getElementById('stat-tickets').innerText = data.stats.tickets;
+    document.getElementById('stat-modmail').innerText = data.stats.threads;
+
+    // Update Toggles
+    document.getElementById('toggle-leveling').checked = data.settings.leveling;
+    document.getElementById('toggle-tickets').checked = data.settings.tickets;
+    document.getElementById('toggle-modmail').checked = data.settings.modmail;
+    document.getElementById('toggle-welcome').checked = data.settings.welcome;
+
+    // Render Recent Cases
+    const list = document.getElementById('recent-cases-list');
+    if (data.recentCases.length === 0) {
+      list.innerHTML = '<div class="empty-state">No recent moderation actions.</div>';
+    } else {
+      list.innerHTML = data.recentCases.map(c => `
+        <div class="case-item" style="padding: 0.75rem 0; border-bottom: 1px solid var(--border2);">
+          <div style="display:flex; justify-content:space-between;">
+            <strong>Case #${c.caseNumber} - ${c.action.toUpperCase()}</strong>
+            <span style="color: var(--text3); font-size: 0.8rem;">${new Date(c.createdAt).toLocaleDateString()}</span>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--text2);">Target: ${c.targetTag} | Reason: ${c.reason || 'No reason provided.'}</div>
+        </div>
+      `).join('');
+    }
+  } catch (err) {
+    console.error('Failed to load dashboard data:', err);
+  }
+}
+
+async function toggleFeature(feature, enabled) {
+  try {
+    const res = await fetch('/api/<%= guild.id %>/toggle', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ feature, enabled })
+    });
+    const result = await res.json();
+    if (result.message) {
+      console.log(result.message);
+    }
+  } catch (err) {
+    console.error('Failed to toggle feature:', err);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadData);
+</script>

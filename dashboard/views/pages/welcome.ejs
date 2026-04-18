@@ -1,0 +1,183 @@
+<div class="page-header">
+  <div>
+    <h1>Welcome & Leave</h1>
+    <p>Configure how the bot greets new members and says goodbye.</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <!-- Welcome Settings -->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title"><i class="fa-solid fa-door-open"></i> Welcome System</h3>
+    </div>
+    <div class="card-body">
+      <form id="welcome-form">
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-title">Enable Welcome Messages</div>
+            <div class="toggle-desc">Send a message when someone joins</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="w-enabled" onchange="showSaveBar()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="form-group" style="margin-top: 1.5rem;">
+          <label class="form-label">Welcome Channel</label>
+          <input type="text" id="w-channel" class="form-input" placeholder="Channel ID" oninput="showSaveBar()">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Text Message</label>
+          <textarea id="w-message" class="form-input" rows="3" placeholder="Welcome {user} to {server}!" oninput="showSaveBar()"></textarea>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-title">Image Card</div>
+            <div class="toggle-desc">Generate a premium welcome image</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="w-card" onchange="showSaveBar()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-title">Embed Message</div>
+            <div class="toggle-desc">Wrap the message in a stylized embed</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="w-embed" onchange="showSaveBar()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Leave Settings -->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title"><i class="fa-solid fa-door-closed"></i> Leave System</h3>
+    </div>
+    <div class="card-body">
+      <form id="leave-form">
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-title">Enable Leave Messages</div>
+            <div class="toggle-desc">Send a message when someone leaves</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="l-enabled" onchange="showSaveBar()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="form-group" style="margin-top: 1.5rem;">
+          <label class="form-label">Leave Channel</label>
+          <input type="text" id="l-channel" class="form-input" placeholder="Channel ID" oninput="showSaveBar()">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Text Message</label>
+          <textarea id="l-message" class="form-input" rows="3" placeholder="{username} just left the server." oninput="showSaveBar()"></textarea>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-title">Image Card</div>
+            <div class="toggle-desc">Generate a premium goodbye image</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="l-card" onchange="showSaveBar()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-title">Embed Message</div>
+            <div class="toggle-desc">Wrap the message in a stylized embed</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="l-embed" onchange="showSaveBar()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+async function loadGreetData() {
+  const res = await fetch('/api/<%= guild.id %>/data');
+  const data = await res.json();
+  if (data.success) {
+    const w = data.settings.welcome || {};
+    const l = data.settings.leave || {};
+
+    // Welcome
+    document.getElementById('w-enabled').checked = w.enabled || false;
+    document.getElementById('w-channel').value = w.channelId || '';
+    document.getElementById('w-message').value = w.message || '';
+    document.getElementById('w-card').checked = w.cardEnabled || false;
+    document.getElementById('w-embed').checked = w.useEmbed || false;
+
+    // Leave
+    document.getElementById('l-enabled').checked = l.enabled || false;
+    document.getElementById('l-channel').value = l.channelId || '';
+    document.getElementById('l-message').value = l.message || '';
+    document.getElementById('l-card').checked = l.cardEnabled || false;
+    document.getElementById('l-embed').checked = l.useEmbed || false;
+  }
+}
+
+function showSaveBar() {
+  document.getElementById('save-bar').classList.add('active');
+}
+
+async function saveAllChanges() {
+  const saveBtn = document.getElementById('save-btn');
+  saveBtn.disabled = true;
+  saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+
+  const body = {
+    welcomeEnabled: document.getElementById('w-enabled').checked,
+    welcomeChannel: document.getElementById('w-channel').value,
+    welcomeMessage: document.getElementById('w-message').value,
+    welcomeCardEnabled: document.getElementById('w-card').checked,
+    welcomeUseEmbed: document.getElementById('w-embed').checked,
+    
+    leaveEnabled: document.getElementById('l-enabled').checked,
+    leaveChannel: document.getElementById('l-channel').value,
+    leaveMessage: document.getElementById('l-message').value,
+    leaveCardEnabled: document.getElementById('l-card').checked,
+    leaveUseEmbed: document.getElementById('l-embed').checked
+  };
+
+  try {
+    const res = await fetch('/api/<%= guild.id %>/welcome', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    
+    if (res.ok) {
+      document.getElementById('save-bar').classList.remove('active');
+      alert('Welcome/Leave settings saved!');
+    }
+  } catch (err) {
+    alert('Failed to save settings.');
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.innerText = 'Save Changes';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadGreetData);
+</script>

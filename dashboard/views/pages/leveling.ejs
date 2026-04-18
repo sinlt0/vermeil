@@ -1,0 +1,116 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><i class="fa-solid fa-arrow-up-right-dots"></i> Leveling System Configuration</h3>
+  </div>
+  <div class="card-body">
+    <form id="leveling-form">
+      <!-- Toggles Section -->
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-title">Enable Leveling</div>
+          <div class="toggle-desc">Allow users to earn XP and level up in the server</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" name="enabled" id="lvl-enabled">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-title">Voice Leveling</div>
+          <div class="toggle-desc">Earn XP while active in voice channels</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" name="voiceEnabled" id="lvl-voice">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-title">Level Up DMs</div>
+          <div class="toggle-desc">Send a private message to users when they level up</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" name="levelUpDM" id="lvl-dm">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <!-- XP Settings Section -->
+      <div class="grid-2" style="margin-top: 2rem;">
+        <div class="form-group">
+          <label class="form-label">Minimum XP per Message</label>
+          <input type="number" name="minXP" id="lvl-min" class="form-input" min="1" max="100">
+          <p class="form-hint">Default: 15</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Maximum XP per Message</label>
+          <input type="number" name="maxXP" id="lvl-max" class="form-input" min="1" max="200">
+          <p class="form-hint">Default: 25</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">XP Cooldown (Seconds)</label>
+        <input type="number" name="cooldown" id="lvl-cooldown" class="form-input" min="5" max="3600">
+        <p class="form-hint">Time between earning XP for messages (Default: 60s)</p>
+      </div>
+
+      <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+        <button type="submit" class="btn btn-primary">Save Leveling Settings</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+async function loadLeveling() {
+  try {
+    const res = await fetch('/api/<%= guild.id %>/data');
+    const data = await res.json();
+    if (data.success) {
+      const s = data.settings.leveling;
+      document.getElementById('lvl-enabled').checked = s.enabled;
+      document.getElementById('lvl-voice').checked = s.voiceEnabled;
+      document.getElementById('lvl-dm').checked = s.levelUpDM;
+      document.getElementById('lvl-min').value = s.minXP || 15;
+      document.getElementById('lvl-max').value = s.maxXP || 25;
+      document.getElementById('lvl-cooldown').value = s.cooldown || 60;
+    }
+  } catch (err) {
+    console.error('Failed to load leveling settings:', err);
+  }
+}
+
+document.getElementById('leveling-form').onsubmit = async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const body = {
+    enabled: document.getElementById('lvl-enabled').checked,
+    voiceEnabled: document.getElementById('lvl-voice').checked,
+    levelUpDM: document.getElementById('lvl-dm').checked,
+    minXP: formData.get('minXP'),
+    maxXP: formData.get('maxXP'),
+    cooldown: formData.get('cooldown')
+  };
+
+  try {
+    const res = await fetch('/api/<%= guild.id %>/leveling', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const result = await res.json();
+    if (result.success) {
+      alert('Leveling settings saved successfully!');
+    }
+  } catch (err) {
+    console.error('Failed to save leveling settings:', err);
+    alert('Failed to save settings. Please try again.');
+  }
+};
+
+document.addEventListener('DOMContentLoaded', loadLeveling);
+</script>

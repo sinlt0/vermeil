@@ -1,0 +1,91 @@
+<div class="commands-layout">
+  <!-- Sidebar -->
+  <div class="cmd-sidebar">
+    <div class="cmd-sidebar-inner">
+      <h3>Categories</h3>
+      <% categories.forEach(cat => { %>
+      <a href="#<%= cat.name %>" onclick="scrollToCategory('<%= cat.name %>')">
+        <%= cat.emoji %> <%= cat.name %> <span style="margin-left:auto; font-size:0.75rem; color:var(--text-muted);"><%= cat.commands.length %></span>
+      </a>
+      <% }); %>
+    </div>
+  </div>
+
+  <!-- Commands list -->
+  <div>
+    <div style="margin-bottom: 2rem;">
+      <h1 style="font-size:2rem; font-weight:800; margin-bottom:0.5rem;">Commands</h1>
+      <p style="color:var(--text-secondary);">
+        <%= totalCommands %> commands across <%= categories.length %> categories.
+        Both prefix (<code style="font-size:0.85rem; background:var(--bg-card); padding:0.1rem 0.4rem; border-radius:4px; border:1px solid var(--border)"><%= prefix %></code>) and slash commands supported.
+      </p>
+    </div>
+
+    <div class="search-bar">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="cmd-search" placeholder="Search commands..." oninput="filterCommands(this.value)">
+    </div>
+
+    <div id="commands-container">
+      <% categories.forEach(cat => { %>
+      <div class="cmd-category" id="cat-<%= cat.name %>">
+        <div class="cmd-category-header">
+          <span style="font-size:1.5rem;"><%= cat.emoji %></span>
+          <h2><%= cat.name %></h2>
+          <span class="cmd-count"><%= cat.commands.length %></span>
+        </div>
+        <div class="cmd-list">
+          <% cat.commands.forEach(cmd => { %>
+          <div class="cmd-item" data-name="<%= cmd.name %>" data-desc="<%= cmd.description %>">
+            <span class="cmd-name"><%= prefix %><%= cmd.name %><%= cmd.usage ? ' ' + cmd.usage : '' %></span>
+            <span class="cmd-desc"><%= cmd.description || 'No description.' %></span>
+            <div class="cmd-badges">
+              <% if (cmd.slash !== false) { %><span class="badge badge-slash">Slash</span><% } %>
+              <span class="badge badge-prefix">Prefix</span>
+              <% if (cmd.requiresDatabase) { %><span class="badge badge-db">DB</span><% } %>
+              <% if (cmd.ownerOnly) { %><span class="badge badge-owner">Owner</span><% } %>
+              <% if (cmd.devOnly) { %><span class="badge badge-owner">Dev</span><% } %>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+
+    <div id="no-results" style="display:none; text-align:center; padding:3rem; color:var(--text-muted);">
+      <i class="fa-solid fa-magnifying-glass" style="font-size:2rem; margin-bottom:1rem;"></i>
+      <p>No commands found.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function scrollToCategory(name) {
+  const el = document.getElementById('cat-' + name);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function filterCommands(query) {
+  query = query.toLowerCase();
+  const categories = document.querySelectorAll('.cmd-category');
+  let anyVisible = false;
+
+  categories.forEach(cat => {
+    const items = cat.querySelectorAll('.cmd-item');
+    let catVisible = false;
+    items.forEach(item => {
+      const name = item.dataset.name?.toLowerCase() || '';
+      const desc = item.dataset.desc?.toLowerCase() || '';
+      const match = !query || name.includes(query) || desc.includes(query);
+      item.style.display = match ? '' : 'none';
+      if (match) catVisible = true;
+    });
+    cat.style.display = catVisible ? '' : 'none';
+    if (catVisible) anyVisible = true;
+  });
+
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+  document.getElementById('commands-container').style.display = anyVisible ? '' : 'none';
+}
+</script>

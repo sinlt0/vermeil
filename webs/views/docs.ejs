@@ -1,0 +1,34 @@
+<div class="docs-layout">
+  <!-- Sidebar -->
+  <div class="docs-sidebar">
+    <div class="docs-sidebar-section">
+      <h4>Documentation</h4>
+      <% sidebar.forEach(section => { %>
+        <% if (section.type === 'file') { %>
+          <a href="/docs/<%= section.slug %>" class="<%= currentSlug === section.slug ? 'active' : '' %>">
+            <%= section.title %>
+          </a>
+        <% } else if (section.type === 'category') { %>
+          <div class="docs-sidebar-section" style="margin-bottom:0.75rem;">
+            <h4><%= section.name %></h4>
+            <% section.files.forEach(f => { %>
+              <a href="/docs/<%= f.slug %>" class="<%= currentSlug === f.slug ? 'active' : '' %>" style="padding-left:1.25rem;">
+                <%= f.title %>
+              </a>
+            <% }); %>
+          </div>
+        <% } %>
+      <% }); %>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="docs-content">
+    <% if (content) { %>
+      <%- content %>
+    <% } else { %>
+      <h1>Documentation</h1>
+      <p>Select a topic from the sidebar to get started.</p>
+    <% } %>
+  </div>
+</div>

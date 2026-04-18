@@ -1,0 +1,172 @@
+// ============================================================
+//  ecoconfiguration/jobs.js
+//  Jobs list — add/remove/edit jobs freely
+// ============================================================
+module.exports = {
+
+  // ── How many works per job level ─────────────────────
+  worksPerLevel: 10,
+
+  jobs: [
+    {
+      id:          "farmer",
+      name:        "Farmer",
+      emoji:       "🌾",
+      description: "Grow crops and tend to livestock.",
+      pay:         { min: 20_000,    max: 100_000    },
+      levelBonus:  30_000,             // extra coins per job level
+      cooldownMs:  1_800_000,         // 30 seconds
+      maxLevel:    10,
+      requires:    null,           // no requirements — starter job
+      responses: [
+        "You harvested a field of wheat and earned {amount} coins!",
+        "You fed the livestock and got paid {amount} coins!",
+        "The market loved your fresh vegetables — {amount} coins earned!",
+      ],
+    },
+    {
+      id:          "miner",
+      name:        "Miner",
+      emoji:       "⛏️",
+      description: "Dig deep for precious ores.",
+      pay:         { min: 40_000,    max: 200_000  },
+      levelBonus:  60_000,
+      cooldownMs:  1_999_999,
+      maxLevel:    10,
+      requires:    { minWorks: 20 },
+      responses: [
+        "You dug through solid rock and found {amount} coins worth of ore!",
+        "A vein of gold! You earned {amount} coins!",
+        "Not your best day underground but you still made {amount} coins.",
+      ],
+    },
+    {
+      id:          "fisherman",
+      name:        "Fisherman",
+      emoji:       "🎣",
+      description: "Cast your line and reel in the big ones.",
+      pay:         { min: 30_000,    max: 800_000    },
+      levelBonus:  40_000,
+      cooldownMs:  3_600_000,
+      maxLevel:    10,
+      requires:    { minWorks: 15 },
+      responses: [
+        "You caught a rare fish worth {amount} coins!",
+        "A full net! You sold your catch for {amount} coins!",
+        "Just a slow day on the water — {amount} coins.",
+      ],
+    },
+    {
+      id:          "chef",
+      name:        "Chef",
+      emoji:       "👨‍🍳",
+      description: "Cook gourmet meals for wealthy clients.",
+      pay:         { min: 100_000,    max: 1_040_000  },
+      levelBonus:  80_000,
+      cooldownMs:  3_600_000,
+      maxLevel:    10,
+      requires:    { minWorks: 30 },
+      responses: [
+        "Your signature dish sold out — {amount} coins in tips!",
+        "The restaurant was packed tonight! You earned {amount} coins!",
+        "A critic gave you 5 stars! {amount} coins reward!",
+      ],
+    },
+    {
+      id:          "guard",
+      name:        "Guard",
+      emoji:       "🛡️",
+      description: "Protect the city from criminals.",
+      pay:         { min: 80_000,    max: 2_000_000  },
+      levelBonus:  100_000,
+      cooldownMs:  3_600_000,
+      maxLevel:    10,
+      requires:    { minWorks: 50 },
+      responses: [
+        "You caught a thief red-handed! {amount} coins reward!",
+        "Another quiet patrol — {amount} coins for your service.",
+        "You prevented a robbery and earned {amount} coins!",
+      ],
+    },
+    {
+      id:          "merchant",
+      name:        "Merchant",
+      emoji:       "🏪",
+      description: "Trade goods across the land for profit.",
+      pay:         { min: 150_000,  max: 3_500_000  },
+      levelBonus:  150_000,
+      cooldownMs:  3_600_000,
+      maxLevel:    10,
+      requires:    { minWorks: 80 },
+      responses: [
+        "You struck a deal for exotic goods — {amount} coins profit!",
+        "Your trade route paid off big! {amount} coins earned!",
+        "Supply and demand worked in your favor — {amount} coins!",
+      ],
+    },
+    {
+      id:          "hunter",
+      name:        "Hunter",
+      emoji:       "🏹",
+      description: "Track and hunt rare creatures.",
+      pay:         { min: 100_500,  max: 4_000_000  },
+      levelBonus:  200_000,
+      cooldownMs:  3_600_000,
+      maxLevel:    10,
+      requires:    { minWorks: 120 },
+      responses: [
+        "You tracked a rare beast and earned {amount} coins!",
+        "The guild paid handsomely for your trophy — {amount} coins!",
+        "A perfect hunt — {amount} coins reward!",
+      ],
+    },
+    {
+      id:          "doctor",
+      name:        "Doctor",
+      emoji:       "🏥",
+      description: "Heal the sick and injured.",
+      pay:         { min: 200_000,  max: 5_000_000  },
+      levelBonus:  250_000,
+      cooldownMs:  3_600_000,
+      maxLevel:    10,
+      requires:    { minWorks: 200 },
+      responses: [
+        "You saved a patient's life — {amount} coins fee!",
+        "A complex surgery, but successful! {amount} coins earned!",
+        "The clinic was busy today — {amount} coins!",
+      ],
+    },
+    {
+      id:          "hacker",
+      name:        "Hacker",
+      emoji:       "💻",
+      description: "Elite cyber operations for top coin.",
+      pay:         { min: 300_000,  max: 8_000_000  },
+      levelBonus:  400_000,
+      cooldownMs:  3_600_000,
+      maxLevel:    10,
+      requires:    { minWorks: 350 },
+      responses: [
+        "You breached a corporate firewall — {amount} coins bounty!",
+        "Clean code, clean profit — {amount} coins!",
+        "The client was very happy with your work — {amount} coins!",
+      ],
+    },
+    {
+      id:          "warrior",
+      name:        "Warrior",
+      emoji:       "⚔️",
+      description: "The most elite and highest paying profession.",
+      pay:         { min: 500_000,  max: 15_000_000 },
+      levelBonus:  600_000,
+      cooldownMs:  3_600_000,
+      maxLevel:    10,
+      requires:    { minWorks: 500 },
+      responses: [
+        "You defeated a legendary foe — {amount} coins reward!",
+        "The kingdom rewards your bravery with {amount} coins!",
+        "Another victory on the battlefield — {amount} coins!",
+      ],
+    },
+  ],
+};

@@ -1,0 +1,78 @@
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<aside class="sidebar" id="sidebar">
+  <!-- Brand -->
+  <div class="sidebar-brand">
+    <img src="<%= config.botLogo %>" alt="<%= config.botName %>" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+    <span class="sidebar-brand-name"><%= config.botName %></span>
+  </div>
+
+  <!-- Server selector -->
+  <% if (guild) { %>
+  <div class="sidebar-server">
+    <div class="sidebar-server-label">Server</div>
+    <a href="/servers" class="sidebar-server-btn">
+      <img src="<%= guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp?size=64` : 'https://cdn.discordapp.com/embed/avatars/0.png' %>" alt="">
+      <span class="sidebar-server-name"><%= guild.name %></span>
+      <i class="fa-solid fa-chevron-right" style="font-size:0.7rem; color:var(--text3);"></i>
+    </a>
+  </div>
+  <% } %>
+
+  <!-- Navigation -->
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-title">Overview</div>
+    <a href="/dashboard/<%= guild?.id %>" class="sidebar-item <%= page === 'overview' ? 'active' : '' %>">
+      <i class="fa-solid fa-gauge"></i><span class="sidebar-label">Overview</span>
+    </a>
+
+    <div class="sidebar-section-title">Configuration</div>
+    <a href="/dashboard/<%= guild?.id %>/general" class="sidebar-item <%= page === 'general' ? 'active' : '' %>">
+      <i class="fa-solid fa-sliders"></i><span class="sidebar-label">General</span>
+    </a>
+    <a href="/dashboard/<%= guild?.id %>/moderation" class="sidebar-item <%= page === 'moderation' ? 'active' : '' %>">
+      <i class="fa-solid fa-hammer"></i><span class="sidebar-label">Moderation</span>
+    </a>
+    <a href="/dashboard/<%= guild?.id %>/welcome" class="sidebar-item <%= page === 'welcome' ? 'active' : '' %>">
+      <i class="fa-solid fa-hand-wave"></i><span class="sidebar-label">Welcome & Leave</span>
+    </a>
+    <a href="/dashboard/<%= guild?.id %>/leveling" class="sidebar-item <%= page === 'leveling' ? 'active' : '' %>">
+      <i class="fa-solid fa-chart-line"></i><span class="sidebar-label">Leveling</span>
+    </a>
+    <a href="/dashboard/<%= guild?.id %>/tickets" class="sidebar-item <%= page === 'tickets' ? 'active' : '' %>">
+      <i class="fa-solid fa-ticket"></i><span class="sidebar-label">Tickets</span>
+    </a>
+    <a href="/dashboard/<%= guild?.id %>/modmail" class="sidebar-item <%= page === 'modmail' ? 'active' : '' %>">
+      <i class="fa-solid fa-envelope"></i><span class="sidebar-label">Modmail</span>
+    </a>
+    <a href="/dashboard/<%= guild?.id %>/giveaways" class="sidebar-item <%= page === 'giveaways' ? 'active' : '' %>">
+      <i class="fa-solid fa-gift"></i><span class="sidebar-label">Giveaways</span>
+    </a>
+    <a href="/dashboard/<%= guild?.id %>/autorole" class="sidebar-item <%= page === 'autorole' ? 'active' : '' %>">
+      <i class="fa-solid fa-user-tag"></i><span class="sidebar-label">Auto Role</span>
+    </a>
+
+    <% if (user.isOwner || user.isDev) { %>
+    <div class="sidebar-section-title">Admin</div>
+    <a href="/admin" class="sidebar-item <%= page === 'admin' ? 'active' : '' %>">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span class="sidebar-label">Admin Panel</span>
+      <span class="sidebar-badge">DEV</span>
+    </a>
+    <% } %>
+  </nav>
+
+  <!-- User footer -->
+  <div class="sidebar-footer">
+    <a href="/auth/logout" class="sidebar-user" title="Logout">
+      <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.webp?size=64" alt="" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name"><%= user.username %></div>
+        <div class="sidebar-user-tag">Click to logout</div>
+      </div>
+    </a>
+  </div>
+</aside>
+
+<button class="sidebar-toggle" id="sidebar-toggle" title="Toggle sidebar">
+  <i class="fa-solid fa-chevron-left"></i>
+</button>

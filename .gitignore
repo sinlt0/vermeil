@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Environment Variables (Sensitive)
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database / Local Data
+data/*.json
+!data/nplist.json
+!data/devs.json
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Backups and Archives
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

@@ -1,0 +1,141 @@
+<%- include('head') %>
+
+<div class="dash-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="<%= config.botLogo %>" alt="<%= config.botName %>">
+      <span class="sidebar-brand-name"><%= config.botName %></span>
+      <button id="sidebar-toggle" class="sidebar-toggle-btn" title="Toggle Sidebar">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+    </div>
+
+    <% if (guild) { %>
+    <div class="sidebar-server">
+      <div class="sidebar-server-label">Current Server</div>
+      <a href="/servers" class="sidebar-server-btn">
+        <% if (guild.icon) { %>
+          <img src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png" alt="<%= guild.name %>">
+        <% } else { %>
+          <div class="sidebar-icon-placeholder"><%= guild.name.charAt(0) %></div>
+        <% } %>
+        <span class="sidebar-server-name"><%= guild.name %></span>
+        <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; opacity: 0.5;"></i>
+      </a>
+    </div>
+    <% } %>
+
+    <nav class="sidebar-nav">
+      <% if (guild) { %>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Core</div>
+        <a href="/dashboard/<%= guild.id %>" class="sidebar-item <%= title === 'Overview' ? 'active' : '' %>">
+          <i class="fa-solid fa-house-chimney"></i>
+          <span class="sidebar-label">Overview</span>
+        </a>
+        <a href="/dashboard/<%= guild.id %>/general" class="sidebar-item <%= title === 'General Settings' ? 'active' : '' %>">
+          <i class="fa-solid fa-sliders"></i>
+          <span class="sidebar-label">General</span>
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Management</div>
+        <a href="/dashboard/<%= guild.id %>/moderation" class="sidebar-item <%= title === 'Moderation' ? 'active' : '' %>">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span class="sidebar-label">Moderation</span>
+        </a>
+        <a href="/dashboard/<%= guild.id %>/tickets" class="sidebar-item <%= title === 'Tickets' ? 'active' : '' %>">
+          <i class="fa-solid fa-ticket"></i>
+          <span class="sidebar-label">Tickets</span>
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Engagement</div>
+        <a href="/dashboard/<%= guild.id %>/leveling" class="sidebar-item <%= title === 'Leveling' ? 'active' : '' %>">
+          <i class="fa-solid fa-arrow-up-right-dots"></i>
+          <span class="sidebar-label">Leveling</span>
+        </a>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Utility</div>
+        <a href="/dashboard/<%= guild.id %>/welcome" class="sidebar-item <%= title === 'Welcome & Leave' ? 'active' : '' %>">
+          <i class="fa-solid fa-door-open"></i>
+          <span class="sidebar-label">Welcome</span>
+        </a>
+        <a href="/dashboard/<%= guild.id %>/modmail" class="sidebar-item <%= title === 'Modmail' ? 'active' : '' %>">
+          <i class="fa-solid fa-envelope-open-text"></i>
+          <span class="sidebar-label">Modmail</span>
+        </a>
+      </div>
+      <% } else { %>
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Menu</div>
+          <a href="/servers" class="sidebar-item active">
+            <i class="fa-solid fa-server"></i>
+            <span class="sidebar-label">Select Server</span>
+          </a>
+        </div>
+      <% } %>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.png" alt="<%= user.username %>">
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name"><%= user.username %></div>
+          <div class="sidebar-user-tag">User Account</div>
+        </div>
+        <a href="/auth/logout" class="sidebar-logout" title="Logout">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <main class="dash-main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu-btn"><i class="fa-solid fa-bars-staggered"></i></button>
+        <div class="topbar-breadcrumb">
+          <span class="breadcrumb-item">Dashboard</span>
+          <i class="fa-solid fa-chevron-right"></i>
+          <span class="breadcrumb-item active"><%= title %></span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <a href="<%= config.supportServer %>" target="_blank" class="topbar-link"><i class="fa-brands fa-discord"></i> Support</a>
+        <div class="topbar-divider"></div>
+        <div class="topbar-status">
+          <span class="status-indicator online"></span>
+          Bot Online
+        </div>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <%- body %>
+    </div>
+  </main>
+</div>
+
+<!-- Sticky Save Bar -->
+<div id="save-bar" class="save-bar">
+  <div class="save-bar-content">
+    <div class="save-bar-text">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <span>Careful — you have unsaved changes!</span>
+    </div>
+    <div class="save-bar-actions">
+      <button class="btn btn-ghost btn-sm" onclick="resetChanges()">Reset</button>
+      <button id="save-btn" class="btn btn-primary btn-sm" onclick="saveAllChanges()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<%- include('foot') %>lude('foot') %>

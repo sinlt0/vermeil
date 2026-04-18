@@ -1,0 +1,95 @@
+<!-- Hero -->
+<section class="hero">
+  <div>
+    <img src="<%= config.botLogo %>" alt="<%= config.botName %>" class="hero-logo" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+    <div class="hero-badge"><i class="fa-solid fa-bolt"></i> v<%= config.botVersion %></div>
+    <h1><%= config.botName %></h1>
+    <p><%= config.botDescription %></p>
+    <div class="hero-buttons">
+      <a href="<%= config.inviteLink %>" target="_blank" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> Add to Discord
+      </a>
+      <a href="<%= config.supportServer %>" target="_blank" class="btn btn-outline">
+        <i class="fa-brands fa-discord"></i> Support Server
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-icon"><i class="fa-solid fa-server"></i></div>
+        <div class="stat-value" id="guild-count"><%= stats.guilds %></div>
+        <div class="stat-label">Servers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon"><i class="fa-solid fa-terminal"></i></div>
+        <div class="stat-value"><%= stats.commands %></div>
+        <div class="stat-label">Commands</div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+        <div class="stat-value" id="user-count"><%= stats.users %></div>
+        <div class="stat-label">Users</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Vermeil? -->
+<section id="why-choose">
+  <div class="section-header">
+    <span class="section-tag">Why us?</span>
+    <h2>Built for performance & security</h2>
+    <p>Discover why thousands of server owners trust <%= config.botName %> to manage their communities.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon" style="color: #5865f2;"><i class="fa-solid fa-bolt-lightning"></i></span>
+      <h3>Lightning Fast</h3>
+      <p>Optimized for speed and minimal latency, ensuring commands respond instantly even in large servers.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon" style="color: #57f287;"><i class="fa-solid fa-shield-check"></i></span>
+      <h3>Rock Solid Security</h3>
+      <p>Built with multiple layers of protection to keep your server safe from nukers and malicious users.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon" style="color: #fee75c;"><i class="fa-solid fa-clock"></i></span>
+      <h3>99.9% Uptime</h3>
+      <p>Hosted on high-performance servers to ensure <%= config.botName %> is always online when you need it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <div class="section-header">
+    <span class="section-tag">Features</span>
+    <h2>Everything your server needs</h2>
+    <p>Packed with powerful features to take your Discord server to the next level.</p>
+  </div>
+  <div class="features-grid">
+    <% config.features.forEach(f => { %>
+    <div class="feature-card">
+      <span class="feature-icon"><%= f.icon %></span>
+      <h3><%= f.title %></h3>
+      <p><%= f.description %></p>
+    </div>
+    <% }); %>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="text-align: center; padding: 4rem 2rem;">
+  <div class="section-header">
+    <span class="section-tag">Get Started</span>
+    <h2>Ready to elevate your server?</h2>
+    <p>Add <%= config.botName %> to your Discord server today and unlock all features instantly.</p>
+  </div>
+  <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:1.5rem;">
+    <a href="<%= config.inviteLink %>" target="_blank" class="btn btn-primary" style="font-size:1rem; padding:0.8rem 2rem;">
+      <i class="fa-solid fa-plus"></i> Add <%= config.botName %>
+    </a>
+    <a href="/docs" class="btn btn-outline" style="font-size:1rem; padding:0.8rem 2rem;">
+      <i class="fa-solid fa-book"></i> Read the Docs
+    </a>
+  </div>
+</section>

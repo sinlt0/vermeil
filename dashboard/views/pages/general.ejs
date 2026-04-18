@@ -1,0 +1,54 @@
+<%- include('../partials/head', { title: 'General Settings' }) %>
+<%- include('../partials/sidebar', { guild, page: 'general', user, config }) %>
+
+<div class="dash-main" id="dash-main">
+  <div class="topbar">
+    <div class="topbar-title">
+      <button class="mobile-menu-btn" id="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+      <i class="fa-solid fa-sliders"></i> General Settings
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="page-header">
+      <h1><i class="fa-solid fa-sliders"></i> General Settings</h1>
+      <p>Configure basic bot settings for this server.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><div class="card-title"><i class="fa-solid fa-terminal"></i> Prefix</div></div>
+        <form class="card-body" data-autosave action="/api/<%= guild.id %>/general/prefix" method="POST">
+          <div class="form-group">
+            <label class="form-label">Command Prefix</label>
+            <input class="form-input" name="prefix" value="<%= settings.prefix || config.prefix %>" placeholder="!" maxlength="5">
+            <div class="form-hint">The prefix used for prefix commands. Max 5 characters.</div>
+          </div>
+          <div class="card-footer" style="padding:0; margin-top:1rem; border:none; background:transparent;">
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title"><i class="fa-solid fa-scroll"></i> Mod Log Channel</div></div>
+        <form class="card-body" data-autosave action="/api/<%= guild.id %>/general/modlog" method="POST">
+          <div class="form-group">
+            <label class="form-label">Mod Log Channel</label>
+            <select class="form-select" name="channelId">
+              <option value="">— Disabled —</option>
+              <% channels.filter(c => c.type === 0).forEach(c => { %>
+              <option value="<%= c.id %>" <%= settings.modLogChannel === c.id ? 'selected' : '' %>>#<%= c.name %></option>
+              <% }); %>
+            </select>
+            <div class="form-hint">Moderation actions will be logged to this channel.</div>
+          </div>
+          <div style="margin-top:1rem;">
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/foot', { flash }) %>

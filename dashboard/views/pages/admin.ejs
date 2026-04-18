@@ -1,0 +1,95 @@
+<%- include('../partials/head', { title: 'Admin Panel' }) %>
+<%- include('../partials/sidebar', { guild: null, page: 'admin', user, config }) %>
+
+<div class="dash-main" id="dash-main">
+  <div class="topbar">
+    <div class="topbar-title">
+      <button class="mobile-menu-btn" id="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+      <i class="fa-solid fa-shield-halved"></i> Admin Panel
+      <span class="admin-badge">DEV</span>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="page-header">
+      <h1><i class="fa-solid fa-shield-halved"></i> Admin Panel</h1>
+      <p>Global bot management. Visible to owner and devs only.</p>
+    </div>
+
+    <!-- Bot stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="fa-brands fa-discord"></i></div>
+        <div><div class="stat-value"><%= botStats.guilds %></div><div class="stat-label">Servers</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="fa-solid fa-users"></i></div>
+        <div><div class="stat-value"><%= botStats.users.toLocaleString() %></div><div class="stat-label">Total Users</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon yellow"><i class="fa-solid fa-terminal"></i></div>
+        <div><div class="stat-value"><%= botStats.commands %></div><div class="stat-label">Commands</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orange"><i class="fa-solid fa-signal"></i></div>
+        <div><div class="stat-value"><%= botStats.ping %>ms</div><div class="stat-label">WS Ping</div></div>
+      </div>
+    </div>
+
+    <!-- All servers -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><i class="fa-solid fa-server"></i> All Servers (<%= allGuilds.length %>)</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Server</th><th>Members</th><th>ID</th><th></th></tr></thead>
+          <tbody>
+            <% allGuilds.forEach(g => { %>
+            <tr>
+              <td>
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                  <% if (g.icon) { %>
+                  <img src="https://cdn.discordapp.com/icons/<%= g.id %>/<%= g.icon %>.webp?size=32" style="width:28px;height:28px;border-radius:50%;">
+                  <% } %>
+                  <strong><%= g.name %></strong>
+                </div>
+              </td>
+              <td><%= g.memberCount?.toLocaleString() %></td>
+              <td style="font-family:monospace; font-size:0.82rem; color:var(--text2);"><%= g.id %></td>
+              <td style="text-align:right;">
+                <a href="/dashboard/<%= g.id %>" class="btn btn-ghost btn-sm">Manage</a>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Cluster status -->
+    <div class="card">
+      <div class="card-header"><div class="card-title"><i class="fa-solid fa-database"></i> Cluster Status</div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Cluster</th><th>Status</th><th>Servers</th><th>Available</th></tr></thead>
+          <tbody>
+            <% clusters.forEach(c => { %>
+            <tr>
+              <td><strong><%= c.name %></strong></td>
+              <td>
+                <span class="badge badge-<%= c.status === 'connected' ? 'green' : 'red' %>">
+                  <i class="fa-solid fa-circle" style="font-size:0.5rem;"></i> <%= c.status %>
+                </span>
+              </td>
+              <td><%= c.serverCount %></td>
+              <td><%= c.available ? '<span class="badge badge-green">Yes</span>' : '<span class="badge badge-red">No</span>' %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/foot', { flash }) %>

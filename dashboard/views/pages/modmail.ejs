@@ -1,0 +1,80 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><i class="fa-solid fa-envelope-open-text"></i> Modmail System Configuration</h3>
+  </div>
+  <div class="card-body">
+    <form id="modmail-form">
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-title">Enable Modmail System</div>
+          <div class="toggle-desc">Allow users to message the bot to contact the server staff</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" name="enabled" id="mm-enabled">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="grid-2" style="margin-top: 2rem;">
+        <div class="form-group">
+          <label class="form-label">Modmail Category ID</label>
+          <input type="text" name="categoryId" id="mm-category" class="form-input" placeholder="Enter Category ID">
+          <p class="form-hint">Threads will be created under this category</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Staff Role ID</label>
+          <input type="text" name="staffRole" id="mm-role" class="form-input" placeholder="Enter Role ID">
+          <p class="form-hint">This role can view and reply to modmail threads</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Log Channel ID</label>
+        <input type="text" name="logChannel" id="mm-log" class="form-input" placeholder="Enter Channel ID">
+        <p class="form-hint">Where thread transcripts will be logged after closing</p>
+      </div>
+
+      <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+        <button type="submit" class="btn btn-primary" id="save-mm-btn">Save Modmail Configuration</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+async function loadModmail() {
+  const res = await fetch('/api/<%= guild.id %>/data');
+  const data = await res.json();
+  if (data.success) {
+    const mm = data.settings.modmail;
+    document.getElementById('mm-enabled').checked = mm.enabled || false;
+    document.getElementById('mm-category').value = mm.categoryId || '';
+    document.getElementById('mm-role').value = mm.staffRole || '';
+    document.getElementById('mm-log').value = mm.logChannel || '';
+  }
+}
+
+document.getElementById('modmail-form').onsubmit = async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const body = {
+    enabled: document.getElementById('mm-enabled').checked,
+    categoryId: formData.get('categoryId'),
+    staffRole: formData.get('staffRole'),
+    logChannel: formData.get('logChannel')
+  };
+
+  const res = await fetch('/api/<%= guild.id %>/modmail', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  
+  const result = await res.json();
+  if (result.success) {
+    alert('Modmail configuration saved successfully!');
+  }
+};
+
+document.addEventListener('DOMContentLoaded', loadModmail);
+</script>

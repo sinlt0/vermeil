@@ -1,0 +1,80 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><i class="fa-solid fa-ticket"></i> Ticket System Configuration</h3>
+  </div>
+  <div class="card-body">
+    <form id="tickets-form">
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-title">Enable Ticket System</div>
+          <div class="toggle-desc">Allow users to create support tickets in the server</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" name="enabled" id="tickets-enabled">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="grid-2" style="margin-top: 2rem;">
+        <div class="form-group">
+          <label class="form-label">Ticket Category ID</label>
+          <input type="text" name="categoryId" id="ticket-category" class="form-input" placeholder="Enter Category ID">
+          <p class="form-hint">New tickets will be created under this category</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Support Role ID</label>
+          <input type="text" name="supportRole" id="ticket-role" class="form-input" placeholder="Enter Role ID">
+          <p class="form-hint">This role will be able to see and respond to tickets</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Logging Channel ID</label>
+        <input type="text" name="loggingChannel" id="ticket-logs" class="form-input" placeholder="Enter Channel ID">
+        <p class="form-hint">Transcripts and logs will be sent here</p>
+      </div>
+
+      <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+        <button type="submit" class="btn btn-primary">Save Ticket Configuration</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+async function loadTickets() {
+  const res = await fetch('/api/<%= guild.id %>/data');
+  const data = await res.json();
+  if (data.success) {
+    const t = data.settings.tickets;
+    document.getElementById('tickets-enabled').checked = t.enabled;
+    document.getElementById('ticket-category').value = t.categoryId || '';
+    document.getElementById('ticket-role').value = t.supportRole || '';
+    document.getElementById('ticket-logs').value = t.loggingChannel || '';
+  }
+}
+
+document.getElementById('tickets-form').onsubmit = async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const body = {
+    enabled: document.getElementById('tickets-enabled').checked,
+    categoryId: formData.get('categoryId'),
+    supportRole: formData.get('supportRole'),
+    loggingChannel: formData.get('loggingChannel')
+  };
+
+  const res = await fetch('/api/<%= guild.id %>/tickets', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  
+  const result = await res.json();
+  if (result.success) {
+    alert('Ticket configuration saved successfully!');
+  }
+};
+
+document.addEventListener('DOMContentLoaded', loadTickets);
+</script>

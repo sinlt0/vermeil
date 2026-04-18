@@ -1,0 +1,40 @@
+<%- include('../partials/head', { title: 'Giveaways' }) %>
+<%- include('../partials/sidebar', { guild, page: 'giveaways', user, config }) %>
+<div class="dash-main" id="dash-main">
+  <div class="topbar">
+    <div class="topbar-title">
+      <button class="mobile-menu-btn" id="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+      <i class="fa-solid fa-gift"></i> Giveaways
+    </div>
+  </div>
+  <div class="page">
+    <div class="page-header">
+      <h1><i class="fa-solid fa-gift"></i> Giveaways</h1>
+      <p>View and manage active and past giveaways.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title"><i class="fa-solid fa-gift"></i> All Giveaways</div></div>
+      <div class="table-wrap">
+        <% if (giveaways.length > 0) { %>
+        <table>
+          <thead><tr><th>Prize</th><th>Winners</th><th>Entries</th><th>Status</th><th>Ends</th></tr></thead>
+          <tbody>
+            <% giveaways.forEach(g => { %>
+            <tr>
+              <td><strong><%= g.prize %></strong></td>
+              <td><span class="badge badge-blue"><%= g.winnerCount %></span></td>
+              <td><%= new Set(g.entries).size %></td>
+              <td><span class="badge badge-<%= {active:'green',paused:'yellow',ended:'grey'}[g.status] %>"><%= g.status %></span></td>
+              <td style="font-size:0.82rem; color:var(--text2);"><%= g.status === 'ended' ? 'Ended' : new Date(g.endsAt).toLocaleString() %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <% } else { %>
+        <div class="empty-state"><i class="fa-solid fa-gift"></i><h3>No giveaways yet</h3><p>Use <code>/giveaway start</code> to create one.</p></div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/foot', { flash }) %>

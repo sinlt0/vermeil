@@ -1,0 +1,99 @@
+<%- include('../partials/head', { title: 'Auto Role' }) %>
+<%- include('../partials/sidebar', { guild, page: 'autorole', user, config }) %>
+<div class="dash-main" id="dash-main">
+  <div class="topbar">
+    <div class="topbar-title">
+      <button class="mobile-menu-btn" id="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+      <i class="fa-solid fa-user-tag"></i> Auto Role
+    </div>
+  </div>
+  <div class="page">
+    <div class="page-header">
+      <h1><i class="fa-solid fa-user-tag"></i> Auto Role</h1>
+      <p>Automatically assign roles when members or bots join.</p>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header"><div class="card-title"><i class="fa-solid fa-user"></i> Human Roles</div></div>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label">Add Role</label>
+            <div style="display:flex; gap:0.5rem;">
+              <select class="form-select" id="human-role-select">
+                <option value="">Select a role...</option>
+                <% roles.forEach(r => { %>
+                <option value="<%= r.id %>"><%= r.name %></option>
+                <% }); %>
+              </select>
+              <button class="btn btn-primary" onclick="addRole('human')"><i class="fa-solid fa-plus"></i></button>
+            </div>
+          </div>
+          <div class="tag-list" id="human-roles">
+            <% config.humanRoles.forEach(roleId => { %>
+            <span class="tag">
+              <@&<%= roleId %>>
+              <span class="tag-remove" onclick="removeRole('human', '<%= roleId %>', this.parentElement)">✕</span>
+            </span>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title"><i class="fa-solid fa-robot"></i> Bot Roles</div></div>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label">Add Role</label>
+            <div style="display:flex; gap:0.5rem;">
+              <select class="form-select" id="bot-role-select">
+                <option value="">Select a role...</option>
+                <% roles.forEach(r => { %>
+                <option value="<%= r.id %>"><%= r.name %></option>
+                <% }); %>
+              </select>
+              <button class="btn btn-primary" onclick="addRole('bot')"><i class="fa-solid fa-plus"></i></button>
+            </div>
+          </div>
+          <div class="tag-list" id="bot-roles">
+            <% config.botRoles.forEach(roleId => { %>
+            <span class="tag">
+              <@&<%= roleId %>>
+              <span class="tag-remove" onclick="removeRole('bot', '<%= roleId %>', this.parentElement)">✕</span>
+            </span>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+async function addRole(type) {
+  const select = document.getElementById(`${type}-role-select`);
+  const roleId = select.value;
+  if (!roleId) return;
+  const res = await fetch(`/api/<%= guild.id %>/autorole`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type, roleId, action: 'add' }),
+  });
+  const data = await res.json();
+  showToast(data.message, res.ok ? 'success' : 'error');
+  if (res.ok) {
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.innerHTML = `<@&${roleId}> <span class="tag-remove" onclick="removeRole('${type}', '${roleId}', this.parentElement)">✕</span>`;
+    document.getElementById(`${type}-roles`).appendChild(tag);
+    select.value = '';
+  }
+}
+async function removeRole(type, roleId, el) {
+  const res = await fetch(`/api/<%= guild.id %>/autorole`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type, roleId, action: 'remove' }),
+  });
+  const data = await res.json();
+  showToast(data.message, res.ok ? 'success' : 'error');
+  if (res.ok) el.remove();
+}
+</script>
+<%- include('../partials/foot', { flash }) %>
