@@ -1,38 +1,61 @@
 // ============================================================
 //  config.js.example — Central configuration template
-//  Copy this to config.js and fill in your values
 // ============================================================
 
+const path = require("path");
+const fs   = require("fs");
+
+function loadJson(filename) {
+  const filePath = path.join(__dirname, "data", filename);
+  try {
+    if (!fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, "[]", "utf8");
+      return [];
+    }
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } catch {
+    return [];
+  }
+}
+
 module.exports = {
-  // ── Bot Core ──────────────────────────────────────────
-  token: process.env.TOKEN || "",
-  prefix: "!",
-  owners: ["YOUR_DISCORD_ID"],
-  
-  // ── MongoDB Configuration ─────────────────────────────
-  mongodb: {
-    // Main connection for users/global data
-    main: process.env.MONGODB_URI || "mongodb://localhost:27017/vermeil_main",
+
+  // ── Bot ──────────────────────────────────────────────────
+  token:   "", // Fill in .env or here
+  prefix:  "!",
+  ownerID: "YOUR_DISCORD_ID",
+       
+  // ── Developer IDs ────────────────────────────────────────
+  devIDs: loadJson("devs.json"),
+
+  // ── No-Prefix Users ──────────────────────────────────────
+  noPrefix: loadJson("nplist.json"),
     
-    // Multi-cluster setup for guilds
+  // ── Hidden Categories ────────────────────────────────────
+  hiddenCategories: [
+    "owner",
+    "dev",
+    "premium",
+  ],
+
+  // ── MongoDB Clusters ─────────────────────────────────────
+  mongodb: {
     clusters: [
-      { name: "cluster1", uri: "mongodb://localhost:27017/cluster1" },
-      { name: "cluster2", uri: "mongodb://localhost:27017/cluster2" }
+      { name: "cluster1", uri: "YOUR_MONGODB_CLUSTER_1_URI" },
+      { name: "cluster2", uri: "YOUR_MONGODB_CLUSTER_2_URI" },
     ],
-    maxServersPerCluster: 50,
+    economyUri: "YOUR_ECONOMY_MONGODB_URI",
+    maxServersPerCluster: 100,
   },
 
-  // ── Lavalink (Music) ──────────────────────────────────
+  // ── Lavalink ─────────────────────────────────────────────
   lavalink: {
-    host: "localhost",
-    port: 2333,
-    password: "youshallnotpass",
-    secure: false,
+    host: "YOUR_LAVALINK_HOST",
+    port: 443,
+    password: "YOUR_LAVALINK_PASSWORD",
+    secure: true,
     restVersion: "v4",
-    name: "Main Node",
+    name: "Main Node", 
   },
 
-  // ── Links ─────────────────────────────────────────────
-  inviteLink: "https://discord.com/api/oauth2/authorize?client_id=YOUR_ID&permissions=8&scope=bot%20applications.commands",
-  supportServer: "https://discord.gg/yourserver",
 };
