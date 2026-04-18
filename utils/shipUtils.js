@@ -1,5 +1,22 @@
-const { createCanvas, loadImage } = require("@napi-rs/canvas");
+const { createCanvas, loadImage: canvasLoadImage } = require("@napi-rs/canvas");
 const { AttachmentBuilder } = require("discord.js");
+const axios = require("axios");
+const https = require("https");
+
+const httpsAgent = new https.Agent({ rejectUnauthorized: false });
+
+/**
+ * Custom loader to bypass SSL issues
+ */
+async function loadImage(url) {
+  try {
+    const res = await axios.get(url, { responseType: 'arraybuffer', httpsAgent });
+    return await canvasLoadImage(res.data);
+  } catch (err) {
+    console.error(`[Ship Utils] Failed to load image: ${url}`, err.message);
+    throw err;
+  }
+}
 
 /**
  * Generate a modern Ship Card using Canvas
