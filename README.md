@@ -46,7 +46,7 @@ Vermeil includes a modern, **API-driven Web Dashboard** for real-time configurat
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YourName/Vermeil.git
+git clone https://github.com/sinlt0/Vermeil.git
 cd Vermeil
 ```
 
