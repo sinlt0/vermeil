@@ -18,7 +18,7 @@ module.exports = {
   ownerOnly:        false,
   devOnly:          false,
   requiresDatabase: false,
-  slash:            true,
+  slash: false,
 
   slashData: new SlashCommandBuilder()
     .setName("banner")

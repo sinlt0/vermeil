@@ -19,7 +19,7 @@ const PER_PAGE = 8;
 module.exports = {
   name: "help", description: "Browse all commands.", category: "utility",
   aliases: ["h", "commands"], usage: "", cooldown: 5,
-  ownerOnly: false, devOnly: false, requiresDatabase: false, slash: true,
+  ownerOnly: false, devOnly: false, requiresDatabase: false, slash: false,
 
   slashData: new SlashCommandBuilder()
     .setName("help").setDescription("Browse all available commands.").toJSON(),
