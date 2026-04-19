@@ -1,16 +1,25 @@
 const { GatewayIntentBits, Partials } = require("discord.js");
 
+/**
+ * All possible Gateway Intents for Discord.js v14.25.1
+ * Note: Privileged intents (Members, Presences, MessageContent) 
+ * must be enabled in the Discord Developer Portal.
+ */
 const intents = [
   GatewayIntentBits.Guilds,
   GatewayIntentBits.GuildMembers,
-  GatewayIntentBits.GuildBans,
-  GatewayIntentBits.GuildEmojisAndStickers,
+  GatewayIntentBits.GuildModeration,
+  GatewayIntentBits.GuildExpressions,
   GatewayIntentBits.GuildIntegrations,
   GatewayIntentBits.GuildWebhooks,
   GatewayIntentBits.GuildInvites,
+  GatewayIntentBits.GuildMessages,
+  GatewayIntentBits.GuildMessageReactions,
+  GatewayIntentBits.GuildVoiceStates,
   GatewayIntentBits.GuildVoiceStates,
   GatewayIntentBits.GuildPresences,
   GatewayIntentBits.GuildMessages,
+  GatewayIntentBits.GuildEmojisAndStickers,	
   GatewayIntentBits.GuildMessageReactions,
   GatewayIntentBits.GuildMessageTyping,
   GatewayIntentBits.DirectMessages,
@@ -18,13 +27,11 @@ const intents = [
   GatewayIntentBits.DirectMessageTyping,
   GatewayIntentBits.MessageContent,
   GatewayIntentBits.GuildScheduledEvents,
+  GatewayIntentBits.MessageContent,
   GatewayIntentBits.AutoModerationConfiguration,
   GatewayIntentBits.AutoModerationExecution,
   GatewayIntentBits.GuildMessagePolls,
   GatewayIntentBits.DirectMessagePolls,
-  GatewayIntentBits.GuildModeration,
-  GatewayIntentBits.GuildAuditLog,
-  GatewayIntentBits.GuildExpressions,
 ];
 
 const partials = [
