@@ -32,10 +32,10 @@ function buildInterface(guild) {
   );
 
   const row2 = new ActionRowBuilder().addComponents(
-    new ButtonBuilder().setCustomId("vm_limit").setLabel("Limit").setStyle(ButtonStyle.Primary).setEmoji(e.limit),
+    new_string: `    new ButtonBuilder().setCustomId("vm_limit").setLabel("Limit").setStyle(ButtonStyle.Primary).setEmoji(e.limit),
     new ButtonBuilder().setCustomId("vm_rename").setLabel("Rename").setStyle(ButtonStyle.Primary).setEmoji(e.rename),
-    new ButtonBuilder().setCustomId("vm_transfer").setLabel("Transfer").setStyle(ButtonStyle.Secondary).setEmoji("🤝"),
-    new ButtonBuilder().setCustomId("vm_claim").setLabel("Claim").setStyle(ButtonStyle.Success).setEmoji(e.claim)
+    new ButtonBuilder().setCustomId("vm_transfer").setLabel("Transfer").setStyle(ButtonStyle.Secondary).setEmoji(e.transfer),
+    new ButtonBuilder().setCustomId("vm_claim").setLabel("Claim").setStyle(ButtonStyle.Success).setEmoji(e.claim)`
   );
 
   return { embeds: [embed], components: [row1, row2] };

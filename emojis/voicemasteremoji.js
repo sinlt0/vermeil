@@ -7,6 +7,7 @@ module.exports = {
   limit: "👥",
   rename: "📝",
   claim: "👑",
+  transfer: "🤝",
   settings: "⚙️",
   success: "✅",
   error: "❌"
