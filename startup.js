@@ -41,10 +41,8 @@ if (!fs.existsSync(path.join(__dirname, ".git"))) {
 }
 
 // ── 2. Install Dependencies ──────────────────────────────
-if (!fs.existsSync(path.join(__dirname, "node_modules"))) {
-  log("Dependencies missing. Running npm install...");
-  runCommand("npm install --omit=dev");
-}
+
+runCommand("npm install")
 
 // ── 3. Start the Bot ─────────────────────────────────────
 log("Ready to boot. Launching index.js...");
