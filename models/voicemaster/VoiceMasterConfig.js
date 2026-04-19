@@ -5,6 +5,7 @@ const voiceMasterConfigSchema = new mongoose.Schema({
   enabled: { type: Boolean, default: false },
   channelId: { type: String, default: null }, // The "Join to Create" channel
   categoryId: { type: String, default: null }, // Where new channels are born
+  interfaceChannelId: { type: String, default: null }, // Dedicated control panel channel
   defaultName: { type: String, default: "{user}'s Lounge" },
   defaultLimit: { type: Number, default: 0 },
 });
