@@ -1,14 +1,15 @@
 const { SlashCommandBuilder, PermissionFlagsBits, ChannelType } = require("discord.js");
 
 const workers = {
-  setup:  require("./setup"),
-  lock:   require("./lock"),
-  unlock: require("./unlock"),
-  hide:   require("./hide"),
-  unhide: require("./unhide"),
-  limit:  require("./limit"),
-  rename: require("./rename"),
-  claim:  require("./claim"),
+  setup:    require("./setup"),
+  lock:     require("./lock"),
+  unlock:   require("./unlock"),
+  hide:     require("./hide"),
+  unhide:   require("./unhide"),
+  limit:    require("./limit"),
+  rename:   require("./rename"),
+  claim:    require("./claim"),
+  transfer: require("./transfer"),
 };
 
 module.exports = {
@@ -36,6 +37,7 @@ module.exports = {
     .addSubcommand(s => s.setName("limit").setDescription("Set user limit.").addIntegerOption(o => o.setName("limit").setDescription("Max users (0-99)").setRequired(true).setMinValue(0).setMaxValue(99)))
     .addSubcommand(s => s.setName("rename").setDescription("Rename your channel.").addStringOption(o => o.setName("name").setDescription("New name").setRequired(true)))
     .addSubcommand(s => s.setName("claim").setDescription("Claim ownership of the current channel."))
+    .addSubcommand(s => s.setName("transfer").setDescription("Transfer ownership to another user.").addUserOption(o => o.setName("user").setDescription("New owner").setRequired(true)))
     .toJSON(),
 
   async execute(client, ctx) {

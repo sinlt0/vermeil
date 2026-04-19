@@ -1,11 +1,11 @@
-const { PermissionFlagsBits, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
+const { PermissionFlagsBits, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, UserSelectMenuBuilder } = require("discord.js");
 const { fromConnection: ActiveVoiceChannel } = require("../../models/voicemaster/ActiveVoiceChannel");
 
 module.exports = {
   name: "interactionCreate",
   once: false,
   async execute(client, interaction) {
-    if (!interaction.isButton() && !interaction.isModalSubmit()) return;
+    if (!interaction.isButton() && !interaction.isModalSubmit() && !interaction.isUserSelectMenu()) return;
     if (!interaction.customId.startsWith("vm_")) return;
 
     const { guild, member, customId } = interaction;
@@ -23,7 +23,7 @@ module.exports = {
 
     if (!data) return interaction.reply({ content: "❌ This is not a VoiceMaster channel.", ephemeral: true });
 
-    // ── Logic: Claim (Only one that doesn't need ownerId match) ──
+    // ── Logic: Claim ──
     if (customId === "vm_claim") {
       if (voiceChannel.members.has(data.ownerId)) {
         return interaction.reply({ content: "❌ The owner is still in the channel!", ephemeral: true });
@@ -31,6 +31,28 @@ module.exports = {
       data.ownerId = member.id;
       await data.save();
       return interaction.reply({ content: "👑 You are now the owner of this channel!", ephemeral: true });
+    }
+
+    // ── Logic: User Select Menu (Transfer) ──
+    if (interaction.isUserSelectMenu() && customId === "vm_transfer_menu") {
+      if (data.ownerId !== member.id) return interaction.reply({ content: "❌ Only the owner can transfer!", ephemeral: true });
+      
+      const newOwner = interaction.users.first();
+      if (!newOwner) return interaction.reply({ content: "❌ No user selected.", ephemeral: true });
+      if (newOwner.id === member.id) return interaction.reply({ content: "❌ You are already the owner!", ephemeral: true });
+      if (newOwner.bot) return interaction.reply({ content: "❌ You cannot transfer to a bot!", ephemeral: true });
+
+      data.ownerId = newOwner.id;
+      await data.save();
+
+      // Update permissions for new owner
+      await voiceChannel.permissionOverwrites.edit(newOwner.id, {
+        ManageChannels: true,
+        Connect: true,
+        MoveMembers: true
+      });
+
+      return interaction.update({ content: `✅ Ownership has been transferred to **${newOwner.username}**.`, components: [], embeds: [] });
     }
 
     // ── All other actions need ownership ──
@@ -56,6 +78,12 @@ module.exports = {
         case "vm_unhide":
           await voiceChannel.permissionOverwrites.edit(guild.roles.everyone, { ViewChannel: null });
           return interaction.reply({ content: "👁️ Channel is now visible.", ephemeral: true });
+
+        case "vm_transfer": {
+          const menu = new UserSelectMenuBuilder().setCustomId("vm_transfer_menu").setPlaceholder("Select a user to transfer ownership to").setMinValues(1).setMaxValues(1);
+          const row = new ActionRowBuilder().addComponents(menu);
+          return interaction.reply({ content: "🤝 Who do you want to transfer ownership to?", components: [row], ephemeral: true });
+        }
 
         case "vm_limit": {
           const modal = new ModalBuilder().setCustomId("vm_modal_limit").setTitle("Set Member Limit");
