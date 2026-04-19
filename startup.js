@@ -42,7 +42,7 @@ if (!fs.existsSync(path.join(__dirname, ".git"))) {
 
 // ── 2. Install Dependencies ──────────────────────────────
 
-runCommand("npm install")
+runCommand("npm install");
 
 // ── 3. Start the Bot ─────────────────────────────────────
 log("Ready to boot. Launching index.js...");
