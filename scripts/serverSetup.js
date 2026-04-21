@@ -24,7 +24,7 @@ async function setup() {
     process.exit(1);
   }
 
-  console.log(`\n\x1b[35m[Setup]\x1b[0m Initializing Vermeil Support Server Structure for ID: ${GUILD_ID}...`);
+  console.log(`\n\x1b[35m[Setup]\x1b[0m Rebuilding Vermeil Infrastructure for ID: ${GUILD_ID}...`);
 
   try {
     await client.login(process.env.TOKEN);
@@ -46,16 +46,19 @@ async function setup() {
     }
 
     // ── 2. ROLE CREATION ──────────────────────────────────
-    console.log("🎭 Creating role hierarchy...");
+    console.log("🎭 Creating professional role hierarchy...");
     const roleMap = {
-      manager: await guild.roles.create({ name: "Manager", color: "#6a0dad", permissions: [PermissionFlagsBits.Administrator], hoist: true }),
-      developer: await guild.roles.create({ name: "Developer", color: "#a855f7", permissions: [PermissionFlagsBits.ManageGuild, PermissionFlagsBits.ManageChannels, PermissionFlagsBits.ViewAuditLog], hoist: true }),
-      support: await guild.roles.create({ name: "Support Team", color: "#5865F2", hoist: true }),
-      verified: await guild.roles.create({ name: "Verified", color: "#9ca3af", hoist: true }),
+      manager:   await guild.roles.create({ name: "Manager", color: "#6a0dad", permissions: [PermissionFlagsBits.Administrator], hoist: true }),
+      developer: await guild.roles.create({ name: "Developer", color: "#a855f7", permissions: [PermissionFlagsBits.ManageGuild, PermissionFlagsBits.ManageChannels], hoist: true }),
+      moderator: await guild.roles.create({ name: "Moderator", color: "#2ecc71", permissions: [PermissionFlagsBits.ManageMessages, PermissionFlagsBits.ModerateMembers], hoist: true }),
+      support:   await guild.roles.create({ name: "Support Team", color: "#5865F2", hoist: true }),
+      vip:       await guild.roles.create({ name: "VIP", color: "#f1c40f", hoist: true }),
+      partner:   await guild.roles.create({ name: "Partner", color: "#1abc9c", hoist: true }),
+      verified:  await guild.roles.create({ name: "Verified", color: "#9ca3af", hoist: true }),
     };
 
-    const staffRoles = [roleMap.manager.id, roleMap.developer.id, roleMap.support.id];
-    const devRoles = [roleMap.manager.id, roleMap.developer.id];
+    const staffRoles = [roleMap.manager.id, roleMap.developer.id, roleMap.moderator.id, roleMap.support.id];
+    const devRoles   = [roleMap.manager.id, roleMap.developer.id];
 
     // ── 3. CHANNEL CREATION ───────────────────────────────
     console.log("📁 Building structured categories...");
@@ -73,39 +76,42 @@ async function setup() {
     await guild.channels.create({ name: "images", parent: catComm });
     await guild.channels.create({ name: "memes", parent: catComm });
 
-    // --- VERMEIL (Support/Tickets) ---
+    // --- VERMEIL (Support & Tickets) ---
     const catVerm = await guild.channels.create({ name: "VERMEIL", type: ChannelType.GuildCategory });
-    // Support & Suggestions as Forums (if available)
     try {
       await guild.channels.create({ name: "support", type: ChannelType.GuildForum, parent: catVerm });
       await guild.channels.create({ name: "suggestions", type: ChannelType.GuildForum, parent: catVerm });
     } catch {
-      await guild.channels.create({ name: "support", type: ChannelType.GuildText, parent: catVerm });
-      await guild.channels.create({ name: "suggestions", type: ChannelType.GuildText, parent: catVerm });
+      await guild.channels.create({ name: "support-text", type: ChannelType.GuildText, parent: catVerm });
+      await guild.channels.create({ name: "suggestions-text", type: ChannelType.GuildText, parent: catVerm });
     }
+    
+    // Public Ticket Creation
     await guild.channels.create({ 
       name: "tickets", 
-      type: ChannelType.GuildText, 
       parent: catVerm,
       topic: "Open a ticket here for support.",
-      permissionOverwrites: [
-        { 
-          id: guild.roles.everyone, 
-          allow: [PermissionFlagsBits.ViewChannel], 
-          deny: [PermissionFlagsBits.SendMessages] 
-        }
-      ]
+      permissionOverwrites: [{ id: guild.roles.everyone, allow: [PermissionFlagsBits.ViewChannel], deny: [PermissionFlagsBits.SendMessages] }]
+    });
+
+    // Private Ticket Logs
+    await guild.channels.create({ 
+      name: "ticket-logs", 
+      parent: catVerm,
+      permissionOverwrites: [{ id: guild.roles.everyone, deny: [PermissionFlagsBits.ViewChannel] }, ...staffRoles.map(id => ({ id, allow: [PermissionFlagsBits.ViewChannel] }))]
+    });
+    
+    // Private Transcripts
+    await guild.channels.create({ 
+      name: "transcripts", 
+      parent: catVerm,
+      permissionOverwrites: [{ id: guild.roles.everyone, deny: [PermissionFlagsBits.ViewChannel] }, ...staffRoles.map(id => ({ id, allow: [PermissionFlagsBits.ViewChannel] }))]
     });
 
     // --- VOICEMASTER ---
     const catVM = await guild.channels.create({ name: "VOICEMASTER", type: ChannelType.GuildCategory });
     await guild.channels.create({ name: "join-2-create", type: ChannelType.GuildVoice, parent: catVM });
-    await guild.channels.create({ 
-      name: "interface", 
-      type: ChannelType.GuildText, 
-      parent: catVM,
-      permissionOverwrites: [{ id: guild.roles.everyone, deny: [PermissionFlagsBits.SendMessages] }]
-    });
+    await guild.channels.create({ name: "interface", parent: catVM, permissionOverwrites: [{ id: guild.roles.everyone, deny: [PermissionFlagsBits.SendMessages] }] });
 
     // --- STAFF ---
     const catStaff = await guild.channels.create({ 
@@ -129,7 +135,6 @@ async function setup() {
     await guild.channels.create({ name: "error-stream", parent: catDev });
 
     // ── 4. SEND RULES ─────────────────────────────────────
-    console.log("📜 Dispatching Rules...");
     const rulesEmbed = new EmbedBuilder()
       .setColor(0x6a0dad)
       .setTitle("Vermeil Support | Rules")
@@ -146,7 +151,7 @@ async function setup() {
 
     await chRules.send({ embeds: [rulesEmbed] });
 
-    console.log("\n\x1b[32m✨ Advanced Setup Complete! Your server is now a professional hub.\x1b[0m");
+    console.log("\n\x1b[32m✨ Professional Setup Complete! Everything is ready.\x1b[0m");
     process.exit(0);
 
   } catch (err) {
