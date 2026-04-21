@@ -7,20 +7,20 @@
 module.exports = {
 
   // ── Currencies ───────────────────────────────────────────
-  coin:       "🪙",   // primary coins
-  gem:        "💎",   // premium gems
-  token:      "🔮",   // craft tokens
-  wallet:     "👛",
-  bank:       "🏦",
+  coin: "<:vm_coin:1496157372576698379>",   // primary coins
+  gem: "<:vm_gem:1496157377211273496>",   // premium gems
+  token: "<:vm_token:1496157381749379103>",   // craft tokens
+  wallet: "<:vm_wallet:1496157386195603508>",
+  bank: "<:vm_bank:1496157392575135887>",
   banknote:   "💵",
   networth:   "💰",
 
   // ── Profile ──────────────────────────────────────────────
-  profile:    "👤",
+  profile: "<:vm_profile:1496157397884862566>",
   level:      "⭐",
   xp:         "✨",
   prestige:   "🏅",
-  rank:       "🏆",
+  rank: "<:vm_rank:1496157403291455651>",
   medal:      "🎖️",
   crown:      "👑",
   badge:      "🎫",
@@ -28,7 +28,7 @@ module.exports = {
   // ── Daily / Work ─────────────────────────────────────────
   daily:      "📅",
   weekly:     "📆",
-  work:       "💼",
+  work: "<:vm_work:1496157410514173972>",
   job:        "🔧",
   promoted:   "📈",
   fired:      "📉",
@@ -78,7 +78,7 @@ module.exports = {
   escaped:    "💨",
   fine:       "⚠️",
   protect:    "🔒",
-  shield:     "🛡️",
+  shield: "<:vm_shield:1496157414523932712>",
 
   // ── Gambling ─────────────────────────────────────────────
   slots:      "🎰",
@@ -89,10 +89,10 @@ module.exports = {
   bust:       "💔",
 
   // ── Shop / Items ─────────────────────────────────────────
-  shop:       "🛒",
+  shop: "<:vm_shop:1496157420693749874>",
   buy:        "🛍️",
   sell:       "💲",
-  inventory:  "🎒",
+  inventory: "<:vm_inventory:1496157424208314389>",
   use:        "🔑",
   item:       "📦",
   potion:     "🧪",
@@ -131,11 +131,11 @@ module.exports = {
   top:        "🔝",
 
   // ── Status ───────────────────────────────────────────────
-  success:    "✅",
-  error:      "❌",
-  warning:    "⚠️",
-  info:       "ℹ️",
-  loading:    "⏳",
+  success: "<:vm_success:1496157428448890922>",
+  error: "<:vm_error:1496157432198598788>",
+  warning: "<:vm_warning:1496157436229193982>",
+  info: "<:vm_info:1496157440670961685>",
+  loading: "<:vm_loading:1496157444156555305>",
   cooldown:   "⏰",
   locked:     "🔐",
   unlocked:   "🔓",

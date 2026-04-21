@@ -6,9 +6,9 @@
 module.exports = {
 
   // ── Animated (from mention.js — your server emojis) ──
-  loading:   "<a:loading:1488084359415332934>",
-  star:      "<a:vermeil_star:1488084016937701396>",
-  settings:  "<a:vermeil_settings:1488085345961513052>",
+  loading: "<:vm_loading:1496157457154572368>",
+  star: "<:vm_star:1496157460422201546>",
+  settings: "<:vm_settings:1496157463882367098>",
   cmd:       "<:cmd:1488086674453037096>",
 
   // ── Help navigation ───────────────────────────────────
@@ -18,14 +18,14 @@ module.exports = {
   back:      "🔙",
 
   // ── Category emojis ───────────────────────────────────
-  utility:      "🔧",
-  moderation:   "🔨",
-  admin:        "⚙️",
-  music:        "🎵",
-  fun:          "🎉",
+  utility: "<:vm_utility:1496157469725167826>",
+  moderation: "<:vm_moderation:1496157473948569812>",
+  admin: "<:vm_admin:1496157479594360843>",
+  music: "<:vm_music:1496157485420118099>",
+  fun: "<:vm_fun:1496157492089061386>",
   economy:      "💰",
   leveling:     "📈",
-  info:         "📋",
+  info: "<:vm_info:1496157496149278820>",
   config:       "🛠️",
   giveaway:     "🎁",
   ticket:       "🎫",
@@ -41,13 +41,13 @@ module.exports = {
   dev:       "👨‍💻",
   owner:     "👑",
   designer:  "🎨",
-  support:   "🔗",
-  invite:    "📨",
+  support: "<:vm_support:1496157499349405849>",
+  invite: "<:vm_invite:1496157504269320335>",
   team:      "👥",
   commands:  "📜",
   ping:      "🏓",
-  server:    "🌐",
-  bot:       "🤖",
+  server: "<:vm_server:1496157507565912066>",
+  bot: "<:vm_bot:1496157513307918462>",
   stats:     "📊",
   uptime:    "⏱️",
 };

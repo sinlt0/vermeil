@@ -11,5 +11,5 @@ module.exports = {
   blowjob: "🍭",
   solo: "🧘",
   nsfw: "🔞",
-  warning: "⚠️"
+  warning: "<:vm_warning:1496157629699850346>"
 };

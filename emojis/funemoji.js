@@ -4,7 +4,7 @@ module.exports = {
   eightball: "🎱",
   cat: "🐱",
   dog: "🐶",
-  fun: "🎉",
+  fun: "<:vm_fun:1496157450129375244>",
   aki: "🧞",
   tod: "🤔",
   truth: "📝",
@@ -14,5 +14,5 @@ module.exports = {
   ship: "❤️",
   fact: "📖",
   roast: "🔥",
-  warning: "⚠️"
+  warning: "<:vm_warning:1496157453946191963>"
 };
