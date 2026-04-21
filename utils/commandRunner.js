@@ -1,15 +1,10 @@
 // ============================================================
 //  utils/commandRunner.js
 //  Central command execution pipeline
-//
-//  reply() smart handler:
-//  - prefix  → message.reply()
-//  - slash, deferred  → editReply()
-//  - slash, not replied yet → reply()
 // ============================================================
 const embeds = require("./embeds");
 const { isOwner, isDev } = require("./permissions");
-
+const { logCommand } = require("./loggingUtils");
 const { isPremium, premiumEmbed } = require("./premiumUtils");
 
 // ============================================================
@@ -54,7 +49,6 @@ async function runCommand(client, cmd, ctx) {
   }
   
   // ── 3. Premium check ───────────────────────────────
-  // Owner and devs always bypass premium gate
   if (cmd.premium && guildId) {
     const bypass = isOwner(client, userId) || isDev(client, userId);
     if (!bypass) {
@@ -88,6 +82,8 @@ async function runCommand(client, cmd, ctx) {
   // ── 4. Execute ─────────────────────────────────────────
   try {
     await cmd.execute(client, ctx);
+    // 📢 LOG COMMAND USAGE
+    await logCommand(ctx, cmd.name).catch(() => null);
   } catch (err) {
     console.error(`[CommandRunner] Error in "${cmd.name}":`, err);
     reply(ctx, {
