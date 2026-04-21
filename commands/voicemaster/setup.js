@@ -8,35 +8,46 @@ module.exports = {
   name: "vm-setup",
   description: "Initialize the VoiceMaster system with a control panel.",
   category: "voicemaster",
-  usage: "<#join-channel> <categoryID>",
+  usage: "<#join-channel> [categoryID]",
   cooldown: 10,
+  requiresDatabase: true,
   slash: false,
 
   async execute(client, ctx) {
-    if (!ctx.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
+    const member = ctx.type === "prefix" ? ctx.message.member : ctx.interaction.member;
+    const guild = ctx.type === "prefix" ? ctx.message.guild : ctx.interaction.guild;
+
+    if (!member.permissions.has(PermissionFlagsBits.ManageGuild)) {
       return reply(ctx, { content: "❌ You need `Manage Server` permissions." });
     }
 
-    const channel = ctx.type === "prefix" ? ctx.message.mentions.channels.first() : ctx.interaction.options.getChannel("channel");
-    const category = ctx.type === "prefix" ? ctx.args[1] : ctx.interaction.options.getChannel("category");
+    // ── Parse Args ──
+    let channel, category;
+    if (ctx.type === "prefix") {
+      channel = ctx.message.mentions.channels.first() || guild.channels.cache.get(ctx.args[1]);
+      category = guild.channels.cache.get(ctx.args[2]) || (ctx.args[2] ? { id: ctx.args[2] } : null);
+    } else {
+      channel = ctx.interaction.options.getChannel("channel");
+      category = ctx.interaction.options.getChannel("category");
+    }
 
     if (!channel || channel.type !== ChannelType.GuildVoice) {
       return reply(ctx, { content: "❌ Provide a valid **Voice Channel** for users to join." });
     }
 
-    const guildDb = await client.db.getGuildDb(ctx.guild.id);
+    const guildDb = await client.db.getGuildDb(guild.id);
     const ConfigModel = VoiceMasterConfig(guildDb.connection);
 
     try {
-      // 1. Create the Interface Channel (Text)
-      const interfaceChannel = await ctx.guild.channels.create({
+      // 1. Create the Interface Channel
+      const interfaceChannel = await guild.channels.create({
         name: "interface",
         type: ChannelType.GuildText,
         parent: category?.id || channel.parentId,
         topic: "Manage your temporary voice channels here.",
         permissionOverwrites: [
           {
-            id: ctx.guild.roles.everyone,
+            id: guild.roles.everyone,
             deny: [PermissionFlagsBits.SendMessages],
             allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory]
           }
@@ -44,12 +55,12 @@ module.exports = {
       });
 
       // 2. Send the control panel
-      const panel = buildInterface(ctx.guild);
+      const panel = buildInterface(guild);
       await interfaceChannel.send(panel);
 
       // 3. Save Config
       await ConfigModel.findOneAndUpdate(
-        { guildId: ctx.guild.id },
+        { guildId: guild.id },
         { 
           $set: { 
             enabled: true, 

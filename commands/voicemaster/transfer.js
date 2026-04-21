@@ -9,19 +9,22 @@ module.exports = {
   category: "voicemaster",
   usage: "<@user>",
   cooldown: 5,
+  requiresDatabase: true,
   slash: false,
 
   async execute(client, ctx) {
+    const member = ctx.type === "prefix" ? ctx.message.member : ctx.interaction.member;
+    const guild = ctx.type === "prefix" ? ctx.message.guild : ctx.interaction.guild;
+
     const targetUser = ctx.type === "prefix" ? ctx.message.mentions.users.first() : ctx.interaction.options.getUser("user");
     if (!targetUser) return reply(ctx, { content: `${e.error} Please mention a user to transfer ownership to.` });
     if (targetUser.bot) return reply(ctx, { content: `${e.error} You cannot transfer to a bot!` });
-    if (targetUser.id === ctx.author.id) return reply(ctx, { content: `${e.error} You are already the owner!` });
+    if (targetUser.id === member.id) return reply(ctx, { content: `${e.error} You are already the owner!` });
 
-    const member = ctx.member;
     const voiceChannel = member.voice.channel;
     if (!voiceChannel) return reply(ctx, { content: `${e.error} You must be in your channel.` });
 
-    const guildDb = await client.db.getGuildDb(ctx.guild.id);
+    const guildDb = await client.db.getGuildDb(guild.id);
     const ActiveModel = ActiveVoiceChannel(guildDb.connection);
     const data = await ActiveModel.findOne({ channelId: voiceChannel.id, ownerId: member.id });
 

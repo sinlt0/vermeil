@@ -41,11 +41,20 @@ module.exports = {
     .toJSON(),
 
   async execute(client, ctx) {
-    const sub = ctx.interaction.options.getSubcommand();
-    const worker = workers[sub];
-    
-    if (!worker) return ctx.interaction.reply({ content: "Invalid subcommand!", ephemeral: true });
+    // ── Determine Subcommand ──
+    let sub;
+    if (ctx.type === "prefix") {
+      sub = ctx.args[0]?.toLowerCase();
+      // If no sub provided for prefix, default to 'help' or show usage
+      if (!sub) return reply(ctx, { content: `Usage: \`${client.config.prefix}voicemaster <${Object.keys(workers).join("|")}>\`` });
+    } else {
+      sub = ctx.interaction.options.getSubcommand();
+    }
 
+    const worker = workers[sub];
+    if (!worker) return reply(ctx, { content: "Invalid subcommand!", ephemeral: true });
+
+    // ── Execute Worker ──
     return worker.execute(client, ctx);
   },
 };
