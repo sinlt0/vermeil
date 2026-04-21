@@ -48,6 +48,10 @@ module.exports = {
     maxServersPerCluster: 100,
   },
 
+  // ── Emoji Hosting ────────────────────────────────────
+  // The bot will upload custom emojis to these servers.
+  emojiServers: ["YOUR_SERVER_ID_1", "YOUR_SERVER_ID_2"],
+
   // ── Lavalink ─────────────────────────────────────────────
   lavalink: {
     host: "YOUR_LAVALINK_HOST",
