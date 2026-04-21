@@ -87,7 +87,14 @@ async function setup() {
       name: "tickets", 
       type: ChannelType.GuildText, 
       parent: catVerm,
-      permissionOverwrites: [{ id: guild.roles.everyone, deny: [PermissionFlagsBits.ViewChannel] }, ...staffRoles.map(id => ({ id, allow: [PermissionFlagsBits.ViewChannel] }))]
+      topic: "Open a ticket here for support.",
+      permissionOverwrites: [
+        { 
+          id: guild.roles.everyone, 
+          allow: [PermissionFlagsBits.ViewChannel], 
+          deny: [PermissionFlagsBits.SendMessages] 
+        }
+      ]
     });
 
     // --- VOICEMASTER ---
