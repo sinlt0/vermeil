@@ -37,6 +37,12 @@ const loadHandlers = require("./handlers/handlerLoader");
   try {
     await loadHandlers(client);
     await client.login(TOKEN);
+
+    // ── Database Monitoring ──────────────────────────────
+    const { runDbMonitor } = require("./utils/dbMonitorUtils");
+    setTimeout(() => runDbMonitor(client), 10000); // Initial run after 10s
+    setInterval(() => runDbMonitor(client), 10 * 60 * 1000); // Every 10 mins
+
   } catch (err) {
     console.error(chalk.red.bold("\n❌  Fatal error during startup:"), err.message);
     process.exit(1);
