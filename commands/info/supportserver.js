@@ -31,7 +31,7 @@ module.exports = {
 
   async execute(client, ctx) {
     const author = ctx.type === "prefix" ? ctx.message.author : ctx.interaction.user;
-    const supportUrl = client.config?.supportServer || "https://discord.gg";
+    const supportUrl = client.config?.supportServer || "https://discord.gg/KdnAKcHupW";
 
     const embed = new EmbedBuilder()
       .setColor(0x5865F2)

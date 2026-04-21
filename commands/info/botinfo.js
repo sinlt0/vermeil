@@ -100,7 +100,7 @@ module.exports = {
         .setEmoji(e.invite),
       new ButtonBuilder()
         .setLabel("Support Server")
-        .setURL(client.config?.supportServer || "https://discord.gg")
+        .setURL(client.config?.supportServer || "https://discord.gg/KdnAKcHupW")
         .setStyle(ButtonStyle.Link)
         .setEmoji(e.support)
     );

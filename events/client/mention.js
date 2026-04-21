@@ -39,7 +39,7 @@ const TEAM = [
   },
 ];
 
-const SUPPORT_URL = "https://discord.gg/UjHnCK9A88";
+const SUPPORT_URL = "https://discord.gg/KdnAKcHupW";
 const BANNER_URL  = "https://cdn.discordapp.com/attachments/1457521614009929759/1488087364239622374/a_b143a17e16f55e0c021b21f7b806b9c3.gif?ex=69cb80da&is=69ca2f5a&hm=b1c8bb5766e088e2090bc8faa28684839ca1769c97992e0de7eef394bfb281be&";
 
 module.exports = {
