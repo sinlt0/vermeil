@@ -96,18 +96,11 @@ module.exports = {
         .join("\n");
 
       return new EmbedBuilder()
-        .setColor(0x7d5ba6)
-        .setAuthor({ name: `${client.user.username} | Help Menu`, iconURL: client.user.displayAvatarURL({ dynamic: true }) })
+        .setColor(0x4A3F5F)
+        .setAuthor({ name: `${client.user.username}`, iconURL: client.user.displayAvatarURL({ dynamic: true }) })
         .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-        .setDescription(`> Use the dropdown below to browse categories.\n\u200b`)
-        .addFields(
-          { name: `${e.stats} Stats`, value: `**Commands:** \`${total}\`\n**Categories:** \`${categories.size}\`\n**Servers:** \`${client.guilds.cache.size}\`\n**Ping:** \`${client.ws.ping}ms\``, inline: true },
-          { name: `${e.bot} Info`,   value: `**Prefix:** \`${prefix}\`\n**Uptime:** \`${formatUptime(client.uptime)}\`\n**Slash:** supported`, inline: true },
-          { name: "\u200b", value: "\u200b", inline: false },
-          { name: `${e.commands} Categories`, value: catList },
-        )
+        .setDescription(`> -# Click the dropdown below and select a category..\n\u200b`)
         .setFooter({ text: `Requested by ${author.tag}`, iconURL: author.displayAvatarURL({ dynamic: true }) })
-        .setTimestamp();
     };
 
     // ── Category embed ─────────────────────────────────
@@ -124,26 +117,25 @@ module.exports = {
       }).join("\n\n") || "No commands.";
 
       return new EmbedBuilder()
-        .setColor(getCatColor(cat))
-        .setAuthor({ name: `${getCatEmoji(cat)} ${cap(cat)} Commands`, iconURL: client.user.displayAvatarURL({ dynamic: true }) })
+        .setColor(0x4A3F5F)
+        .setAuthor({ name: `${cap(cat)} Commands`, iconURL: client.user.displayAvatarURL({ dynamic: true }) })
         .setDescription(`> **${cap(cat)}** — Page ${page + 1}/${maxPg}\n\u200b`)
         .addFields({ name: `Commands [${total}]`, value: lines })
         .setFooter({ text: `Page ${page + 1}/${maxPg} • ${total} commands total`, iconURL: author.displayAvatarURL({ dynamic: true }) })
-        .setTimestamp();
     };
 
     // ── Dropdown ───────────────────────────────────────
     const buildDropdown = () => new ActionRowBuilder().addComponents(
       new StringSelectMenuBuilder()
         .setCustomId("help_cat")
-        .setPlaceholder("📂 Select a category...")
+        .setPlaceholder("Select A Category")
         .addOptions([
-          new StringSelectMenuOptionBuilder().setLabel("🏠 Home").setDescription("Main help page").setValue("home").setDefault(currentCat === "home"),
+          new StringSelectMenuOptionBuilder().setLabel("Home").setDescription("Return To Main Menu").setValue("home").setDefault(currentCat === "home"),
           ...[...categories.entries()]
             .sort(([a], [b]) => a.localeCompare(b))
             .map(([cat, cmds]) =>
               new StringSelectMenuOptionBuilder()
-                .setLabel(`${getCatEmoji(cat)} ${cap(cat)}`)
+                .setLabel(`${cap(cat)}`)
                 .setDescription(`${cmds.length} command${cmds.length === 1 ? "" : "s"}`)
                 .setValue(cat)
                 .setDefault(currentCat === cat)

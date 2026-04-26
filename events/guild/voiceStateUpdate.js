@@ -40,6 +40,15 @@ module.exports = {
     const player = client.riffy?.players.get(guild.id);
 
     if (player) {
+      // ── 4a. Auto-Resume Logic ─────────────────────────
+      // If someone joins the bot's VC and it's paused, resume it
+      if (newState.channelId === player.voiceChannel && !newState.member.user.bot) {
+        if (player.paused) {
+          player.pause(false);
+          console.log(`[Music] Auto-resumed in ${guild.name} (User joined)`);
+        }
+      }
+
       // Bot was disconnected or moved
       if (oldState.id === client.user.id) {
         if (!newState.channelId) {
