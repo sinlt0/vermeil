@@ -18,14 +18,14 @@ module.exports = {
     const profile = await getProfile(client, target.id);
 
     if (!profile?.agreedToTos) {
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245).setDescription(`${eco.error} **${target.username}** hasn't started the economy yet!`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.error} **${target.username}** hasn't started the economy yet!`)] });
     }
 
     const Job = client.ecoDb.getModel("Job");
     const job = await Job.findOne({ userId: target.id }).lean();
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setAuthor({ name: `${target.username}'s Profile`, iconURL: target.displayAvatarURL({ dynamic: true }) })
       .setThumbnail(target.displayAvatarURL({ dynamic: true, size: 256 }))
       .addFields(

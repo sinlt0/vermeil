@@ -23,12 +23,12 @@ module.exports = {
 
     // ── View current job ──────────────────────────────
     if (!sub || sub === "info") {
-      if (!jobDoc.jobId) return message.reply({ embeds: [new EmbedBuilder().setColor(0x5865F2).setDescription(`${eco.job} You are currently **unemployed**. Use \`!jobs\` to browse jobs.`)] });
+      if (!jobDoc.jobId) return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.job} You are currently **unemployed**. Use \`!jobs\` to browse jobs.`)] });
       const job  = getJob(jobDoc.jobId);
       if (!job) return message.reply(`${eco.error} Job not found.`);
       const next = jobsConf.worksPerLevel * jobDoc.jobLevel;
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${job.emoji} ${job.name}`)
         .addFields(
           { name: "Level",     value: `${jobDoc.jobLevel} / ${job.maxLevel}`, inline: true },
@@ -62,7 +62,7 @@ module.exports = {
     if (sub === "resign") {
       if (!jobDoc.jobId) return message.reply(`${eco.error} You're not employed!`);
       await Job.findOneAndUpdate({ userId: message.author.id }, { $set: { jobId: null, jobName: null, jobLevel: 1, worksTotal: 0 } });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xFEE75C).setDescription(`${eco.fired} You resigned from your job.`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.fired} You resigned from your job.`)] });
     }
 
     // ── Promote ───────────────────────────────────────

@@ -28,7 +28,7 @@ module.exports = {
       options.sort(() => Math.random() - 0.5);
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.fun} Who is this character?`)
         .setDescription(`**Anime:** ${character.anime}\n\nYou have 30 seconds to guess!`)
         .setImage(character.image)
@@ -51,13 +51,13 @@ module.exports = {
         if (selected === character.name) {
           await i.update({ 
             content: `✨ **Correct!** It was **${character.name}** from **${character.anime}**!`, 
-            embeds: [embed.setColor(0x57F287)], 
+            embeds: [embed.setColor(0x4A3F5F)], 
             components: [] 
           });
         } else {
           await i.update({ 
             content: `❌ **Wrong!** It was actually **${character.name}**.`, 
-            embeds: [embed.setColor(0xED4245)], 
+            embeds: [embed.setColor(0x4A3F5F)], 
             components: [] 
           });
         }

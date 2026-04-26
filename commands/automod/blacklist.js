@@ -53,7 +53,7 @@ module.exports = {
         if (existing) return message.reply(`${e.warning} \`${clean}\` is already blacklisted.`);
 
         await Model.create({ guildId: guild.id, word: clean, type: wordType, addedBy: message.author.id });
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.success} Added **${clean}** to the word blacklist. (${wordType === "wildcard" ? e.wildcard + " wildcard" : e.exact + " exact"})`)] });
       }
 
@@ -63,7 +63,7 @@ module.exports = {
         if (existing) return message.reply(`${e.warning} \`${normalized}\` is already blacklisted.`);
 
         await Model.create({ guildId: guild.id, link: normalized, addedBy: message.author.id });
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.success} Added **${normalized}** to the link blacklist.`)] });
       }
     }
@@ -78,7 +78,7 @@ module.exports = {
       const deleted = await Model.findOneAndDelete({ guildId: guild.id, [field]: value });
 
       if (!deleted) return message.reply(`${e.error} \`${value}\` is not in the blacklist.`);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.success} Removed **${value}** from the blacklist.`)] });
     }
 
@@ -98,7 +98,7 @@ module.exports = {
           return `\`${pg * PER_PAGE + i + 1}.\` ${tag} \`${val}\``;
         });
         return new EmbedBuilder()
-          .setColor(0x5865F2)
+          .setColor(0x4A3F5F)
           .setTitle(`${e.blacklist} Blacklisted ${type === "word" ? "Words" : "Links"} — ${guild.name}`)
           .setDescription(lines.join("\n"))
           .setFooter({ text: `Page ${pg + 1}/${totalPages} • ${entries.length} total` });

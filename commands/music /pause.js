@@ -15,7 +15,7 @@ module.exports = {
     if (!player) return reply(ctx, { embeds:[embeds.error("Nothing is playing.")] });
     if (player.paused) return reply(ctx, { embeds:[embeds.error("Already paused. Use `/resume`.")] });
     player.pause(true);
-    const embed = new EmbedBuilder().setColor(0xFEE75C).setDescription(`${emoji.pause} Paused playback.`).setTimestamp();
+    const embed = new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${emoji.pause} Paused playback.`).setTimestamp();
     return reply(ctx, { embeds:[embed] });
   },
 };

@@ -34,7 +34,7 @@ module.exports = {
     const supportUrl = client.config?.supportServer || "https://discord.gg/KdnAKcHupW";
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.support} Vermeil Support Community`)
       .setThumbnail(client.user.displayAvatarURL({ dynamic: true, size: 512 }))
       .setDescription(

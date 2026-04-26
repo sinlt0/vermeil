@@ -71,7 +71,7 @@ module.exports = {
       const users  = config?.hostUsers ?? [];
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle("🎉 Giveaway Hosts")
         .addFields(
           { name: "🎭 Host Roles", value: roles.length > 0 ? roles.map(r => `<@&${r}>`).join("\n") : "*(none)*", inline: true },

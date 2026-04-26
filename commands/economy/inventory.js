@@ -22,7 +22,7 @@ module.exports = {
     const lines = inv.items.map(i => `${eco.item} **${i.name}** x${i.quantity}`);
 
     return message.reply({ embeds: [new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.inventory} ${target.username}'s Inventory`)
       .setDescription(lines.join("\n"))
       .setTimestamp()] });

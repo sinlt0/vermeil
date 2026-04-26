@@ -25,7 +25,7 @@ module.exports = {
     const emoji = result === "Heads" ? e.heads : e.tails;
 
     const embed = new EmbedBuilder()
-      .setColor(0xFEE75C)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.coin} Coin Flip`)
       .setDescription(`${emoji} The coin landed on **${result}**!`)
       .setFooter({

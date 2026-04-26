@@ -62,7 +62,7 @@ module.exports = {
     if (!options.confirm) {
       return reply(ctx, {
         embeds: [new EmbedBuilder()
-          .setColor(0xFEE75C)
+          .setColor(0x4A3F5F)
           .setTitle(`${e.warning} Confirmation Required`)
           .setDescription("Run this command with confirmation enabled to leave the matching guilds.")
           .addFields({ name: `${e.filter} Matching Guilds`, value: matches.length ? `\`${matches.length}\`` : "`0`", inline: true })],
@@ -133,7 +133,7 @@ function buildPreview(matches) {
 
 function buildResultEmbed(author, options, matches, preview, executed, left) {
   return new EmbedBuilder()
-    .setColor(executed ? 0xED4245 : 0x5865F2)
+    .setColor(0x4A3F5F)
     .setTitle(executed ? `${e.purge} Guild Purge Complete` : `${e.filter} Guild Purge Preview`)
     .setDescription(preview)
     .addFields(
@@ -152,7 +152,7 @@ function buildResultEmbed(author, options, matches, preview, executed, left) {
 
 function usageEmbed() {
   return new EmbedBuilder()
-    .setColor(0xED4245)
+    .setColor(0x4A3F5F)
     .setTitle(`${e.error} Guild Purge Usage`)
     .setDescription("`guildpurge preview <less|more> <members> [--name text] [--no-icon]`\n`guildpurge run <less|more> <members> [--name text] [--no-icon] --confirm`");
 }

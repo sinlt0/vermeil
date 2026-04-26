@@ -87,7 +87,7 @@ module.exports = {
       }
 
       return new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${isWeekly ? "📅 Weekly" : "🏆 All-Time"} Leaderboard — ${guild.name}`)
         .setThumbnail(guild.iconURL({ dynamic: true }))
         .setDescription(lines.join("\n") || "No entries.")

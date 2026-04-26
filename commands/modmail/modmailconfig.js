@@ -140,7 +140,7 @@ module.exports = {
     if (sub === "view") {
       const config = await ModmailConfigModel.findOne({ guildId: guild.id });
       const embed  = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle("📬 Modmail Configuration")
         .addFields(
           { name: "Status",           value: config?.enabled ? "✅ Enabled" : "❌ Disabled",                              inline: true  },

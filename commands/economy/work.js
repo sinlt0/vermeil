@@ -21,7 +21,7 @@ module.exports = {
     const jobDoc = await Job.findOne({ userId: message.author.id });
 
     if (!jobDoc?.jobId) {
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.error} You don't have a job! Use \`!jobs\` to browse available jobs and \`!job <name>\` to apply.`)] });
     }
 
@@ -31,7 +31,7 @@ module.exports = {
 
     if (!isCooldownReady(jobDoc.updatedAt, job.cooldownMs)) {
       const remaining = getRemainingCooldown(jobDoc.updatedAt, job.cooldownMs);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.cooldown} You're tired! Rest for **${formatCooldown(remaining)}** before working again.`)] });
     }
 
@@ -57,7 +57,7 @@ module.exports = {
       .replace("{amount}", formatNum(pay));
 
     const embed = new EmbedBuilder()
-      .setColor(0x57F287)
+      .setColor(0x4A3F5F)
       .setTitle(`${job.emoji} Work Complete!`)
       .setDescription(`${response}\n\n${eco.coin} **+${formatNum(pay)} coins**`)
       .setFooter({ text: `${job.name} Lv.${jobDoc.jobLevel} • Works: ${jobDoc.worksTotal + 1}` })

@@ -30,19 +30,19 @@ module.exports = {
 
     if (!isCooldownReady(robberProfile.cooldowns?.rob, cfg.cooldownMs)) {
       const rem = getRemainingCooldown(robberProfile.cooldowns?.rob, cfg.cooldownMs);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245).setDescription(`${eco.cooldown} Rob cooldown! Wait **${formatCooldown(rem)}**.`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.cooldown} Rob cooldown! Wait **${formatCooldown(rem)}**.`)] });
     }
 
     // Check protection
     if (victimProfile.robProtection) {
       await setCooldown(client, message.author.id, "rob");
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.protect} **${target.username}** is protected from robbery! Your attempt was logged.`)] });
     }
 
     // Check min wallet
     if (victimProfile.wallet < cfg.minWalletToRob) {
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.error} **${target.username}** doesn't have enough coins in their wallet. (Min: ${formatNum(cfg.minWalletToRob)})`)] });
     }
 
@@ -63,7 +63,7 @@ module.exports = {
       await trackWeeklyStat(client, message.author.id, "robsSuccess", 1);
       await updateQuestProgress(client, message.author.id, "rob", 1);
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setTitle(`${eco.rob} Robbery Successful!`)
         .setDescription(`You stole ${eco.coin} **${formatNum(stolen)} coins** from **${target.username}**!`)
         .setTimestamp()] });
@@ -75,7 +75,7 @@ module.exports = {
         await addCoins(client, target.id, actualFine, "rob_fine_received");
       }
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setTitle(`${eco.caught} Caught!`)
         .setDescription(`You were caught trying to rob **${target.username}**!\nFined ${eco.coin} **${formatNum(actualFine)} coins** which was given to the victim.`)
         .setTimestamp()] });

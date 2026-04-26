@@ -41,7 +41,7 @@ module.exports = {
     await guild.leave();
 
     const embed = new EmbedBuilder()
-      .setColor(0xED4245)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.leave} Left Guild`)
       .setDescription(`I have left **${name}**.`)
       .addFields(
@@ -57,5 +57,5 @@ module.exports = {
 };
 
 function errorEmbed(message) {
-  return new EmbedBuilder().setColor(0xED4245).setTitle(`${e.error} Guild Leave Error`).setDescription(message);
+  return new EmbedBuilder().setColor(0x4A3F5F).setTitle(`${e.error} Guild Leave Error`).setDescription(message);
 }

@@ -42,7 +42,7 @@ module.exports = {
       );
 
       return message.reply({ embeds: [new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.backup} Backups — ${guild.name}`)
         .setDescription(lines.join("\n\n"))
         .setFooter({ text: `${backups.length}/10 backups stored` })
@@ -56,7 +56,7 @@ module.exports = {
 
       // Confirm prompt
       const confirmEmbed = new EmbedBuilder()
-        .setColor(0xFEE75C)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.warning} Confirm Restore`)
         .setDescription(
           `Are you sure you want to restore backup \`${backupId}\`?\n\n` +
@@ -75,30 +75,30 @@ module.exports = {
       const interaction = await msg.awaitMessageComponent({ filter, time: 30_000 }).catch(() => null);
 
       if (!interaction || interaction.customId === "backup_cancel") {
-        return msg.edit({ embeds: [new EmbedBuilder().setColor(0x99AAB5).setDescription(`${e.error} Restore cancelled.`)], components: [] });
+        return msg.edit({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${e.error} Restore cancelled.`)], components: [] });
       }
 
       await interaction.deferUpdate();
 
-      const loadingEmbed = new EmbedBuilder().setColor(0x5865F2).setDescription(`${e.loading} Restoring backup...`);
+      const loadingEmbed = new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${e.loading} Restoring backup...`);
       await msg.edit({ embeds: [loadingEmbed], components: [] });
 
       const result = await restoreBackup(client, guild, backupId, message.author.id);
-      if (!result.success) return msg.edit({ embeds: [new EmbedBuilder().setColor(0xED4245).setDescription(`${e.error} ${result.reason}`)] });
+      if (!result.success) return msg.edit({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${e.error} ${result.reason}`)] });
 
-      return msg.edit({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return msg.edit({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setTitle(`${e.restore} Backup Restored!`)
         .setDescription(`Restored **${result.restoredChannels}** channel permissions and **${result.restoredRoles}** role permissions.`)
         .setTimestamp()] });
     }
 
     // ── TAKE BACKUP ───────────────────────────────────────
-    const msg = await message.reply({ embeds: [new EmbedBuilder().setColor(0x5865F2).setDescription(`${e.loading} Taking backup...`)] });
+    const msg = await message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${e.loading} Taking backup...`)] });
 
     const backup = await takeBackup(client, guild, "Manual Backup", message.author.id);
-    if (!backup) return msg.edit({ embeds: [new EmbedBuilder().setColor(0xED4245).setDescription(`${e.error} Failed to take backup.`)] });
+    if (!backup) return msg.edit({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${e.error} Failed to take backup.`)] });
 
-    return msg.edit({ embeds: [new EmbedBuilder().setColor(0x57F287)
+    return msg.edit({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
       .setTitle(`${e.backup} Backup Taken!`)
       .addFields(
         { name: "Label",    value: backup.label,                     inline: true },

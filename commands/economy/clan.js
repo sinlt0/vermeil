@@ -33,7 +33,7 @@ module.exports = {
 
       const member = clan.members.find(m => m.userId === message.author.id);
       const embed  = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${eco.clan} [${clan.tag}] ${clan.name}`)
         .setDescription(clan.description || "No description set.")
         .addFields(
@@ -69,7 +69,7 @@ module.exports = {
       });
       await UserProfile.findOneAndUpdate({ userId: message.author.id }, { $set: { clanId } });
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.success} Clan **[${tag}] ${name}** created! Use \`!clan info\` to view it.`)] });
     }
 
@@ -83,7 +83,7 @@ module.exports = {
 
       await Clan.findOneAndUpdate({ clanId: clan.clanId }, { $push: { members: { userId: message.author.id, role: "member" } } });
       await UserProfile.findOneAndUpdate({ userId: message.author.id }, { $set: { clanId: clan.clanId } });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287).setDescription(`${eco.success} Joined **[${clan.tag}] ${clan.name}**!`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.success} Joined **[${clan.tag}] ${clan.name}**!`)] });
     }
 
     // ── Leave ─────────────────────────────────────────
@@ -94,7 +94,7 @@ module.exports = {
 
       await Clan.findOneAndUpdate({ clanId: profile.clanId }, { $pull: { members: { userId: message.author.id } } });
       await UserProfile.findOneAndUpdate({ userId: message.author.id }, { $set: { clanId: null } });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287).setDescription(`${eco.success} Left **${clan.name}**.`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.success} Left **${clan.name}**.`)] });
     }
 
     // ── Contribute ────────────────────────────────────
@@ -119,7 +119,7 @@ module.exports = {
         await Clan.findOneAndUpdate({ clanId: profile.clanId }, { $inc: { level: 1 }, $set: { xp: 0 } });
       }
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.success} Contributed ${eco.coin} **${formatNum(amount)}** to **${clan.name}**'s bank!`)] });
     }
 

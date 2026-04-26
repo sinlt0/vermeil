@@ -73,7 +73,7 @@ module.exports = {
       );
 
       const embed = new EmbedBuilder()
-        .setColor(0x57F287)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.settings} VoiceMaster Initialized`)
         .setDescription(`Setup successful! Users can join ${channel} to create rooms.`)
         .addFields(

@@ -29,7 +29,7 @@ module.exports = {
 
     if (!isCooldownReady(profile.cooldowns?.coinflip, cfg.cooldownMs)) {
       const rem = getRemainingCooldown(profile.cooldowns?.coinflip, cfg.cooldownMs);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245).setDescription(`${eco.cooldown} Wait **${formatCooldown(rem)}**.`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.cooldown} Wait **${formatCooldown(rem)}**.`)] });
     }
 
     const normalChoice = choice === "h" ? "heads" : choice === "t" ? "tails" : choice;
@@ -43,12 +43,12 @@ module.exports = {
       await addCoins(client, message.author.id, bet, "coinflip_win"); // net +bet
       await UserProfile.findOneAndUpdate({ userId: message.author.id }, { $inc: { "stats.gamblesWon": 1 } });
       await trackWeeklyStat(client, message.author.id, "gamblesWon", 1);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.coinflip} **${result.result.toUpperCase()}!** You won ${eco.coin} **${formatNum(bet)}** coins!`)] });
     } else {
       await removeCoins(client, message.author.id, bet, "coinflip_loss");
       await UserProfile.findOneAndUpdate({ userId: message.author.id }, { $inc: { "stats.gamblesLost": 1 } });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.coinflip} **${result.result.toUpperCase()}!** You lost ${eco.coin} **${formatNum(bet)}** coins.`)] });
     }
   },

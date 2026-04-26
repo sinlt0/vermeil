@@ -52,7 +52,7 @@ module.exports = {
 
     // Echo in thread
     const threadEmbed = new EmbedBuilder()
-      .setColor(COLORS.staff)
+      .setColor(0x4A3F5F)
       .setAuthor({ name: staff.user.tag, iconURL: staff.user.displayAvatarURL({ dynamic: true }) })
       .setDescription(message)
       .setFooter({ text: `Staff Reply • ${staff.user.id}` })

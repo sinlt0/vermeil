@@ -71,7 +71,7 @@ module.exports = {
     try {
       const { url, provider } = await fetchSocial(action);
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setDescription(description)
         .setImage(url)
         .setFooter({ text: `Source: ${provider}` });

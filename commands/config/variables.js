@@ -28,7 +28,7 @@ module.exports = {
       : ctx.interaction.user;
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setAuthor({
         name:    "Welcome & Leave Variables",
         iconURL: client.user.displayAvatarURL({ dynamic: true }),

@@ -28,7 +28,7 @@ module.exports = {
     await UserProfile.findOneAndUpdate({ userId: profile.marriedTo },   { $set: { marriedTo: null, marriedAt: null } });
     await Marriage.findOneAndDelete({ $or: [{ user1: message.author.id }, { user2: message.author.id }] });
 
-    return message.reply({ embeds: [new EmbedBuilder().setColor(0x99AAB5)
+    return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
       .setDescription(`${eco.bust} You got divorced. 💔 Cost: ${eco.coin} ${formatNum(marriageConf.divorceCost)} coins.`)] });
   },
 };

@@ -20,7 +20,7 @@ module.exports = {
     if (!await canManage(client, guild, message.author.id)) return;
 
     const setupEmbed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.loading} Setting up Antinuke...`)
       .setDescription("Please wait while I set things up...");
 
@@ -126,7 +126,7 @@ module.exports = {
 
     // ── Done ──────────────────────────────────────────────
     const doneEmbed = new EmbedBuilder()
-      .setColor(0x57F287)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.shield} Antinuke Setup Complete!`)
       .setDescription(steps.join("\n"))
       .addFields(

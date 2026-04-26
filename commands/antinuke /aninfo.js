@@ -35,7 +35,7 @@ module.exports = {
       const qEntry    = await QuarantineEntry(guildDb.connection).findOne({ guildId: guild.id, userId: targetUser.id }).lean();
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setAuthor({ name: targetUser.tag, iconURL: targetUser.displayAvatarURL({ dynamic: true }) })
         .setTitle(`${e.info} User Info — Antinuke`)
         .addFields(
@@ -61,7 +61,7 @@ module.exports = {
 
     // ── SERVER overview ───────────────────────────────────
     if (!config) {
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.error} Antinuke has not been set up yet. Run \`!setup\` to get started.`)] });
     }
 
@@ -92,7 +92,7 @@ module.exports = {
     ).join("\n") || "No recent actions";
 
     const embed = new EmbedBuilder()
-      .setColor(config.enabled ? 0x57F287 : 0xED4245)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.shield} Antinuke Overview — ${guild.name}`)
       .addFields(
         { name: `${config.enabled ? e.on : e.off} Status`,

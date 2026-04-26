@@ -19,7 +19,7 @@ module.exports = {
     player.setVolume(vol);
     const volEmoji = vol === 0 ? emoji.volumeMute : vol < 50 ? emoji.volumeDown : emoji.volumeUp;
     const bar = "█".repeat(Math.floor(vol/10)) + "░".repeat(20-Math.floor(vol/10));
-    const embed = new EmbedBuilder().setColor(0x5865F2)
+    const embed = new EmbedBuilder().setColor(0x4A3F5F)
       .setDescription(`${volEmoji} Volume set to **${vol}%**\n\`${bar}\``).setTimestamp();
     return reply(ctx, { embeds:[embed] });
   },

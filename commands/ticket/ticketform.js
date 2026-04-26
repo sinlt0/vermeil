@@ -123,7 +123,7 @@ module.exports = {
       }
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`📋 Form Questions — ${category.name}`)
         .setDescription(category.questions.map((q, i) =>
           `**${i + 1}.** ${q.label}\n┣ Style: ${q.style} | Required: ${q.required ? "Yes" : "No"}\n┗ Placeholder: ${q.placeholder ?? "*(none)*"}`

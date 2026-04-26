@@ -204,7 +204,7 @@ module.exports = {
           const user = await client.users.fetch(winnerId).catch(() => null);
           if (!user) continue;
           const dmEmbed = new EmbedBuilder()
-            .setColor(0x57F287)
+            .setColor(0x4A3F5F)
             .setTitle("🎉 You Won a Giveaway Reroll!")
             .setDescription(`You won **${giveaway.prize}** in **${guild.name}**!`)
             .setTimestamp();
@@ -258,7 +258,7 @@ module.exports = {
       }
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle("🎉 Active Giveaways")
         .setDescription(active.map(g =>
           `**${g.prize}**\n` +

@@ -55,7 +55,7 @@ module.exports = {
       });
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`📋 Log Settings — ${guild.name}`)
         .setDescription(lines.join("\n"))
         .addFields({
@@ -73,7 +73,7 @@ module.exports = {
     // ── SETUP ─────────────────────────────────────────────
     if (sub === "setup") {
       const msg = await message.reply({ embeds: [new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setDescription("⏳ Creating log category and channels...")] });
 
       const steps = [];
@@ -131,7 +131,7 @@ module.exports = {
       if (chunk) fields.push({ name: "\u200b", value: chunk });
 
       return msg.edit({ embeds: [new EmbedBuilder()
-        .setColor(0x57F287)
+        .setColor(0x4A3F5F)
         .setTitle("✅ Log System Setup Complete!")
         .addFields(...fields)
         .setTimestamp()] });
@@ -142,7 +142,7 @@ module.exports = {
       if (!channel) return message.reply("❌ Mention a channel. Usage: `!log aio set #channel`");
 
       const msg = await message.reply({ embeds: [new EmbedBuilder()
-        .setColor(0x5865F2).setDescription(`⏳ Setting all log categories to ${channel}...`)] });
+        .setColor(0x4A3F5F).setDescription(`⏳ Setting all log categories to ${channel}...`)] });
 
       let success = 0, failed = 0;
       for (const cat of ALL_CATEGORIES) {
@@ -152,7 +152,7 @@ module.exports = {
       }
 
       return msg.edit({ embeds: [new EmbedBuilder()
-        .setColor(0x57F287)
+        .setColor(0x4A3F5F)
         .setDescription(
           `✅ Set **${success}** categories to ${channel}.\n` +
           (failed ? `❌ **${failed}** failed (check bot permissions).` : "")
@@ -170,7 +170,7 @@ module.exports = {
       const cats = cat ? [cat] : ALL_CATEGORIES;
       for (const c of cats) await toggleCategory(client, guild.id, c, true);
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`🟢 **${cat ? CATEGORY_META[cat].label : "All categories"}** enabled.`)] });
     }
 
@@ -184,7 +184,7 @@ module.exports = {
       const cats = cat ? [cat] : ALL_CATEGORIES;
       for (const c of cats) await toggleCategory(client, guild.id, c, false);
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`🔴 **${cat ? CATEGORY_META[cat].label : "All categories"}** disabled.`)] });
     }
 
@@ -196,7 +196,7 @@ module.exports = {
       if (!result.success) return message.reply(`❌ ${result.reason}`);
 
       const meta = CATEGORY_META[sub];
-      return message.reply({ embeds: [new EmbedBuilder().setColor(meta.color)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(
           `✅ **${meta.emoji} ${meta.label}** will be sent to ${channel}.\n` +
           (result.hasWebhook ? "🪝 Webhook created." : "⚠️ Could not create webhook — sending directly.")

@@ -25,14 +25,14 @@ module.exports = {
 
     if (!isCooldownReady(profile.cooldowns?.hunt, huntConfig.cooldownMs)) {
       const rem = getRemainingCooldown(profile.cooldowns?.hunt, huntConfig.cooldownMs);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.cooldown} You need to rest! Hunt again in **${formatCooldown(rem)}**.`)] });
     }
 
     // Check zoo capacity
     const zooCount = await Creature.countDocuments({ userId: message.author.id });
     if (zooCount >= huntConfig.zooCapacity) {
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.error} Your zoo is full! (${zooCount}/${huntConfig.zooCapacity})\nUse \`!release\` or \`!sacrifice\` to make room.`)] });
     }
 
@@ -68,7 +68,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setColor(rarityColor(creature.rarity))
+      .setColor(0x4A3F5F))
       .setTitle(`${eco.hunt} Hunt Result!`)
       .setDescription(
         `${rarityEmoji(creature.rarity)} You caught a **${creature.rarity.toUpperCase()}** ${creature.emoji} **${creature.name}**!\n\n` +

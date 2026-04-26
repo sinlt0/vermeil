@@ -32,7 +32,7 @@ module.exports = {
     const logs = await LogModel.find(query).sort({ createdAt: -1 }).limit(100).lean();
 
     if (!logs.length) {
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x99AAB5)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.info} No antinuke logs found${targetUser ? ` for **${targetUser.tag}**` : ""}.`)] });
     }
 
@@ -49,7 +49,7 @@ module.exports = {
       });
 
       return new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.log} Antinuke Logs${targetUser ? ` — ${targetUser.tag}` : ""}`)
         .setDescription(lines.join("\n\n"))
         .setFooter({ text: `Page ${pg + 1}/${totalPages} • ${logs.length} total logs` })

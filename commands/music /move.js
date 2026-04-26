@@ -23,7 +23,7 @@ module.exports = {
     if (!to  ||to  <1||to  >q.length) return reply(ctx, { embeds:[embeds.error(`Invalid target. Queue has ${q.length} tracks.`)] });
     const track = q.splice(from-1,1)[0];
     q.splice(to-1,0,track);
-    const embed = new EmbedBuilder().setColor(0x5865F2).setDescription(`${emoji.queue} Moved **${track.info.title}** from position \`${from}\` to \`${to}\`.`).setTimestamp();
+    const embed = new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${emoji.queue} Moved **${track.info.title}** from position \`${from}\` to \`${to}\`.`).setTimestamp();
     return reply(ctx, { embeds:[embed] });
   },
 };

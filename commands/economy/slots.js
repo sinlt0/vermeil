@@ -26,7 +26,7 @@ module.exports = {
 
     if (!isCooldownReady(profile.cooldowns?.slots, cfg.cooldownMs)) {
       const rem = getRemainingCooldown(profile.cooldowns?.slots, cfg.cooldownMs);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245).setDescription(`${eco.cooldown} Wait **${formatCooldown(rem)}**.`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.cooldown} Wait **${formatCooldown(rem)}**.`)] });
     }
 
     await removeCoins(client, message.author.id, bet, "slots_bet");
@@ -49,7 +49,7 @@ module.exports = {
     const color = result.won ? 0x57F287 : 0xED4245;
 
     const embed = new EmbedBuilder()
-      .setColor(color)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.slots} Slot Machine`)
       .setDescription(
         `**[ ${reels.join(" | ")} ]**\n\n` +

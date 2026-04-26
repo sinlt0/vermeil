@@ -108,7 +108,7 @@ module.exports = {
         : "*(none set)*";
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle("⚙️ Autorole Configuration")
         .addFields(
           { name: `👤 Human Autoroles [${humanRoles.length}/${MAX_ROLES}]`, value: humanList, inline: false },

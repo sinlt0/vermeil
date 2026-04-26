@@ -22,7 +22,7 @@ module.exports = {
 
     if (!isCooldownReady(profile.cooldowns?.daily, cfg.cooldownMs)) {
       const remaining = getRemainingCooldown(profile.cooldowns?.daily, cfg.cooldownMs);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.cooldown} Your daily is on cooldown! Come back in **${formatCooldown(remaining)}**.`)] });
     }
 
@@ -49,7 +49,7 @@ module.exports = {
     await UserProfile.findOneAndUpdate({ userId: message.author.id }, { $inc: { "stats.dailyClaimed": 1 } });
 
     const embed = new EmbedBuilder()
-      .setColor(0x57F287)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.daily} Daily Reward!`)
       .setDescription(`${eco.coin} You received **${formatNum(reward)} coins**!${bonusMsg}`)
       .setFooter({ text: `Come back tomorrow for your next daily!` })

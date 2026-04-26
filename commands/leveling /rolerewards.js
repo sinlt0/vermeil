@@ -67,7 +67,7 @@ module.exports = {
       if (rewards.length === 0) return reply(ctx, { embeds: [embeds.info("No role rewards configured.")] });
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle("🎖️ Role Rewards")
         .setDescription(rewards.map(r => `Level **${r.level}** → <@&${r.roleId}>`).join("\n"))
         .setTimestamp();

@@ -33,13 +33,13 @@ module.exports = {
       if (!target) return message.reply("❌ Provide a user mention or ID.");
 
       if (target.id === client.config.ownerID) {
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0xFEE75C)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription("⚠️ You are already the bot owner.")] });
       }
 
       const list = readJson(DATA_FILE);
       if (list.includes(target.id)) {
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0xFEE75C)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`⚠️ \`${target.id}\` is already a developer.`)] });
       }
 
@@ -48,7 +48,7 @@ module.exports = {
       client.config.devIDs = list; // keep in-memory in sync
 
       const name = target.username ?? target.id;
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`✅ Added **${name}** (\`${target.id}\`) as a developer.`)] });
     }
 
@@ -59,7 +59,7 @@ module.exports = {
       const list = readJson(DATA_FILE);
       const idx  = list.indexOf(target.id);
       if (idx === -1) {
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`❌ \`${target.id}\` is not a developer.`)] });
       }
 
@@ -68,7 +68,7 @@ module.exports = {
       client.config.devIDs = list;
 
       const name = target.username ?? target.id;
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`✅ Removed **${name}** (\`${target.id}\`) from the dev list.`)] });
     }
 
@@ -77,7 +77,7 @@ module.exports = {
       const list = readJson(DATA_FILE);
 
       if (!list.length) {
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x5865F2)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setTitle("👨‍💻 Developer List")
           .setDescription("No developers added yet.")] });
       }
@@ -93,7 +93,7 @@ module.exports = {
           return `\`${pg * PER_PAGE + i + 1}.\` **${name}** — \`${id}\``;
         }));
         return new EmbedBuilder()
-          .setColor(0x5865F2)
+          .setColor(0x4A3F5F)
           .setTitle("👨‍💻 Developer List")
           .setDescription(lines.join("\n") || "Empty page.")
           .setFooter({ text: `Page ${pg + 1}/${totalPages} • ${list.length} total` });

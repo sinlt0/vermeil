@@ -58,7 +58,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setAuthor({ name: targetUser.tag, iconURL: targetUser.displayAvatarURL({ dynamic: true }) })
       .setTitle(`📬 Modmail History — ${targetUser.tag}`)
       .setDescription(threads.map(t =>

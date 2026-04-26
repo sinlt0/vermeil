@@ -33,14 +33,14 @@ module.exports = {
         await AntiNukeConfig(guildDb.connection).findOneAndUpdate(
           { guildId: guild.id }, { $addToSet: { panicPingRoles: role.id } }
         );
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.success} **${role.name}** will be pinged when panic mode triggers.`)] });
       }
       if (flag === "?remove") {
         await AntiNukeConfig(guildDb.connection).findOneAndUpdate(
           { guildId: guild.id }, { $pull: { panicPingRoles: role.id } }
         );
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.success} Removed **${role.name}** from panic ping roles.`)] });
       }
     }
@@ -54,14 +54,14 @@ module.exports = {
         await AntiNukeConfig(guildDb.connection).findOneAndUpdate(
           { guildId: guild.id }, { $addToSet: { whitelistedCategories: catId } }
         );
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.success} Category \`${catId}\` whitelisted from antinuke (e.g. for ticket bots).`)] });
       }
       if (flag === "?remove") {
         await AntiNukeConfig(guildDb.connection).findOneAndUpdate(
           { guildId: guild.id }, { $pull: { whitelistedCategories: catId } }
         );
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.success} Removed category \`${catId}\` from whitelist.`)] });
       }
     }

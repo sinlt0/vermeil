@@ -23,7 +23,7 @@ module.exports = {
       const data = res.data;
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.dog} Woof!`)
         .setImage(data.message)
         .setFooter({ text: "Powered by dog.ceo" });

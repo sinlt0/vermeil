@@ -28,7 +28,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.sparkles} Welcome to the Economy!`)
       .setDescription(
         `Hello **${user.username}**! Welcome to the most advanced economy system.\n\n` +
@@ -67,7 +67,7 @@ module.exports = {
     const interaction = await msg.awaitMessageComponent({ filter, time: 60_000 }).catch(() => null);
 
     if (!interaction || interaction.customId === `eco_start_decline_${user.id}`) {
-      await msg.edit({ embeds: [new EmbedBuilder().setColor(0x99AAB5).setDescription(`${eco.error} Registration cancelled.`)], components: [] });
+      await msg.edit({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.error} Registration cancelled.`)], components: [] });
       return;
     }
 
@@ -82,7 +82,7 @@ module.exports = {
     await profile.save();
 
     const successEmbed = new EmbedBuilder()
-      .setColor(0x57F287)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.success} Welcome aboard, ${user.username}!`)
       .setDescription(
         `Your economy profile has been created!\n\n` +

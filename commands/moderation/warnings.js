@@ -73,7 +73,7 @@ module.exports = {
     const buildEmbed = (p) => {
       const slice = warns.slice(p * PAGE_SIZE, (p + 1) * PAGE_SIZE);
       const embed = new EmbedBuilder()
-        .setColor(0xFEE75C)
+        .setColor(0x4A3F5F)
         .setTitle(`⚠️ Warnings — ${targetUser.tag}`)
         .setThumbnail(targetUser.displayAvatarURL({ dynamic: true }))
         .setDescription(`**Total Warnings:** \`${warns.length}\`\n\u200b`)

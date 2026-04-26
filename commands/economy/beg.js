@@ -21,14 +21,14 @@ module.exports = {
 
     if (!isCooldownReady(profile.cooldowns?.beg, cfg.cooldownMs)) {
       const rem = getRemainingCooldown(profile.cooldowns?.beg, cfg.cooldownMs);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245).setDescription(`${eco.cooldown} Wait **${formatCooldown(rem)}** before begging again.`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.cooldown} Wait **${formatCooldown(rem)}** before begging again.`)] });
     }
 
     await setCooldown(client, message.author.id, "beg");
     await updateQuestProgress(client, message.author.id, "beg", 1);
 
     if (Math.random() < cfg.failChance) {
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x99AAB5).setDescription(`${eco.beg} You begged but nobody gave you anything... 😢`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.beg} You begged but nobody gave you anything... 😢`)] });
     }
 
     const reward = Math.floor(Math.random() * (cfg.maxCoins - cfg.minCoins + 1)) + cfg.minCoins;
@@ -40,7 +40,7 @@ module.exports = {
       `You begged outside a restaurant and received ${eco.coin} **${formatNum(reward)} coins**!`,
     ];
 
-    return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+    return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
       .setDescription(responses[Math.floor(Math.random() * responses.length)])] });
   },
 };

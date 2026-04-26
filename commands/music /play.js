@@ -74,7 +74,7 @@ module.exports = {
 
       const totalDuration = tracks.reduce((a, t) => a + (t.info.length || 0), 0);
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${emoji.playlist} Playlist Added`)
         .setDescription(`**${playlistInfo.name}**`)
         .addFields(
@@ -100,7 +100,7 @@ module.exports = {
       if (!wasEmpty) {
         // Already playing — show "Added to Queue"
         const embed = new EmbedBuilder()
-          .setColor(0x5865F2)
+          .setColor(0x4A3F5F)
           .setTitle(`${emoji.music} Added to Queue`)
           .setDescription(`**[${track.info.title}](${track.info.uri})**`)
           .addFields(

@@ -30,7 +30,7 @@ module.exports = {
       }
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.joke} Random Joke`)
         .setDescription(jokeText)
         .setFooter({ text: `Category: ${data.category}` });

@@ -23,7 +23,7 @@ module.exports = {
 
     if (!isCooldownReady(profile.cooldowns?.crime, cfg.cooldownMs)) {
       const rem = getRemainingCooldown(profile.cooldowns?.crime, cfg.cooldownMs);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245).setDescription(`${eco.cooldown} Crime cooldown! Wait **${formatCooldown(rem)}**.`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.cooldown} Crime cooldown! Wait **${formatCooldown(rem)}**.`)] });
     }
 
     await setCooldown(client, message.author.id, "crime");
@@ -43,7 +43,7 @@ module.exports = {
       await trackWeeklyStat(client, message.author.id, "coinsEarned", reward);
       await updateQuestProgress(client, message.author.id, "crime", 1);
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setTitle(`${eco.crime} Crime Successful!`)
         .setDescription(`${crimeAction.action} and got away with ${eco.coin} **${formatNum(reward)} coins**!`)
         .setTimestamp()] });
@@ -55,7 +55,7 @@ module.exports = {
       const failMsg = cfg.failMessages[Math.floor(Math.random() * cfg.failMessages.length)]
         .replace("{fine}", formatNum(actualFine));
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setTitle(`${eco.caught} Caught!`)
         .setDescription(failMsg)
         .setTimestamp()] });

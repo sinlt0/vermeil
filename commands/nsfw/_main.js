@@ -77,7 +77,7 @@ module.exports = {
     try {
       const { url, provider } = await fetchNsfw(targetType);
       const embed = new EmbedBuilder()
-        .setColor(0xED4245)
+        .setColor(0x4A3F5F)
         .setAuthor({ name: `Vermeil NSFW`, iconURL: client.user.displayAvatarURL() })
         .setTitle(`${config.emoji} Random ${action.toUpperCase()}`)
         .setImage(url)

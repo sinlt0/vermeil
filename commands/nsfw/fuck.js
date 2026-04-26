@@ -19,7 +19,7 @@ module.exports = {
     try {
       const { url } = await fetchNsfw("fuck");
       const embed = new EmbedBuilder()
-        .setColor(0xED4245)
+        .setColor(0x4A3F5F)
         .setDescription(`**${ctx.message.author.username}** is fucking **${target.username}**! 👉`)
         .setImage(url);
       return reply(ctx, { embeds: [embed] });

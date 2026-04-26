@@ -82,7 +82,7 @@ module.exports = {
         .map(m => `<@${m.targetId}> → **${m.multiplier}x**`);
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle("⚡ XP Multipliers")
         .addFields(
           { name: "Role Multipliers", value: roleLines.join("\n") || "None", inline: false },

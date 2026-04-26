@@ -39,7 +39,7 @@ module.exports = {
       return reply(ctx, {
         embeds: [
           new EmbedBuilder()
-            .setColor(0xED4245)
+            .setColor(0x4A3F5F)
             .setTitle(`${e.warning} Not Enough Options`)
             .setDescription("Please provide at least two options separated by commas or `|`."),
         ],
@@ -48,7 +48,7 @@ module.exports = {
 
     const selected = options[Math.floor(Math.random() * options.length)];
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.choose} I Choose...`)
       .setDescription(`**${selected}**`)
       .addFields({

@@ -15,7 +15,7 @@ module.exports = {
     if (!player) return reply(ctx, { embeds:[embeds.error("Nothing is playing.")] });
     player.autoplay = !player.autoplay;
     if (typeof player.setAutoplay === "function") player.setAutoplay(player.autoplay);
-    const embed = new EmbedBuilder().setColor(0x5865F2)
+    const embed = new EmbedBuilder().setColor(0x4A3F5F)
       .setDescription(`${emoji.autoplay} Autoplay is now **${player.autoplay ? "enabled" : "disabled"}**.`).setTimestamp();
     return reply(ctx, { embeds:[embed] });
   },

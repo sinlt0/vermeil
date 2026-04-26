@@ -64,7 +64,7 @@ module.exports = {
 
       const guildDb = await client.db.getGuildDb(guildId);
       if (!guildDb || guildDb.isDown) {
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription("❌ Could not access database for that guild.")] });
       }
 
@@ -73,7 +73,7 @@ module.exports = {
 
       if (!record) {
         return message.reply({ embeds: [new EmbedBuilder()
-          .setColor(0x99AAB5)
+          .setColor(0x4A3F5F)
           .setTitle(`✨ Premium Status — ${guildName}`)
           .setDescription("This server does **not** have Premium.")
           .setTimestamp()] });
@@ -83,7 +83,7 @@ module.exports = {
         (record.lifetime || !record.expiresAt || new Date(record.expiresAt) > new Date());
 
       const embed = new EmbedBuilder()
-        .setColor(isActive ? 0xFFD700 : 0xED4245)
+        .setColor(0x4A3F5F)
         .setTitle(`✨ Premium Status — ${guildName}`)
         .addFields(
           { name: "Status",     value: isActive ? "✅ Active" : "❌ Expired",                         inline: true },
@@ -142,7 +142,7 @@ module.exports = {
       );
 
       const embed = new EmbedBuilder()
-        .setColor(0xFFD700)
+        .setColor(0x4A3F5F)
         .setTitle("✨ Premium Granted")
         .addFields(
           { name: "Guild",    value: `${guild.name} (\`${guildId}\`)`, inline: true },
@@ -156,7 +156,7 @@ module.exports = {
       if (owner) {
         await owner.user.send({
           embeds: [new EmbedBuilder()
-            .setColor(0xFFD700)
+            .setColor(0x4A3F5F)
             .setTitle("✨ Premium Activated!")
             .setDescription(
               `Your server **${guild.name}** has been granted **Premium**!\n\n` +
@@ -183,7 +183,7 @@ module.exports = {
       const PremiumModel = fromConnection(guildDb.connection);
       const record       = await PremiumModel.findOne({ guildId });
 
-      if (!record) return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      if (!record) return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`❌ Guild \`${guildId}\` does not have Premium.`)] });
 
       await PremiumModel.findOneAndUpdate({ guildId }, { $set: { active: false } });
@@ -194,7 +194,7 @@ module.exports = {
         if (owner) {
           await owner.user.send({
             embeds: [new EmbedBuilder()
-              .setColor(0xED4245)
+              .setColor(0x4A3F5F)
               .setTitle("❌ Premium Removed")
               .setDescription(`Premium has been **removed** from **${guild.name}**.\nContact the bot owner for more information.`)
               .setTimestamp()],
@@ -202,7 +202,7 @@ module.exports = {
         }
       }
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`✅ Premium removed from **${guild?.name ?? guildId}**.`)] });
     }
 
@@ -236,7 +236,7 @@ module.exports = {
       }
 
       if (!records.length) {
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x5865F2)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setTitle(`✨ Premium List — ${cap(filter)}`)
           .setDescription("No premium records found.")] });
       }
@@ -262,7 +262,7 @@ module.exports = {
         });
 
         return new EmbedBuilder()
-          .setColor(0xFFD700)
+          .setColor(0x4A3F5F)
           .setTitle(`✨ Premium List — ${cap(filter)}`)
           .setDescription(lines.join("\n\n") || "Empty page.")
           .setFooter({ text: `Page ${pg + 1}/${totalPages} • ${records.length} total` })

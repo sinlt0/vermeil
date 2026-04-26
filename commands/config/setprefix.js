@@ -112,7 +112,7 @@ module.exports = {
 
     // ── Success embed ──────────────────────────────────
     const successEmbed = new EmbedBuilder()
-      .setColor(0x57F287)
+      .setColor(0x4A3F5F)
       .setTitle("✅ Prefix Updated")
       .setDescription("The server prefix has been successfully changed.")
       .addFields(

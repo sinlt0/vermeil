@@ -36,7 +36,7 @@ module.exports = {
 
     await addItem(client, message.author.id, itemId, qty);
 
-    return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+    return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
       .setDescription(`${eco.buy} Purchased ${item.emoji} **${item.name}** x${qty}!\nUse \`!use ${itemId}\` to activate it.`)
       .setTimestamp()] });
   },

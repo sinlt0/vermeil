@@ -33,7 +33,7 @@ module.exports = {
     });
 
     return message.reply({ embeds: [new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.quest} Active Quests`)
       .setDescription(lines.join("\n\n"))
       .setTimestamp()] });

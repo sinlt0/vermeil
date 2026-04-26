@@ -20,7 +20,7 @@ module.exports = {
     const author = ctx.type === "prefix" ? ctx.message.author : ctx.interaction.user;
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.tod} Truth or Dare`)
       .setDescription("Choose your destiny! Will you tell the truth or take a dare?")
       .setFooter({ text: `Rating: ${rating.toUpperCase()} | Requested by ${author.tag}` });
@@ -56,7 +56,7 @@ module.exports = {
         const data = res.data;
 
         const resultEmbed = new EmbedBuilder()
-          .setColor(targetType === "truth" ? 0x5865F2 : 0xED4245)
+          .setColor(0x4A3F5F)
           .setTitle(`${targetType === "truth" ? e.truth : e.dare} ${targetType.toUpperCase()}`)
           .setDescription(data.question)
           .setFooter({ text: `Rating: ${r.toUpperCase()} | ID: ${data.id} | Play again!` });

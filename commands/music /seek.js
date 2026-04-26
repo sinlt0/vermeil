@@ -29,7 +29,7 @@ module.exports = {
     if (ms < 0 || ms > duration) return reply(ctx, { embeds:[embeds.error(`Invalid position. Track is ${formatDuration(duration)} long.`)] });
     player.seekTo(ms);
     player.trackStartTime = Date.now() - ms;
-    const embed = new EmbedBuilder().setColor(0x5865F2).setDescription(`${emoji.forward} Seeked to **${formatDuration(ms)}**.`).setTimestamp();
+    const embed = new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${emoji.forward} Seeked to **${formatDuration(ms)}**.`).setTimestamp();
     return reply(ctx, { embeds:[embed] });
   },
 };

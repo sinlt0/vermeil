@@ -33,7 +33,7 @@ module.exports = {
       return reply(ctx, {
         embeds: [
           new EmbedBuilder()
-            .setColor(0xED4245)
+            .setColor(0x4A3F5F)
             .setTitle(`${e.warning} Server Only`)
             .setDescription("This command can only be used inside a server."),
         ],
@@ -45,7 +45,7 @@ module.exports = {
       return reply(ctx, {
         embeds: [
           new EmbedBuilder()
-            .setColor(0xED4245)
+            .setColor(0x4A3F5F)
             .setTitle(`${e.warning} No Server Icon`)
             .setDescription("This server does not have an avatar/icon."),
         ],
@@ -53,7 +53,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.server} ${guild.name}'s Server Avatar`)
       .setImage(iconUrl)
       .setFooter({

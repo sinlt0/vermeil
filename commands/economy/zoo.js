@@ -34,7 +34,7 @@ module.exports = {
     );
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.zoo} ${target.username}'s Zoo`)
       .setDescription(lines.join("\n"))
       .setFooter({ text: `${total}/${huntConfig.zooCapacity} creatures • Page ${page}/${Math.ceil(total/perPage)}` })

@@ -89,7 +89,7 @@ module.exports = {
       const colorInt = parseInt(color.replace("#", ""), 16) || 0x5865F2;
 
       const panelEmbed = new EmbedBuilder()
-        .setColor(colorInt)
+        .setColor(0x4A3F5F)
         .setTitle(`🎫 ${title}`)
         .setDescription(description)
         .addFields({
@@ -137,7 +137,7 @@ module.exports = {
       if (panels.length === 0) return reply(ctx, { embeds: [embeds.info("No panels found. Use `ticketpanel send` to create one.")] });
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle("🎫 Ticket Panels")
         .setDescription(panels.map(p =>
           `**${p.title}**\n┣ Channel: <#${p.channelId}>\n┣ Message ID: \`${p.messageId}\`\n┗ Categories: ${p.categories.length}`

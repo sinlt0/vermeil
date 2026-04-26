@@ -30,7 +30,7 @@ module.exports = {
     });
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.job} Available Jobs`)
       .setDescription(lines.join("\n\n"))
       .setFooter({ text: "Use !job apply <id> to apply for a job" })

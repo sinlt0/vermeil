@@ -24,7 +24,7 @@ module.exports = {
     if (target.isTeam) return message.reply(`${eco.error} Remove this creature from your team first with \`!team remove ${target.teamSlot}\`.`);
 
     await Creature.deleteOne({ _id: target._id });
-    return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+    return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
       .setDescription(`${eco.release} Released ${target.emoji} **${target.name}** back into the wild.`)] });
   },
 };

@@ -18,7 +18,7 @@ module.exports = {
     const pos = ctx.type==="prefix" ? parseInt(ctx.args[0]) : ctx.interaction.options.getInteger("position");
     if (!pos||pos<1||pos>player.queue.length) return reply(ctx, { embeds:[embeds.error(`Invalid position. Queue has ${player.queue.length} tracks.`)] });
     const removed = player.queue.splice(pos-1,1)[0];
-    const embed = new EmbedBuilder().setColor(0x5865F2).setDescription(`${emoji.stop} Removed **${removed.info.title}** from position \`${pos}\`.`).setTimestamp();
+    const embed = new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${emoji.stop} Removed **${removed.info.title}** from position \`${pos}\`.`).setTimestamp();
     return reply(ctx, { embeds:[embed] });
   },
 };

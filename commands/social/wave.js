@@ -15,7 +15,7 @@ module.exports = {
     if (!target) return reply(ctx, { content: "Mention a user!" });
     try {
       const { url } = await fetchSocial("wave");
-      const embed = new EmbedBuilder().setColor(0x5865F2).setDescription(`**${ctx.message.author.username}** waved at **${target.username}**!`).setImage(url);
+      const embed = new EmbedBuilder().setColor(0x4A3F5F).setDescription(`**${ctx.message.author.username}** waved at **${target.username}**!`).setImage(url);
       return reply(ctx, { embeds: [embed] });
     } catch { return reply(ctx, { content: "Error fetching image." }); }
   }

@@ -17,7 +17,7 @@ module.exports = {
     if (!target) return reply(ctx, { content: "Mention a user!" });
     try {
       const { url } = await fetchNsfw("bj");
-      const embed = new EmbedBuilder().setColor(0xED4245).setDescription(`**${ctx.message.author.username}** is giving a blowjob to **${target.username}**!`).setImage(url);
+      const embed = new EmbedBuilder().setColor(0x4A3F5F).setDescription(`**${ctx.message.author.username}** is giving a blowjob to **${target.username}**!`).setImage(url);
       return reply(ctx, { embeds: [embed] });
     } catch { return reply(ctx, { content: "Error fetching image." }); }
   }

@@ -55,7 +55,7 @@ module.exports = {
     if (is247) {
       // 24/7 mode — stay in VC, just clear everything
       const embed = new EmbedBuilder()
-        .setColor(0xFEE75C)
+        .setColor(0x4A3F5F)
         .setDescription(`${emoji.stop} Queue cleared. Staying in voice channel — **24/7 mode is active**.\nUse \`/247\` to disable 24/7 mode.`)
         .setTimestamp();
       return reply(ctx, { embeds: [embed] });
@@ -64,7 +64,7 @@ module.exports = {
     // Normal mode — destroy player and leave
     player.destroy();
     const embed = new EmbedBuilder()
-      .setColor(0xED4245)
+      .setColor(0x4A3F5F)
       .setDescription(`${emoji.stop} Stopped playback and disconnected.`)
       .setTimestamp();
     return reply(ctx, { embeds: [embed] });

@@ -21,7 +21,7 @@ module.exports = {
     try {
       const { url, provider } = await fetchSocial("hug");
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setDescription(`**${author.username}** hugged **${target.username}**! ${e.hug}`)
         .setImage(url)
         .setFooter({ text: `Source: ${provider}` });

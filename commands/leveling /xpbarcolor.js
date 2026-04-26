@@ -70,7 +70,7 @@ module.exports = {
     return reply(ctx, {
       embeds: [
         embeds.success(`Your XP bar color is now set to **${hex}**.\nUse \`rank\` to see your updated card!`, "🎨 Color Set")
-          .setColor(colorInt),
+          .setColor(0x4A3F5F),
       ],
     });
   },

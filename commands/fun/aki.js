@@ -38,7 +38,7 @@ module.exports = {
 
 async function renderGame(ctx, game, question) {
   const embed = new EmbedBuilder()
-    .setColor(0x5865F2)
+    .setColor(0x4A3F5F)
     .setTitle(`${e.aki} Akinator`)
     .setDescription(`**Step ${game.step + 1}**\n\n${question}`)
     .setFooter({ text: `Progress: ${Math.round(game.progression)}%` });
@@ -78,7 +78,7 @@ function startCollector(msg, game, author, ctx) {
       }
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.aki} Akinator`)
         .setDescription(`**Step ${game.step + 1}**\n\n${game.question}`)
         .setFooter({ text: `Progress: ${Math.round(game.progression)}%` });

@@ -42,7 +42,7 @@ module.exports = {
           `┗ <t:${Math.floor(new Date(entry.quarantinedAt).getTime() / 1000)}:R>`
         );
         return new EmbedBuilder()
-          .setColor(0xED4245)
+          .setColor(0x4A3F5F)
           .setTitle(`${e.quarantine} Quarantine List — ${guild.name}`)
           .setDescription(lines.join("\n\n"))
           .setFooter({ text: `Page ${pg + 1}/${totalPages} • ${entries.length} quarantined` });
@@ -97,7 +97,7 @@ module.exports = {
       const result = await unquarantineMember(client, guild, member, message.author.id);
       if (!result.success) return message.reply(`${e.error} ${result.reason}`);
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.unquarantine} **${member.user.tag}** has been removed from quarantine.`)] });
     }
 
@@ -117,7 +117,7 @@ module.exports = {
 
     if (!result.success) return message.reply(`${e.error} ${result.reason}`);
 
-    return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+    return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
       .setDescription(`${e.quarantine} **${member.user.tag}** has been quarantined.\n**Reason:** ${reason}`)] });
   },
 };

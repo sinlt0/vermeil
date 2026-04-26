@@ -51,7 +51,7 @@ module.exports = {
 
     // Echo in thread (shows who sent anon reply to staff)
     const threadEmbed = new EmbedBuilder()
-      .setColor(COLORS.anon)
+      .setColor(0x4A3F5F)
       .setAuthor({ name: `${staff.user.tag} (Anonymous)`, iconURL: staff.user.displayAvatarURL({ dynamic: true }) })
       .setDescription(message)
       .setFooter({ text: "Anonymous Reply — user sees this as Support Team" })

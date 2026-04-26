@@ -64,7 +64,7 @@ module.exports = {
     const emoji = ACTION_EMOJIS[modCase.action] ?? "📋";
 
     const embed = new EmbedBuilder()
-      .setColor(color)
+      .setColor(0x4A3F5F)
       .setTitle(`${emoji} Case #${modCase.caseNumber} — ${capitalise(modCase.action)}`)
       .addFields(
         { name: "👤 Target",     value: `${modCase.targetTag}\n<@${modCase.targetId}>`,        inline: true  },

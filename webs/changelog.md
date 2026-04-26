@@ -15,6 +15,7 @@ All notable changes to the **Vermeil** project will be documented in this file.
 - **Privacy & TOS:** Added legal pages for compliance.
 
 ### Improved
+- **Visual Identity:** Standardized all bot embeds (Success, Error, Info, and custom commands) to a new signature deep purple color (`#4A3F5F`).
 - **Autoplay System:** Completely rebuilt the autoplay logic to reliably play related tracks when the queue ends.
 - **Website Design:** Modernized UI with glassmorphism and mobile responsiveness.
 - **Navigation:** Added mobile hamburger menu and sticky documentation sidebar.

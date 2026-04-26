@@ -24,7 +24,7 @@ module.exports = {
       if (!team.length) return message.reply(`${eco.error} Your team is empty! Use \`!team add <zoo position>\` to add creatures.`);
 
       const lines = team.map(c => `Slot ${c.teamSlot}: ${rarityEmoji(c.rarity)} ${c.emoji} **${c.name}** Lv.${c.level} | ❤️${c.hp} ⚔️${c.attack} 🛡️${c.defense}`);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x5865F2).setTitle(`${eco.team} Your Battle Team`).setDescription(lines.join("\n")).setTimestamp()] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setTitle(`${eco.team} Your Battle Team`).setDescription(lines.join("\n")).setTimestamp()] });
     }
 
     if (sub === "add") {
@@ -41,7 +41,7 @@ module.exports = {
 
       const slot = teamCount + 1;
       await Creature.findByIdAndUpdate(creature._id, { $set: { isTeam: true, teamSlot: slot } });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287).setDescription(`${eco.success} Added ${creature.emoji} **${creature.name}** to team slot ${slot}!`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.success} Added ${creature.emoji} **${creature.name}** to team slot ${slot}!`)] });
     }
 
     if (sub === "remove") {
@@ -52,7 +52,7 @@ module.exports = {
       if (!creature) return message.reply(`${eco.error} No creature in slot ${slot}.`);
 
       await Creature.findByIdAndUpdate(creature._id, { $set: { isTeam: false, teamSlot: null } });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287).setDescription(`${eco.success} Removed ${creature.emoji} **${creature.name}** from slot ${slot}.`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.success} Removed ${creature.emoji} **${creature.name}** from slot ${slot}.`)] });
     }
   },
 };

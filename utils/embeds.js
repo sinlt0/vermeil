@@ -5,11 +5,11 @@
 const { EmbedBuilder } = require("discord.js");
 
 const COLORS = {
-  success: 0x57F287,
-  error:   0xED4245,
-  warning: 0xFEE75C,
-  info:    0x5865F2,
-  db:      0xFF6B35,
+  success: 0x4A3F5F,
+  error:   0x4A3F5F,
+  warning: 0x4A3F5F,
+  info:    0x4A3F5F,
+  db:      0x4A3F5F,
 };
 
 module.exports = {

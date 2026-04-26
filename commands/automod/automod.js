@@ -44,7 +44,7 @@ module.exports = {
       await AutoModConfig(guildDb.connection).findOneAndUpdate(
         { guildId: guild.id }, { $set: { logChannelId: ch.id } }
       );
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.success} AutoMod log channel set to ${ch}.`)] });
     }
 
@@ -65,7 +65,7 @@ module.exports = {
       await AutoModConfig(guildDb.connection).findOneAndUpdate(
         { guildId: guild.id }, { $set: { [field]: val } }
       );
-      return message.reply({ embeds: [new EmbedBuilder().setColor(val ? 0x57F287 : 0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${val ? e.on : e.off} **${target}** filter turned **${val ? "ON" : "OFF"}**.`)] });
     }
 
@@ -84,14 +84,14 @@ module.exports = {
       await AutoModConfig(guildDb.connection).findOneAndUpdate(
         { guildId: guild.id }, { $set: { [field]: value } }
       );
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.success} **${target}** action set to \`${value}\`.`)] });
     }
 
     // ── OVERVIEW ──────────────────────────────────────────
     const f = config.filters;
     const embed = new EmbedBuilder()
-      .setColor(config.enabled ? 0x57F287 : 0xED4245)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.settings} AutoMod Overview — ${guild.name}`)
       .addFields(
         { name: `${config.enabled ? e.on : e.off} Status`, value: config.enabled ? "**Enabled**" : "**Disabled**", inline: true },

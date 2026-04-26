@@ -14,7 +14,7 @@ module.exports = {
     if (!ctx.message.channel.nsfw) return reply(ctx, { content: "NSFW only!" });
     try {
       const { url } = await fetchNsfw("lesbian");
-      const embed = new EmbedBuilder().setColor(0xED4245).setTitle("Random Lesbian").setImage(url);
+      const embed = new EmbedBuilder().setColor(0x4A3F5F).setTitle("Random Lesbian").setImage(url);
       return reply(ctx, { embeds: [embed] });
     } catch { return reply(ctx, { content: "Error fetching image." }); }
   }

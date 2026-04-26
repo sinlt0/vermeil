@@ -33,7 +33,7 @@ module.exports = {
       return reply(ctx, {
         embeds: [
           new EmbedBuilder()
-            .setColor(0xED4245)
+            .setColor(0x4A3F5F)
             .setTitle(`${e.warning} Server Only`)
             .setDescription("This command can only be used inside a server."),
         ],
@@ -47,7 +47,7 @@ module.exports = {
       return reply(ctx, {
         embeds: [
           new EmbedBuilder()
-            .setColor(0xED4245)
+            .setColor(0x4A3F5F)
             .setTitle(`${e.warning} No Server Banner`)
             .setDescription("This server does not have a banner."),
         ],
@@ -55,7 +55,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.banner} ${guild.name}'s Server Banner`)
       .setImage(bannerUrl)
       .setFooter({

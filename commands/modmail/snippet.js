@@ -86,7 +86,7 @@ module.exports = {
       if (snippets.length === 0) return reply(ctx, { embeds: [embeds.info("No snippets configured.")] });
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle("📝 Modmail Snippets")
         .setDescription(snippets.map(s => `\`${s.name}\` — ${s.content.substring(0, 60)}${s.content.length > 60 ? "..." : ""}`).join("\n"))
         .setFooter({ text: `${snippets.length} snippet(s)` })
@@ -111,7 +111,7 @@ module.exports = {
       await relayToUser(client, user, guild, snippet.content, staff, false);
 
       const threadEmbed = new EmbedBuilder()
-        .setColor(COLORS.staff)
+        .setColor(0x4A3F5F)
         .setAuthor({ name: `${staff.user.tag} [snippet: ${name}]`, iconURL: staff.user.displayAvatarURL({ dynamic: true }) })
         .setDescription(snippet.content)
         .setFooter({ text: `Staff Reply via Snippet • ${staff.user.id}` })

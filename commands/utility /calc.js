@@ -42,7 +42,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.calculator} Calculator`)
       .addFields(
         { name: `${e.sparkle} Expression`, value: `\`\`\`${expression.slice(0, 900)}\`\`\`` },
@@ -60,7 +60,7 @@ module.exports = {
 
 function errorEmbed(message) {
   return new EmbedBuilder()
-    .setColor(0xED4245)
+    .setColor(0x4A3F5F)
     .setTitle(`${e.warning} Calculator Error`)
     .setDescription(message);
 }

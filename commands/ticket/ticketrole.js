@@ -85,7 +85,7 @@ module.exports = {
       return reply(ctx, {
         embeds: [
           new EmbedBuilder()
-            .setColor(0x5865F2)
+            .setColor(0x4A3F5F)
             .setTitle(`🛡️ Support Roles — ${category.name}`)
             .setDescription(roles.length > 0 ? roles.map(r => `<@&${r}>`).join("\n") : "No support roles configured.")
             .setTimestamp(),

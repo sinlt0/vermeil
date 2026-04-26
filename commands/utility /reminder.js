@@ -88,7 +88,7 @@ async function setReminder(ctx, ReminderModel, guildId, channelId, user) {
   });
 
   const embed = new EmbedBuilder()
-    .setColor(0x57F287)
+    .setColor(0x4A3F5F)
     .setTitle(`${e.clock} Reminder Set`)
     .setDescription(message)
     .addFields(
@@ -112,7 +112,7 @@ async function listReminders(ctx, ReminderModel, user) {
     .limit(25);
 
   const embed = new EmbedBuilder()
-    .setColor(0x5865F2)
+    .setColor(0x4A3F5F)
     .setTitle(`${e.list} Your Reminders`)
     .setDescription(
       reminders.length
@@ -142,7 +142,7 @@ async function cancelReminder(ctx, ReminderModel, user) {
   await ReminderModel.findByIdAndUpdate(reminder._id, { status: "cancelled" });
 
   const embed = new EmbedBuilder()
-    .setColor(0x57F287)
+    .setColor(0x4A3F5F)
     .setTitle(`${e.trash} Reminder Cancelled`)
     .setDescription(reminder.message)
     .addFields({ name: "ID", value: `\`${shortId(reminder._id)}\``, inline: true })
@@ -186,7 +186,7 @@ function getCancelId(ctx) {
 
 function makeError(message) {
   return new EmbedBuilder()
-    .setColor(0xED4245)
+    .setColor(0x4A3F5F)
     .setTitle(`${e.warning} Reminder Error`)
     .setDescription(message);
 }

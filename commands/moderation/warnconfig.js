@@ -101,7 +101,7 @@ module.exports = {
 
       const sorted = [...thresholds].sort((a, b) => a.count - b.count);
       const embed  = new EmbedBuilder()
-        .setColor(0xFEE75C)
+        .setColor(0x4A3F5F)
         .setTitle("⚙️ Warning Thresholds")
         .setDescription("Automatic actions applied when a member reaches a warning count.\n\u200b")
         .setFooter({ text: guild.name })

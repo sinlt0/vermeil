@@ -29,7 +29,7 @@ module.exports = {
     if (proposer.wallet < marriageConf.marriageCost) return message.reply(`${eco.error} Marriage costs ${eco.coin} **${formatNum(marriageConf.marriageCost)} coins**.`);
 
     const embed = new EmbedBuilder()
-      .setColor(0xFF69B4)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.marry} Marriage Proposal!`)
       .setDescription(`**${message.author.username}** has proposed to **${target.username}**! 💍\n\n<@${target.id}>, do you accept?`)
       .setFooter({ text: `Cost: ${formatNum(marriageConf.marriageCost)} coins • Expires in 60s` });
@@ -46,7 +46,7 @@ module.exports = {
     const interaction = await msg.awaitMessageComponent({ filter, time: 60_000 }).catch(() => null);
 
     if (!interaction || interaction.customId === `marry_decline_${message.author.id}`) {
-      await msg.edit({ embeds: [new EmbedBuilder().setColor(0x99AAB5).setDescription(`${eco.bust} The proposal was declined. 💔`)], components: [] });
+      await msg.edit({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.bust} The proposal was declined. 💔`)], components: [] });
       return;
     }
 
@@ -60,7 +60,7 @@ module.exports = {
     await UserProfile.findOneAndUpdate({ userId: target.id },        { $set: { marriedTo: message.author.id, marriedAt: new Date() } });
     await Marriage.create({ user1: message.author.id, user2: target.id, type: "marriage" });
 
-    await msg.edit({ embeds: [new EmbedBuilder().setColor(0xFF69B4)
+    await msg.edit({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
       .setTitle(`${eco.marry} Just Married! 🎊`)
       .setDescription(`**${message.author.username}** and **${target.username}** are now married! 💍\nYou both receive a **+${marriageConf.marriageBonus * 100}% coin earning bonus** when grinding together!`)], components: [] });
   },

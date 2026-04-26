@@ -30,7 +30,7 @@ module.exports = {
         return `${eco.bond} <@${partner}> — Level ${b.bondLevel} | XP: ${b.bondXp}`;
       });
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x5865F2)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setTitle(`${eco.bond} Your Bonds`)
         .setDescription(lines.join("\n"))
         .setFooter({ text: `${bonds.length}/${marriageConf.maxBonds} bonds` })
@@ -51,7 +51,7 @@ module.exports = {
 
       await removeCoins(client, message.author.id, marriageConf.breakBondCost, "break_bond");
       await Marriage.deleteOne({ _id: bond._id });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245).setDescription(`${eco.bust} Bond with **${target.username}** broken.`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.bust} Bond with **${target.username}** broken.`)] });
     }
 
     // Create bond
@@ -79,7 +79,7 @@ module.exports = {
 
     const msg = await message.reply({
       content: `<@${target.id}>`,
-      embeds: [new EmbedBuilder().setColor(0x5865F2).setTitle(`${eco.bond} Bond Request`)
+      embeds: [new EmbedBuilder().setColor(0x4A3F5F).setTitle(`${eco.bond} Bond Request`)
         .setDescription(`**${message.author.username}** wants to bond with you!\n\nBond benefits include shared XP, coin bonuses, and more!\n\nCost: ${eco.coin} **${formatNum(marriageConf.bondCost)} coins**`)],
       components: [row],
     });
@@ -88,13 +88,13 @@ module.exports = {
     const interaction = await msg.awaitMessageComponent({ filter, time: 60_000 }).catch(() => null);
 
     if (!interaction || interaction.customId === `bond_decline_${message.author.id}`) {
-      await msg.edit({ embeds: [new EmbedBuilder().setColor(0x99AAB5).setDescription(`${eco.error} Bond request declined.`)], components: [] });
+      await msg.edit({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.error} Bond request declined.`)], components: [] });
       return;
     }
 
     await interaction.deferUpdate();
     await removeCoins(client, message.author.id, marriageConf.bondCost, "bond");
     await Marriage.create({ user1: message.author.id, user2: target.id, type: "bond" });
-    await msg.edit({ embeds: [new EmbedBuilder().setColor(0x57F287).setTitle(`${eco.bond} Bond Created!`).setDescription(`**${message.author.username}** and **${target.username}** are now bonded! 🤝\n\nLevel up your bond by being active together!`)], components: [] });
+    await msg.edit({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setTitle(`${eco.bond} Bond Created!`).setDescription(`**${message.author.username}** and **${target.username}** are now bonded! 🤝\n\nLevel up your bond by being active together!`)], components: [] });
   },
 };

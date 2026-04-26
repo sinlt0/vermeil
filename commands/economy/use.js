@@ -21,7 +21,7 @@ module.exports = {
     const color  = result.success ? 0x57F287 : 0xED4245;
     const icon   = result.success ? eco.success : eco.error;
 
-    return message.reply({ embeds: [new EmbedBuilder().setColor(color)
+    return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
       .setDescription(`${icon} ${result.msg}`).setTimestamp()] });
   },
 };

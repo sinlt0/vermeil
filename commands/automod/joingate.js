@@ -45,7 +45,7 @@ module.exports = {
     // ── VIEW ──────────────────────────────────────────────
     if (!slot) {
       const embed = new EmbedBuilder()
-        .setColor(config.enabled ? 0x57F287 : 0xED4245)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.gate} Join Gate Settings — ${guild.name}`)
         .addFields(
           { name: `${config.noAvatar.enabled ? e.on : e.off} [1] No Avatar`,
@@ -68,7 +68,7 @@ module.exports = {
 
     const update = async (path, val) => {
       await JGModel.findOneAndUpdate({ guildId: guild.id }, { $set: { [path]: val } });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.success} Updated **${path.split(".").pop()}** to \`${val}\`.`)] });
     };
 

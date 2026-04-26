@@ -25,7 +25,7 @@ module.exports = {
       const data = res.data;
 
       const embed = new EmbedBuilder()
-        .setColor(0xED4245)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.roast} Roasted!`)
         .setDescription(`**${target.username}**, ${data.insult.charAt(0).toLowerCase() + data.insult.slice(1)}`)
         .setFooter({ text: "Source: evilinsult.com" });

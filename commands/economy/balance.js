@@ -21,7 +21,7 @@ module.exports = {
 
     const bankLimit = profile.bankLimit ?? bankConfig.defaultLimit;
     const embed     = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setAuthor({ name: `${target.username}'s Balance`, iconURL: target.displayAvatarURL({ dynamic: true }) })
       .addFields(
         { name: `${eco.wallet} Wallet`,     value: `${eco.coin} **${formatNum(profile.wallet)}**`,                                 inline: true },

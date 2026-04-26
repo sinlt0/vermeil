@@ -29,7 +29,7 @@ module.exports = {
       );
 
       return message.reply({ embeds: [new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${eco.shop} ${cat.emoji} ${cat.name}`)
         .setDescription(lines.join("\n\n"))
         .setTimestamp()] });
@@ -41,7 +41,7 @@ module.exports = {
     );
 
     return message.reply({ embeds: [new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.shop} Item Shop`)
       .setDescription(lines.join("\n"))
       .setFooter({ text: "Use !shop <category> to browse items • !buy <id> to purchase" })

@@ -15,7 +15,7 @@ module.exports = {
     if (!player) return reply(ctx, { embeds:[embeds.error("Nothing is playing.")] });
     const current = player.current?.info?.title ?? "Unknown";
     player.stop();
-    const embed = new EmbedBuilder().setColor(0x5865F2).setDescription(`${emoji.skip} Skipped **${current}**.`).setTimestamp();
+    const embed = new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${emoji.skip} Skipped **${current}**.`).setTimestamp();
     return reply(ctx, { embeds:[embed] });
   },
 };

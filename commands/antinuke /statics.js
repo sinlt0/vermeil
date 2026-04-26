@@ -47,7 +47,7 @@ module.exports = {
       const trustedAdmins = permits.filter(p => p.level === "trusted_admin");
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.shield} Antinuke Statics — ${guild.name}`)
         .addFields(
           { name: `${e.extraOwner} [11] Extra Owners`,
@@ -102,7 +102,7 @@ module.exports = {
           { upsert: true }
         );
 
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.success} Added ${user?.tag ?? userArg.id} as a **${label}**.`)] });
       }
 
@@ -116,7 +116,7 @@ module.exports = {
         );
 
         if (!deleted) return message.reply(`${e.error} That user is not a ${label}.`);
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.success} Removed \`${userArg.id}\` from **${label}**.`)] });
       }
     }
@@ -131,7 +131,7 @@ module.exports = {
         await AntiNukeConfig(guildDb.connection).findOneAndUpdate(
           { guildId: guild.id }, { $set: { quarantineRoleId: roleArg.id } }
         );
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.success} Set **${roleArg.name}** as the Quarantine role.`)] });
       }
 
@@ -140,14 +140,14 @@ module.exports = {
           await AntiNukeConfig(guildDb.connection).findOneAndUpdate(
             { guildId: guild.id }, { $addToSet: { mainRoles: roleArg.id } }
           );
-          return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+          return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
             .setDescription(`${e.success} Added **${roleArg.name}** to main roles.`)] });
         }
         if (flag === "?remove") {
           await AntiNukeConfig(guildDb.connection).findOneAndUpdate(
             { guildId: guild.id }, { $pull: { mainRoles: roleArg.id } }
           );
-          return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+          return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
             .setDescription(`${e.success} Removed **${roleArg.name}** from main roles.`)] });
         }
       }
@@ -171,14 +171,14 @@ module.exports = {
           await AntiNukeConfig(guildDb.connection).findOneAndUpdate(
             { guildId: guild.id }, { $addToSet: { partnerChannelIds: chArg.id } }
           );
-          return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+          return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
             .setDescription(`${e.success} Added ${chArg} to partner channels.`)] });
         }
         if (flag === "?remove") {
           await AntiNukeConfig(guildDb.connection).findOneAndUpdate(
             { guildId: guild.id }, { $pull: { partnerChannelIds: chArg.id } }
           );
-          return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+          return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
             .setDescription(`${e.success} Removed ${chArg} from partner channels.`)] });
         }
       }
@@ -189,7 +189,7 @@ module.exports = {
       await AntiNukeConfig(guildDb.connection).findOneAndUpdate(
         { guildId: guild.id }, { $set: { [mapped.field]: chArg.id } }
       );
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.success} Set ${chArg} as the **${mapped.label}**.`)] });
     }
 

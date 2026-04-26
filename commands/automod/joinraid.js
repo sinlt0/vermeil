@@ -37,7 +37,7 @@ module.exports = {
 
     const update = async (path, val, label) => {
       await JRModel.findOneAndUpdate({ guildId: guild.id }, { $set: { [path]: val } });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.success} ${label ?? `Set \`${path.split(".").pop()}\` to \`${val}\``}.`)] });
     };
 
@@ -48,7 +48,7 @@ module.exports = {
         : "None";
 
       return message.reply({ embeds: [new EmbedBuilder()
-        .setColor(config.enabled ? 0x57F287 : 0xED4245)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.raid} Join Raid Settings — ${guild.name}`)
         .addFields(
           { name: `${config.enabled ? e.on : e.off} [1] Enabled`,      value: config.enabled ? "Yes" : "No",      inline: true },
@@ -67,7 +67,7 @@ module.exports = {
     if (slot === "off") {
       await JRModel.findOneAndUpdate({ guildId: guild.id }, { $set: { active: false, triggeredAt: null } });
       clearJoinTracker(guild.id);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.raidOff} Join raid mode deactivated.`)] });
     }
 
@@ -87,12 +87,12 @@ module.exports = {
       if (!role) return message.reply(`${e.error} Mention a role or provide a role ID.`);
       if (flag === "?add") {
         await JRModel.findOneAndUpdate({ guildId: guild.id }, { $addToSet: { warnRoles: role.id } });
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.success} Added **${role.name}** as a warn role.`)] });
       }
       if (flag === "?remove") {
         await JRModel.findOneAndUpdate({ guildId: guild.id }, { $pull: { warnRoles: role.id } });
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.success} Removed **${role.name}** from warn roles.`)] });
       }
     }

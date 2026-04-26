@@ -97,7 +97,7 @@ module.exports = {
       : "✅ **This is a graceful move. All server data will be transferred** to the new cluster automatically.";
 
     const confirmEmbed = new EmbedBuilder()
-      .setColor(isMigrate ? 0xED4245 : 0xFEE75C)
+      .setColor(0x4A3F5F)
       .setTitle(`⚠️ Confirm Cluster ${actionName}`)
       .setDescription(
         `You are about to **${actionName.toLowerCase()}** cluster \`${sourceCluster}\`.\n\n` +
@@ -143,7 +143,7 @@ module.exports = {
     } catch {
       // Timed out
       const timeoutEmbed = new EmbedBuilder()
-        .setColor(0x99AAB5)
+        .setColor(0x4A3F5F)
         .setTitle("⏱️ Confirmation Timed Out")
         .setDescription("The cluster operation was cancelled due to inactivity.");
 
@@ -155,7 +155,7 @@ module.exports = {
     // Cancelled
     if (interaction.customId === "cluster_cancel") {
       const cancelEmbed = new EmbedBuilder()
-        .setColor(0x99AAB5)
+        .setColor(0x4A3F5F)
         .setTitle("❌ Operation Cancelled")
         .setDescription(`Cluster ${actionName.toLowerCase()} was cancelled.`);
 
@@ -182,7 +182,7 @@ async function executeMigrate(client, ctx, confirmMsg, sourceCluster, targetClus
   // Show live progress embed
   const progressEmbed = () =>
     new EmbedBuilder()
-      .setColor(0xFF6B35)
+      .setColor(0x4A3F5F)
       .setTitle("🔄 Emergency Migration In Progress...")
       .setDescription(
         `**Source:** \`${sourceCluster}\`\n` +
@@ -220,7 +220,7 @@ async function executeMigrate(client, ctx, confirmMsg, sourceCluster, targetClus
 
   // Final summary
   const doneEmbed = new EmbedBuilder()
-    .setColor(done > 0 ? 0x57F287 : 0xED4245)
+    .setColor(0x4A3F5F)
     .setTitle("✅ Emergency Migration Complete")
     .setDescription(
       `Cluster \`${sourceCluster}\` has been emergency migrated.\n\n` +
@@ -244,7 +244,7 @@ async function executeMove(client, ctx, confirmMsg, sourceCluster, targetCluster
 
   const progressEmbed = () =>
     new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle("🔄 Cluster Move In Progress...")
       .setDescription(
         `**Source:** \`${sourceCluster}\`\n` +
@@ -285,7 +285,7 @@ async function executeMove(client, ctx, confirmMsg, sourceCluster, targetCluster
   }
 
   const doneEmbed = new EmbedBuilder()
-    .setColor(done > 0 ? 0x57F287 : 0xED4245)
+    .setColor(0x4A3F5F)
     .setTitle("✅ Cluster Move Complete")
     .setDescription(
       `Cluster \`${sourceCluster}\` has been gracefully moved.\n\n` +
@@ -331,7 +331,7 @@ async function notifyGuild(client, guildId, oldCluster, newCluster, graceful) {
 
 function buildEmergencyEmbed(oldCluster, newCluster) {
   return new EmbedBuilder()
-    .setColor(0xED4245)
+    .setColor(0x4A3F5F)
     .setTitle("⚠️ Server Cluster Changed")
     .setDescription(
       `Due to some internal errors, we were **unable to recover cluster \`${oldCluster}\`**.\n\n` +
@@ -343,7 +343,7 @@ function buildEmergencyEmbed(oldCluster, newCluster) {
 
 function buildGracefulEmbed(oldCluster, newCluster) {
   return new EmbedBuilder()
-    .setColor(0x5865F2)
+    .setColor(0x4A3F5F)
     .setTitle("🔄 Server Cluster Migrated")
     .setDescription(
       `Your server has been **successfully migrated** from cluster \`${oldCluster}\` to cluster \`${newCluster}\`.\n\n` +

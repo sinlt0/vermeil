@@ -45,7 +45,7 @@ module.exports = {
     const boostTier = guild.premiumTier;
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.server} ${guild.name}`)
       .setThumbnail(guild.iconURL({ dynamic: true, size: 512 }))
       .setImage(guild.bannerURL({ size: 1024 }))

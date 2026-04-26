@@ -27,11 +27,11 @@ module.exports = {
     if (amount > profile.wallet) return message.reply(`${eco.error} You only have **${formatNum(profile.wallet)}** coins in your wallet!`);
 
     const result = await addToBank(client, message.author.id, amount);
-    if (result.added === 0) return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245).setDescription(`${eco.error} Your bank is full! Buy a **Banknote** from \`!shop\` to expand it.`)] });
+    if (result.added === 0) return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.error} Your bank is full! Buy a **Banknote** from \`!shop\` to expand it.`)] });
 
     const bankLimit = result.profile.bankLimit ?? bankConfig.defaultLimit;
     const embed = new EmbedBuilder()
-      .setColor(0x57F287)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.deposit} Deposited!`)
       .addFields(
         { name: `${eco.wallet} Wallet`, value: `${eco.coin} ${formatNum(result.profile.wallet)}`, inline: true },

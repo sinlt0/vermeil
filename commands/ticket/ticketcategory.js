@@ -118,7 +118,7 @@ module.exports = {
       if (categories.length === 0) return reply(ctx, { embeds: [embeds.info("No categories configured. Use `ticketcategory add` to create one.")] });
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle("🎫 Ticket Categories")
         .setDescription(categories.map(c =>
           `**${c.emoji} ${c.name}**\n` +

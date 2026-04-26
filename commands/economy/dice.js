@@ -28,7 +28,7 @@ module.exports = {
 
     if (!isCooldownReady(profile.cooldowns?.dice, cfg.cooldownMs)) {
       const rem = getRemainingCooldown(profile.cooldowns?.dice, cfg.cooldownMs);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245).setDescription(`${eco.cooldown} Wait **${formatCooldown(rem)}**.`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.cooldown} Wait **${formatCooldown(rem)}**.`)] });
     }
 
     const rolled = rollDice(cfg.sides);
@@ -54,11 +54,11 @@ module.exports = {
       const payout = Math.floor(bet * multiplier);
       await addCoins(client, message.author.id, payout, "dice_win");
       await UserProfile.findOneAndUpdate({ userId: message.author.id }, { $inc: { "stats.gamblesWon": 1 } });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.dice} Rolled **${rolled}**! You guessed correctly and won ${eco.coin} **${formatNum(payout)}**!`)] });
     } else {
       await UserProfile.findOneAndUpdate({ userId: message.author.id }, { $inc: { "stats.gamblesLost": 1 } });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.dice} Rolled **${rolled}**! You guessed ${guess} and lost ${eco.coin} **${formatNum(bet)}**.`)] });
     }
   },

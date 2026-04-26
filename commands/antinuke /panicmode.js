@@ -24,16 +24,16 @@ module.exports = {
 
     if (flag === "?on") {
       if (config?.panicMode?.active) {
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0xFEE75C)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.warning} Panic mode is already **active**! Use \`!panicmode ?off\` to end it.`)] });
       }
 
-      const msg = await message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      const msg = await message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.loading} Triggering panic mode...`)] });
 
       await triggerPanicMode(client, guild, reason, message.author.id);
 
-      return msg.edit({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return msg.edit({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setTitle(`${e.panicOn} PANIC MODE ACTIVATED`)
         .setDescription(
           `${e.lockdown} All channels have been locked.\n` +
@@ -46,16 +46,16 @@ module.exports = {
 
     if (flag === "?off") {
       if (!config?.panicMode?.active) {
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0xFEE75C)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`${e.info} Panic mode is not currently active.`)] });
       }
 
-      const msg = await message.reply({ embeds: [new EmbedBuilder().setColor(0x5865F2)
+      const msg = await message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.loading} Ending panic mode...`)] });
 
       await endPanicMode(client, guild, message.author.id);
 
-      return msg.edit({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return msg.edit({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setTitle(`${e.panicOff} Panic Mode Ended`)
         .setDescription(`${e.unlock} Channels have been unlocked.\nPanic mode has been deactivated.`)
         .setTimestamp()] });

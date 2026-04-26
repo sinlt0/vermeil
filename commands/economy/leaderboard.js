@@ -31,7 +31,7 @@ module.exports = {
     const row = new ActionRowBuilder().addComponents(menu);
 
     const msg = await message.reply({
-      embeds: [new EmbedBuilder().setColor(0x5865F2).setTitle(`${eco.lb} ${type === "lifetime" ? "Lifetime" : "Weekly"} Leaderboards`).setDescription("Select a category below to view the leaderboard!")],
+      embeds: [new EmbedBuilder().setColor(0x4A3F5F).setTitle(`${eco.lb} ${type === "lifetime" ? "Lifetime" : "Weekly"} Leaderboards`).setDescription("Select a category below to view the leaderboard!")],
       components: [row],
     });
 

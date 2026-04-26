@@ -100,7 +100,7 @@ module.exports = {
         // Show current config for prefix
         const s = settings ?? {};
         const configEmbed = new EmbedBuilder()
-          .setColor(0x5865F2)
+          .setColor(0x4A3F5F)
           .setTitle("⚙️ Leveling Configuration")
           .addFields(
             { name: "Status",          value: s.enabled ? "✅ Enabled" : "❌ Disabled", inline: true },

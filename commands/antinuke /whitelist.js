@@ -47,7 +47,7 @@ module.exports = {
       });
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.whitelist} Whitelist — ${guild.name}`)
         .setDescription(lines.join("\n") || "Empty.")
         .setFooter({ text: `${entries.length} entries` })
@@ -68,7 +68,7 @@ module.exports = {
       const deleted = await WLModel.findOneAndDelete({ guildId: guild.id, targetId: targetArg.id });
       if (!deleted) return message.reply(`${e.error} That target is not whitelisted.`);
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.success} Removed \`${targetArg.id}\` from the whitelist.`)] });
     }
 
@@ -82,10 +82,10 @@ module.exports = {
 
       const entry = await WLModel.findOne({ guildId: guild.id, targetId: targetArg.id }).lean();
 
-      if (!entry) return message.reply({ embeds: [new EmbedBuilder().setColor(0x99AAB5)
+      if (!entry) return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`\`${targetArg.id}\` is **not whitelisted**.`)] });
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setTitle(`${e.whitelisted} Whitelist Info`)
         .addFields(
           { name: "Target",   value: `\`${entry.targetId}\``,         inline: true },
@@ -130,7 +130,7 @@ module.exports = {
     const row = new ActionRowBuilder().addComponents(menu);
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.whitelist} Whitelist — Select Types`)
       .setDescription(
         `Select which systems **${targetName}** (\`${target.id}\`) should be exempt from.\n\n` +
@@ -156,7 +156,7 @@ module.exports = {
     const typeLabels = selectedTypes.map(v => WHITELIST_TYPES.find(t => t.value === v)?.label).join(", ");
 
     await msg.edit({
-      embeds: [new EmbedBuilder().setColor(0x57F287)
+      embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.success} **${targetName}** whitelisted for: **${typeLabels}**`)],
       components: [],
     });

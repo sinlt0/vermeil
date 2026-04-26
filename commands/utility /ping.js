@@ -49,7 +49,7 @@ module.exports = {
       : ctx.interaction.user;
 
     const embed = new EmbedBuilder()
-      .setColor(getColor(wsLatency))
+      .setColor(0x4A3F5F))
       .setTitle("🏓 Pong!")
       .setDescription("Here are the current latency readings.")
       .addFields(

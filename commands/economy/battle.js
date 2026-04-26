@@ -28,7 +28,7 @@ module.exports = {
 
     if (!isCooldownReady(profile.cooldowns?.battle, battleConfig.cooldownMs)) {
       const rem = getRemainingCooldown(profile.cooldowns?.battle, battleConfig.cooldownMs);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.cooldown} Battle cooldown! Wait **${formatCooldown(rem)}**.`)] });
     }
 
@@ -83,7 +83,7 @@ module.exports = {
 
     const shownLog = result.log.slice(-2).join("\n");
     const embed = new EmbedBuilder()
-      .setColor(won ? 0x57F287 : 0xED4245)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.battle} Wild Battle — ${won ? "Victory!" : "Defeat!"}`)
       .setDescription(
         `You battled a wild ${wildCreature.emoji} **${wildCreature.name}**!\n\n` +

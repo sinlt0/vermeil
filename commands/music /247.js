@@ -31,7 +31,7 @@ module.exports = {
     );
 
     const embed = new EmbedBuilder()
-      .setColor(newState ? 0x57F287 : 0xED4245)
+      .setColor(0x4A3F5F)
       .setTitle(`${emoji.tf} 24/7 Mode`)
       .setDescription(newState
         ? `24/7 mode **enabled**. I will stay in the voice channel even when everyone leaves.`

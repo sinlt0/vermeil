@@ -28,7 +28,7 @@ module.exports = {
       const totalDur = queue.reduce((a,t)=>a+(t.info.length||0),0);
 
       const embed = new EmbedBuilder()
-        .setColor(0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${emoji.queue} Music Queue — ${guild.name}`)
         .setDescription(
           (player.current ? `**Now Playing:**\n${emoji.play} **[${player.current.info.title}](${player.current.info.uri})**\n\n` : "") +

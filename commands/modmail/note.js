@@ -45,7 +45,7 @@ module.exports = {
     if (!message) return reply(ctx, { embeds: [embeds.error("Please provide a note.")] });
 
     const noteEmbed = new EmbedBuilder()
-      .setColor(COLORS.note)
+      .setColor(0x4A3F5F)
       .setAuthor({ name: `📝 Note — ${staff.user.tag}`, iconURL: staff.user.displayAvatarURL({ dynamic: true }) })
       .setDescription(message)
       .setFooter({ text: "Internal Note • Not visible to user" })

@@ -20,7 +20,7 @@ module.exports = {
 
     if (!isCooldownReady(profile.cooldowns?.weekly, cfg.cooldownMs)) {
       const remaining = getRemainingCooldown(profile.cooldowns?.weekly, cfg.cooldownMs);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.cooldown} Weekly on cooldown! Come back in **${formatCooldown(remaining)}**.`)] });
     }
 
@@ -30,7 +30,7 @@ module.exports = {
     await setCooldown(client, message.author.id, "weekly");
 
     const embed = new EmbedBuilder()
-      .setColor(0x57F287)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.weekly} Weekly Reward!`)
       .setDescription(`${eco.coin} **${formatNum(cfg.base)} coins** + ${eco.gem} **${cfg.gems} gems**!`)
       .setTimestamp();

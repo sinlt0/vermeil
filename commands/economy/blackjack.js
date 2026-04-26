@@ -27,7 +27,7 @@ module.exports = {
 
     if (!isCooldownReady(profile.cooldowns?.blackjack, cfg.cooldownMs)) {
       const rem = getRemainingCooldown(profile.cooldowns?.blackjack, cfg.cooldownMs);
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245).setDescription(`${eco.cooldown} Wait **${formatCooldown(rem)}**.`)] });
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${eco.cooldown} Wait **${formatCooldown(rem)}**.`)] });
     }
 
     await removeCoins(client, message.author.id, bet, "blackjack_bet");
@@ -43,7 +43,7 @@ module.exports = {
       const color  = status === "win" ? 0x57F287 : status === "lose" ? 0xED4245 : status === "push" ? 0xFEE75C : 0x5865F2;
 
       return new EmbedBuilder()
-        .setColor(color)
+        .setColor(0x4A3F5F)
         .setTitle(`${eco.blackjack} Blackjack`)
         .addFields(
           { name: `Your Hand (${pTotal})`,  value: formatHand(playerHand),  inline: true },

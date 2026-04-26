@@ -53,7 +53,7 @@ module.exports = {
     if (!invite) return reply(ctx, { embeds: [errorEmbed("Failed to create an invite. Check my Create Invite permission.")] });
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.invite} Guild Invite Created`)
       .setDescription(`Invite for **${guild.name}** created successfully.`)
       .addFields(
@@ -87,5 +87,5 @@ function findInviteChannel(guild) {
 }
 
 function errorEmbed(message) {
-  return new EmbedBuilder().setColor(0xED4245).setTitle(`${e.error} Guild Invite Error`).setDescription(message);
+  return new EmbedBuilder().setColor(0x4A3F5F).setTitle(`${e.error} Guild Invite Error`).setDescription(message);
 }

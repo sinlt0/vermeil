@@ -47,7 +47,7 @@ module.exports = {
       return reply(ctx, {
         embeds: [
           new EmbedBuilder()
-            .setColor(0xED4245)
+            .setColor(0x4A3F5F)
             .setTitle(`${e.warning} User Not Found`)
             .setDescription("Please provide a valid user mention or ID."),
         ],
@@ -61,7 +61,7 @@ module.exports = {
       return reply(ctx, {
         embeds: [
           new EmbedBuilder()
-            .setColor(0xED4245)
+            .setColor(0x4A3F5F)
             .setTitle(`${e.warning} No Banner Found`)
             .setDescription(`**${user.tag}** does not have a banner.`),
         ],
@@ -69,7 +69,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.banner} ${user.tag}'s Banner`)
       .setImage(bannerUrl)
       .setFooter({

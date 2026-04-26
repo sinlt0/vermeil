@@ -32,7 +32,7 @@ module.exports = {
     await Creature.deleteOne({ _id: target._id });
     await addCoins(client, message.author.id, reward, "sacrifice");
 
-    return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+    return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
       .setDescription(`${eco.sacrifice} Sacrificed ${target.emoji} **${target.name}** for ${eco.coin} **${formatNum(reward)} coins**.`)] });
   },
 };

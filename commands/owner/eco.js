@@ -27,7 +27,7 @@ module.exports = {
     const isOwner = userId === client.config.ownerID;
     const isDev   = client.config.devIDs?.includes(userId);
     if (!isOwner && !isDev) {
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.error} This command is restricted to the bot owner and developers.`)] });
     }
 
@@ -79,7 +79,7 @@ module.exports = {
       const Quest = client.ecoDb.getModel("Quest");
       await Quest.findOneAndDelete({ userId: target.id });
 
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.success} Economy profile for **${target.username}** has been reset.`)] });
     }
 
@@ -100,7 +100,7 @@ module.exports = {
       );
 
       const currEmoji = { coins: eco.coin, gems: eco.gem, tokens: eco.token }[currency];
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.success} Added ${currEmoji} **${formatNum(amount)} ${currency}** to **${target.username}**.`)] });
     }
 
@@ -121,7 +121,7 @@ module.exports = {
       );
 
       const currEmoji = { coins: eco.coin, gems: eco.gem, tokens: eco.token }[currency];
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${eco.success} Removed ${currEmoji} **${formatNum(amount)} ${currency}** from **${target.username}**.`)] });
     }
 

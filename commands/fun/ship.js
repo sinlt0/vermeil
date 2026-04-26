@@ -37,7 +37,7 @@ module.exports = {
       const card = await generateShipCard(user1, user2, love);
 
       const embed = new EmbedBuilder()
-        .setColor(love > 50 ? 0xFF416C : 0x5865F2)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.ship} Matchmaking Machine`)
         .setDescription(`Shipping **${user1.username}** and **${user2.username}**...`)
         .setImage("attachment://ship.png")

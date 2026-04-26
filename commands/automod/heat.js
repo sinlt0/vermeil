@@ -40,7 +40,7 @@ module.exports = {
       const f = config.filters;
 
       const embed = new EmbedBuilder()
-        .setColor(config.enabled ? 0x57F287 : 0xED4245)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.heat} Heat / AutoMod Settings — ${guild.name}`)
         .addFields(
           { name: `${config.enabled ? e.on : e.off} [1] Master Toggle`,
@@ -91,7 +91,7 @@ module.exports = {
       if (flag !== "?on" && flag !== "?off") return message.reply(`${e.error} Use \`!heat 1 ?on\` or \`!heat 1 ?off\``);
       const val = flag === "?on";
       await AutoModConfig(guildDb.connection).findOneAndUpdate({ guildId: guild.id }, { $set: { enabled: val } });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(val ? 0x57F287 : 0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${val ? e.on : e.off} AutoMod / Heat System turned **${val ? "ON" : "OFF"}**.`)] });
     }
 
@@ -100,7 +100,7 @@ module.exports = {
       if (flag !== "?on" && flag !== "?off") return message.reply(`${e.error} Use \`!heat 2 ?on\` or \`!heat 2 ?off\``);
       const val = flag === "?on";
       await AutoModConfig(guildDb.connection).findOneAndUpdate({ guildId: guild.id }, { $set: { "filters.antiSpam": val } });
-      return message.reply({ embeds: [new EmbedBuilder().setColor(val ? 0x57F287 : 0xED4245)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${val ? e.on : e.off} Anti-Spam filters turned **${val ? "ON" : "OFF"}**.`)] });
     }
 
@@ -126,7 +126,7 @@ module.exports = {
         { guildId: guild.id },
         { $set: { [setting.field]: num } }
       );
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`${e.success} **${setting.label}** set to \`${setting.format}\`.`)] });
     }
 

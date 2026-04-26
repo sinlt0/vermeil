@@ -18,7 +18,7 @@ module.exports = {
     try {
       const { url, provider } = await fetchNsfw("hentai");
       const embed = new EmbedBuilder()
-        .setColor(0xED4245)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.hentai} Random Hentai`)
         .setImage(url)
         .setFooter({ text: `Source: ${provider}` });

@@ -15,7 +15,7 @@ module.exports = {
     if (!player) return reply(ctx, { embeds:[embeds.error("Nothing is playing.")] });
     if (player.queue.length < 2) return reply(ctx, { embeds:[embeds.error("Need at least 2 tracks in queue to shuffle.")] });
     player.queue.shuffle();
-    const embed = new EmbedBuilder().setColor(0x5865F2).setDescription(`${emoji.shuffle} Queue shuffled! (${player.queue.length} tracks)`).setTimestamp();
+    const embed = new EmbedBuilder().setColor(0x4A3F5F).setDescription(`${emoji.shuffle} Queue shuffled! (${player.queue.length} tracks)`).setTimestamp();
     return reply(ctx, { embeds:[embed] });
   },
 };

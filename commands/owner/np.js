@@ -42,7 +42,7 @@ module.exports = {
 
       const list = readJson(DATA_FILE);
       if (list.includes(target.id)) {
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0xFEE75C)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`⚠️ \`${target.id}\` is already in the no-prefix list.`)] });
       }
 
@@ -51,7 +51,7 @@ module.exports = {
       client.config.noPrefix = list; // keep in-memory in sync
 
       const name = target.username ?? target.id;
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`✅ Added **${name}** (\`${target.id}\`) to no-prefix list.`)] });
     }
 
@@ -62,7 +62,7 @@ module.exports = {
       const list = readJson(DATA_FILE);
       const idx  = list.indexOf(target.id);
       if (idx === -1) {
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0xED4245)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setDescription(`❌ \`${target.id}\` is not in the no-prefix list.`)] });
       }
 
@@ -71,7 +71,7 @@ module.exports = {
       client.config.noPrefix = list;
 
       const name = target.username ?? target.id;
-      return message.reply({ embeds: [new EmbedBuilder().setColor(0x57F287)
+      return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
         .setDescription(`✅ Removed **${name}** (\`${target.id}\`) from no-prefix list.`)] });
     }
 
@@ -80,7 +80,7 @@ module.exports = {
       const list = readJson(DATA_FILE);
 
       if (!list.length) {
-        return message.reply({ embeds: [new EmbedBuilder().setColor(0x5865F2)
+        return message.reply({ embeds: [new EmbedBuilder().setColor(0x4A3F5F)
           .setTitle("📋 No-Prefix List")
           .setDescription("No users in the no-prefix list.")] });
       }
@@ -96,7 +96,7 @@ module.exports = {
           return `\`${pg * PER_PAGE + i + 1}.\` **${name}** — \`${id}\``;
         }));
         return new EmbedBuilder()
-          .setColor(0x5865F2)
+          .setColor(0x4A3F5F)
           .setTitle("📋 No-Prefix List")
           .setDescription(lines.join("\n") || "Empty page.")
           .setFooter({ text: `Page ${pg + 1}/${totalPages} • ${list.length} total` });

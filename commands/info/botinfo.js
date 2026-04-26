@@ -49,7 +49,7 @@ module.exports = {
 
     // ── Build Embed ──
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.star} Vermeil Statistics`)
       .setDescription(`Vermeil is a high-performance, All-In-One Discord bot designed for professional community management and engagement.`)
       .setThumbnail(client.user.displayAvatarURL({ dynamic: true, size: 512 }))

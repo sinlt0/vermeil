@@ -72,7 +72,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setColor(0xED4245)
+      .setColor(0x4A3F5F)
       .setTitle("💥 Channel Nuked")
       .setDescription(`This channel was recreated by ${author}.`)
       .addFields(

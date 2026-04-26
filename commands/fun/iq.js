@@ -21,7 +21,7 @@ module.exports = {
     const iq = Math.floor(Math.random() * 150) + 50;
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.iq} IQ Test`)
       .setDescription(`**${target.username}** has an IQ of **${iq}**!`)
       .setFooter({ text: iq > 120 ? "Wow, a genius!" : iq < 80 ? "Uh oh..." : "Pretty average." });

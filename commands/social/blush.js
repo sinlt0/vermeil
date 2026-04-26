@@ -13,7 +13,7 @@ module.exports = {
   async execute(client, ctx) {
     try {
       const { url } = await fetchSocial("blush");
-      const embed = new EmbedBuilder().setColor(0x5865F2).setDescription(`**${ctx.message.author.username}** is blushing!`).setImage(url);
+      const embed = new EmbedBuilder().setColor(0x4A3F5F).setDescription(`**${ctx.message.author.username}** is blushing!`).setImage(url);
       return reply(ctx, { embeds: [embed] });
     } catch { return reply(ctx, { content: "Error fetching image." }); }
   }

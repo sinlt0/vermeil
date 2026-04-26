@@ -21,7 +21,7 @@ module.exports = {
     const newMode = mode ?? cycles[player.loop ?? "none"];
     player.setLoop(newMode === "none" ? null : newMode);
     const labels = { none:`${emoji.noLoop} Loop **disabled**.`, track:`${emoji.loop} Looping **current track**.`, queue:`${emoji.loopAll} Looping **entire queue**.` };
-    const embed = new EmbedBuilder().setColor(0x5865F2).setDescription(labels[newMode]).setTimestamp();
+    const embed = new EmbedBuilder().setColor(0x4A3F5F).setDescription(labels[newMode]).setTimestamp();
     return reply(ctx, { embeds:[embed] });
   },
 };

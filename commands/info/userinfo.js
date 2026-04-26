@@ -46,7 +46,7 @@ module.exports = {
       : roles.join(", ") || "None";
 
     const embed = new EmbedBuilder()
-      .setColor(member?.displayHexColor || 0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.team} User Information`)
       .setThumbnail(user.displayAvatarURL({ dynamic: true, size: 512 }))
       .addFields(

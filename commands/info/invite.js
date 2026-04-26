@@ -34,7 +34,7 @@ module.exports = {
     const inviteUrl = client.config?.inviteLink || `https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands`;
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.invite} Add Vermeil to your Server`)
       .setThumbnail(client.user.displayAvatarURL({ dynamic: true, size: 512 }))
       .setDescription(

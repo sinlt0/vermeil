@@ -47,7 +47,7 @@ module.exports = {
       return reply(ctx, {
         embeds: [
           new EmbedBuilder()
-            .setColor(0xED4245)
+            .setColor(0x4A3F5F)
             .setTitle(`${e.warning} User Not Found`)
             .setDescription("Please provide a valid user mention or ID."),
         ],
@@ -56,7 +56,7 @@ module.exports = {
 
     const avatarUrl = user.displayAvatarURL({ dynamic: true, size: 1024 });
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.avatar} ${user.tag}'s Avatar`)
       .setImage(avatarUrl)
       .setFooter({

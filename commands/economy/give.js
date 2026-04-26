@@ -41,7 +41,7 @@ module.exports = {
     await addCoins(client, target.id, received, "received");
 
     return message.reply({ embeds: [new EmbedBuilder()
-      .setColor(0x57F287)
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.pay} Transfer Complete`)
       .setDescription(`Sent ${eco.coin} **${formatNum(amount)}** to **${target.username}**`)
       .addFields(

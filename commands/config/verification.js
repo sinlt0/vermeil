@@ -291,7 +291,7 @@ module.exports = {
     if (sub === "view") {
       const config = await VerifyModel.findOne({ guildId: guild.id });
       const embed  = new EmbedBuilder()
-        .setColor(0x8b5cf6)
+        .setColor(0x4A3F5F)
         .setTitle(`${emoji.shield} Verification Configuration`)
         .addFields(
           { name: "Status",        value: config?.enabled ? "✅ Enabled" : "❌ Disabled",                                             inline: true  },

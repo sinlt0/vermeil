@@ -57,7 +57,7 @@ module.exports = {
       });
 
       const embed = new EmbedBuilder()
-        .setColor(config.enabled ? 0x57F287 : 0xED4245)
+        .setColor(0x4A3F5F)
         .setTitle(`${e.shield} Antinuke Configuration — ${guild.name}`)
         .setDescription(lines.join("\n\n"))
         .addFields(
@@ -93,7 +93,7 @@ module.exports = {
       }
 
       return message.reply({ embeds: [new EmbedBuilder()
-        .setColor(newVal ? 0x57F287 : 0xED4245)
+        .setColor(0x4A3F5F)
         .setDescription(`${newVal ? e.on : e.off} **${filter.label}** has been turned **${newVal ? "ON" : "OFF"}**.`)] });
     }
 
@@ -110,7 +110,7 @@ module.exports = {
       );
 
       return message.reply({ embeds: [new EmbedBuilder()
-        .setColor(0x57F287)
+        .setColor(0x4A3F5F)
         .setDescription(`${e.limit} **${filter.label}** limit set to **${num}** actions.`)] });
     }
 
@@ -120,7 +120,7 @@ module.exports = {
       : (config.filters[filter.key]?.enabled ? e.on : e.off);
 
     const embed = new EmbedBuilder()
-      .setColor(0x5865F2)
+      .setColor(0x4A3F5F)
       .setTitle(`${e.shield} Filter ${filterId} — ${filter.label}`)
       .setDescription(filter.desc)
       .addFields(
