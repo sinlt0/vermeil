@@ -68,7 +68,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setColor(0x4A3F5F))
+      .setColor(0x4A3F5F)
       .setTitle(`${eco.hunt} Hunt Result!`)
       .setDescription(
         `${rarityEmoji(creature.rarity)} You caught a **${creature.rarity.toUpperCase()}** ${creature.emoji} **${creature.name}**!\n\n` +

@@ -24,7 +24,7 @@ module.exports = {
   async execute(client, ctx) {
     // For prefix: send a placeholder first so we can measure round-trip
     const sent = ctx.type === "prefix"
-      ? await ctx.message.reply({ content: "🏓 Pinging..." })
+      ? await ctx.message.reply({ content: " Pinging..." })
       : null;
 
     const wsLatency  = client.ws.ping;
@@ -49,25 +49,25 @@ module.exports = {
       : ctx.interaction.user;
 
     const embed = new EmbedBuilder()
-      .setColor(0x4A3F5F))
-      .setTitle("🏓 Pong!")
+      .setColor(0x4A3F5F)
+      .setTitle("Pong!")
       .setDescription("Here are the current latency readings.")
       .addFields(
         {
-          name:   "📡 WebSocket Latency",
+          name:   "WebSocket Latency",
           value:  `\`${wsLatency}ms\` — ${getLabel(wsLatency)}`,
           inline: true,
         },
         ...(msgLatency !== null
           ? [{
-              name:   "💬 Message Latency",
+              name:   "Message Latency",
               value:  `\`${msgLatency}ms\` — ${getLabel(msgLatency)}`,
               inline: true,
             }]
           : []
         ),
         {
-          name:   "⏱️ Uptime",
+          name:   "Uptime",
           value:  `\`${formatUptime(client.uptime)}\``,
           inline: false,
         }
