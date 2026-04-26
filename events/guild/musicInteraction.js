@@ -5,6 +5,7 @@
 const { buildNowPlayingMessage, buildFiltersMenu, applyFilter } = require("../../utils/musicUtils");
 const embeds = require("../../utils/embeds");
 const emoji  = require("../../emojis/musicemoji");
+const { fromConnection: TwentyFourSeven } = require("../../models/TwentyFourSeven");
 
 module.exports = {
   name: "interactionCreate",
@@ -38,7 +39,25 @@ module.exports = {
         player.paused ? player.pause(false) : player.pause(true);
         break;
       case "music_skip":    player.stop(); break;
-      case "music_stop":    player.stop(); player.destroy(); break;
+      case "music_stop": {
+        try {
+          if (client.db) {
+            const guildDb = await client.db.getGuildDb(interaction.guild.id);
+            if (guildDb && !guildDb.isDown) {
+              const TFModel = TwentyFourSeven(guildDb.connection);
+              const tf = await TFModel.findOne({ guildId: interaction.guild.id });
+              if (tf?.enabled) {
+                player.queue.clear();
+                player.stop();
+                return; // Stop music but stay in VC
+              }
+            }
+          }
+        } catch {}
+        player.stop(); 
+        player.destroy(); 
+        break;
+      }
       case "music_shuffle": if (player.queue.length>=2) player.queue.shuffle(); break;
       case "music_voldown": player.setVolume(Math.max(player.volume-10, 1)); break;
       case "music_volup":   player.setVolume(Math.min(player.volume+10, 200)); break;

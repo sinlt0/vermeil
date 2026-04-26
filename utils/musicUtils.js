@@ -206,8 +206,8 @@ async function buildNowPlayingMessage(player, track, currentMs = 0) {
   });
 
   const embed = new EmbedBuilder()
-    .setColor(0x5865F2)
-    .setAuthor({ name: `${emoji.music} Now Playing` })
+    .setColor(0x4A3F5F)
+    .setAuthor({ name: `$Now Playing` })
     .setDescription(`**[${info.title}](${info.uri})**\n${emoji.mic} ${info.author}`)
     .addFields(
       { name: `${emoji.clock} Duration`,    value: isLive ? `${emoji.live} LIVE` : formatDuration(info.length), inline: true },
