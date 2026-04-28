@@ -252,6 +252,7 @@ async function dropStaleIndexes(connection) {
   const staleIndexes = {
     modcases: ["caseId_1"],
     userlevels: ["guildId_1_odId_1"], 
+    tickets: ["ticketsId_1"],
   };
 
   for (const [colName, indexes] of Object.entries(staleIndexes)) {
