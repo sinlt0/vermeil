@@ -91,7 +91,7 @@ module.exports = {
       const panelEmbed = new EmbedBuilder()
         .setColor(0x4A3F5F)
         .setTitle(`${title}`)
-        .setDescription(description)s
+        .setDescription(description)
         .setFooter({ text: guild.name, iconURL: guild.iconURL({ dynamic: true }) ?? undefined })
         .setTimestamp();
 
