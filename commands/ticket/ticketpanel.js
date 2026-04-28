@@ -90,12 +90,8 @@ module.exports = {
 
       const panelEmbed = new EmbedBuilder()
         .setColor(0x4A3F5F)
-        .setTitle(`🎫 ${title}`)
-        .setDescription(description)
-        .addFields({
-          name:  "📂 Categories",
-          value: categories.map(c => `${c.emoji} **${c.name}**${c.description ? ` — ${c.description}` : ""}`).join("\n"),
-        })
+        .setTitle(`${title}`)
+        .setDescription(description)s
         .setFooter({ text: guild.name, iconURL: guild.iconURL({ dynamic: true }) ?? undefined })
         .setTimestamp();
 
