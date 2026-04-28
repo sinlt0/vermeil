@@ -16,6 +16,7 @@ const { startQuestScheduler } = require("../../utils/eco/questScheduler");
 const { startRobProtection }  = require("../../utils/eco/robProtection");
 const { checkPremiumExpiry }  = require("../../utils/premiumUtils");
 const { startAutoBackup }          = require("../../utils/antiNukeBackup");
+const { seedCharacters }           = require("../../utils/collection/seedRunner");
 
 module.exports = {
   name: "clientReady",
@@ -41,6 +42,9 @@ module.exports = {
 
       await checkWeeklyResets(client);
       console.log(chalk.cyan("  [Leveling] Weekly reset checker started."));
+
+      await seedCharacters(client);
+            console.log(chalk.cyan("  [Collection] Character seed checked."));
 
       checkAutoClose(client);
       console.log(chalk.cyan("  [Tickets] Auto-close checker started."));
