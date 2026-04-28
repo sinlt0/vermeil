@@ -74,13 +74,13 @@ module.exports = {
       let channel, title, description, color;
       if (ctx.type === "prefix") {
         channel     = ctx.message.mentions.channels.first();
-        title       = ctx.args[2] ?? "Support Tickets";
-        description = ctx.args.slice(3).join(" ") || "Select a category below to open a support ticket.";
+        title       = ctx.args[2] ?? "Tickets";
+        description = ctx.args.slice(3).join(" ") || "> -# Click the dropdown below and select a category..";
         color       = "#5865F2";
       } else {
         channel     = ctx.interaction.options.getChannel("channel");
-        title       = ctx.interaction.options.getString("title") ?? "Support Tickets";
-        description = ctx.interaction.options.getString("description") ?? "Select a category below to open a support ticket.";
+        title       = ctx.interaction.options.getString("title") ?? "Tickets";
+        description = ctx.interaction.options.getString("description") ?? "> -# Click the dropdown below and select a category..";
         color       = ctx.interaction.options.getString("color") ?? "#5865F2";
       }
 
