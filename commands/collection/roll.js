@@ -155,7 +155,13 @@ module.exports = {
         );
 
         if (currentPower < powerCost) {
-          return member.user.send(`❌ Not enough kakera react power! (${Math.floor(currentPower)}% / ${powerCost}% needed)`).catch(() => {});
+          const m = await message.channel.send({
+            embeds: [new EmbedBuilder()
+              .setColor(0x4A3F5F)
+              .setDescription(`<@${user.id}> ❌ Not enough kakera react power! (**${Math.floor(currentPower)}%** / **${powerCost}%** needed)`)],
+          }).catch(() => {});
+          if (m) setTimeout(() => m.delete().catch(() => {}), 8000);
+          return;
         }
 
         // Give kakera
@@ -232,14 +238,22 @@ module.exports = {
 
       } else if (result.reason === "cooldown") {
         const ms = Math.max(0, new Date(result.availableAt).getTime() - Date.now());
-        await member.user.send(
-          `❌ Claim cooldown! Available in **${formatTimeRemaining(ms)}**`
-        ).catch(() => {});
+        const cm = await message.channel.send({
+          embeds: [new EmbedBuilder()
+            .setColor(0x4A3F5F)
+            .setDescription(`<@${user.id}> ⏳ Claim cooldown! Available in **${formatTimeRemaining(ms)}**`)],
+        }).catch(() => {});
+        if (cm) setTimeout(() => cm.delete().catch(() => {}), 10000);
       } else if (result.reason === "already_claimed") {
         embed.setFooter({ text: `Already claimed by someone else!` });
         await rollMsg.edit({ embeds: [embed] }).catch(() => {});
       } else if (result.reason === "harem_full") {
-        await member.user.send("❌ Your harem is full! Use `$divorce` to remove characters.").catch(() => {});
+        const hm = await message.channel.send({
+          embeds: [new EmbedBuilder()
+            .setColor(0x4A3F5F)
+            .setDescription(`<@${user.id}> ❌ Your harem is full! Use \`$divorce\` to make space.`)],
+        }).catch(() => {});
+        if (hm) setTimeout(() => hm.delete().catch(() => {}), 8000);
       }
     });
 
