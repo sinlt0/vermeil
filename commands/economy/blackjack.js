@@ -11,8 +11,8 @@ const eco      = require("../../emojis/ecoemoji");
 const gambConf = require("../../ecoconfiguration/gambling");
 
 module.exports = {
-  name: "blackjack", description: "Play blackjack!", category: "economy",
-  aliases: ["bj", "21"], usage: "<bet>", cooldown: 3, slash: false,
+  name: "ecoblackjack", description: "Play blackjack!", category: "economy",
+  aliases: ["ecobj", "21"], usage: "<bet>", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

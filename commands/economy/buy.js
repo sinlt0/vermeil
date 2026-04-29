@@ -8,7 +8,7 @@ const { getShopItem, addItem } = require("../../utils/ecoShopUtils");
 const eco = require("../../emojis/ecoemoji");
 
 module.exports = {
-  name: "buy", description: "Buy an item from the shop.", category: "economy",
+  name: "ecobuy", description: "Buy an item from the shop.", category: "economy",
   aliases: [], usage: "<item_id> [quantity]", cooldown: 3, slash: false,
 
   async execute(client, ctx) {

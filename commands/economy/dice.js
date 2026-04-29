@@ -9,8 +9,8 @@ const eco      = require("../../emojis/ecoemoji");
 const gambConf = require("../../ecoconfiguration/gambling");
 
 module.exports = {
-  name: "dice", description: "Roll the dice! Guess the exact number or high/low.", category: "economy",
-  aliases: ["roll"], usage: "<number|high|low> <bet>", cooldown: 3, slash: false,
+  name: "ecodice", description: "Roll the dice! Guess the exact number or high/low.", category: "economy",
+  aliases: ["ecoroll"], usage: "<number|high|low> <bet>", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

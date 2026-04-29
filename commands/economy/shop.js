@@ -8,8 +8,8 @@ const eco      = require("../../emojis/ecoemoji");
 const shopConf = require("../../ecoconfiguration/shop");
 
 module.exports = {
-  name: "shop", description: "Browse the item shop.", category: "economy",
-  aliases: ["store"], usage: "[category]", cooldown: 5, slash: false,
+  name: "ecoshop", description: "Browse the item shop.", category: "economy",
+  aliases: ["ecostore"], usage: "[category]", cooldown: 5, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

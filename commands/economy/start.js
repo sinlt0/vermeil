@@ -8,10 +8,10 @@ const eco        = require("../../emojis/ecoemoji");
 const genConfig  = require("../../ecoconfiguration/general");
 
 module.exports = {
-  name:        "start",
+  name:        "eckstart",
   description: "Start your economy journey!",
   category:    "economy",
-  aliases:     ["register", "begin"],
+  aliases:     ["ecoregister", "ecobegin"],
   usage:       "",
   cooldown:    5,
   slash:       false,

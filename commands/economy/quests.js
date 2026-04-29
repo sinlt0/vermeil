@@ -6,8 +6,8 @@ const { ecoCheck }     = require("../../utils/ecoMiddleware");
 const eco = require("../../emojis/ecoemoji");
 
 module.exports = {
-  name: "quests", description: "View your active quests.", category: "economy",
-  aliases: ["quest", "q"], usage: "", cooldown: 3, slash: false,
+  name: "ecoquests", description: "View your active quests.", category: "economy",
+  aliases: ["ecoquest", "ecoq"], usage: "", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

@@ -10,7 +10,7 @@ const eco      = require("../../emojis/ecoemoji");
 const gambConf = require("../../ecoconfiguration/gambling");
 
 module.exports = {
-  name: "coinflip", description: "Flip a coin and double your bet!", category: "economy",
+  name: "ecocoinflip", description: "Flip a coin and double your bet!", category: "economy",
   aliases: ["cf"], usage: "<heads|tails|h|t> <bet>", cooldown: 3, slash: false,
 
   async execute(client, ctx) {

@@ -8,8 +8,8 @@ const eco          = require("../../emojis/ecoemoji");
 const marriageConf = require("../../ecoconfiguration/marriage");
 
 module.exports = {
-  name: "marry", description: "Propose to another user.", category: "economy",
-  aliases: ["propose"], usage: "<@user>", cooldown: 5, slash: false,
+  name: "ecomarry", description: "Propose to another user.", category: "economy",
+  aliases: ["ecopropose"], usage: "<@user>", cooldown: 5, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

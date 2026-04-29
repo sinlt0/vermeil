@@ -10,8 +10,8 @@ const eco      = require("../../emojis/ecoemoji");
 const gambConf = require("../../ecoconfiguration/gambling");
 
 module.exports = {
-  name: "slots", description: "Spin the slot machine!", category: "economy",
-  aliases: ["slot", "spin"], usage: "<bet>", cooldown: 3, slash: false,
+  name: "ecoslots", description: "Spin the slot machine!", category: "economy",
+  aliases: ["ecoslot", "ecospin"], usage: "<bet>", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

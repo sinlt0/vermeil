@@ -10,8 +10,8 @@ const { updateQuestProgress } = require("../../utils/eco/questScheduler");
 const eco = require("../../emojis/ecoemoji");
 
 module.exports = {
-  name: "work", description: "Work your job to earn coins.", category: "economy",
-  aliases: ["w"], usage: "", cooldown: 3, slash: false,
+  name: "ework", description: "Work your job to earn coins.", category: "economy",
+  aliases: ["ew"], usage: "", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

@@ -8,8 +8,8 @@ const eco       = require("../../emojis/ecoemoji");
 const genConfig = require("../../ecoconfiguration/general");
 
 module.exports = {
-  name: "weekly", description: "Claim your weekly reward.", category: "economy",
-  aliases: ["week"], usage: "", cooldown: 3, slash: false,
+  name: "eweekly", description: "Claim your weekly reward.", category: "economy",
+  aliases: ["ecoweek"], usage: "", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

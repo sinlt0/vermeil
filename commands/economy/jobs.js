@@ -10,8 +10,8 @@ const eco      = require("../../emojis/ecoemoji");
 const jobsConf = require("../../ecoconfiguration/jobs");
 
 module.exports = {
-  name: "jobs", description: "Browse all available jobs.", category: "economy",
-  aliases: ["joblist"], usage: "", cooldown: 5, slash: false,
+  name: "ecojobs", description: "Browse all available jobs.", category: "economy",
+  aliases: ["ecojoblist"], usage: "", cooldown: 5, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

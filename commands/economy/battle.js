@@ -16,8 +16,8 @@ const huntConfig    = require("../../ecoconfiguration/hunt");
 const genConfig     = require("../../ecoconfiguration/general");
 
 module.exports = {
-  name: "battle", description: "Battle another player or a wild creature.", category: "economy",
-  aliases: ["fight", "b"], usage: "[@user] [wager]", cooldown: 3, slash: false,
+  name: "ecobattle", description: "Battle another player or a wild creature.", category: "economy",
+  aliases: ["ecofight", "ecob"], usage: "[@user] [wager]", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

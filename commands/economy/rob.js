@@ -10,8 +10,8 @@ const eco        = require("../../emojis/ecoemoji");
 const crimeConfig = require("../../ecoconfiguration/crime");
 
 module.exports = {
-  name: "rob", description: "Attempt to rob another user's wallet.", category: "economy",
-  aliases: ["steal"], usage: "<@user>", cooldown: 3, slash: false,
+  name: "ecorob", description: "Attempt to rob another user's wallet.", category: "economy",
+  aliases: ["ecosteal"], usage: "<@user>", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

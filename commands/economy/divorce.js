@@ -8,7 +8,7 @@ const eco          = require("../../emojis/ecoemoji");
 const marriageConf = require("../../ecoconfiguration/marriage");
 
 module.exports = {
-  name: "divorce", description: "Divorce your partner.", category: "economy",
+  name: "ecodivorce", description: "Divorce your partner.", category: "economy",
   aliases: [], usage: "", cooldown: 5, slash: false,
 
   async execute(client, ctx) {

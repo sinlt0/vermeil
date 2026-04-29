@@ -7,8 +7,8 @@ const { getProfile, formatNum } = require("../../utils/ecoUtils");
 const eco = require("../../emojis/ecoemoji");
 
 module.exports = {
-  name: "profile", description: "View your economy profile.", category: "economy",
-  aliases: ["p", "me"], usage: "[@user]", cooldown: 3, slash: false,
+  name: "ecoprofile", description: "View your economy profile.", category: "economy",
+  aliases: ["eco", "ecome"], usage: "[@user]", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

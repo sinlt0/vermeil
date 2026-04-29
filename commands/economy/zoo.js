@@ -8,8 +8,8 @@ const eco              = require("../../emojis/ecoemoji");
 const huntConfig       = require("../../ecoconfiguration/hunt");
 
 module.exports = {
-  name: "zoo", description: "View your creature collection.", category: "economy",
-  aliases: ["creatures", "collection"], usage: "[page]", cooldown: 3, slash: false,
+  name: "ezoo", description: "View your creature collection.", category: "economy",
+  aliases: ["ecreatures", "ecollection"], usage: "[page]", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

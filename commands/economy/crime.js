@@ -11,7 +11,7 @@ const crimeConfig = require("../../ecoconfiguration/crime");
 const genConfig   = require("../../ecoconfiguration/general");
 
 module.exports = {
-  name: "crime", description: "Commit a crime for coins.", category: "economy",
+  name: "ecocrime", description: "Commit a crime for coins.", category: "economy",
   aliases: ["cr"], usage: "", cooldown: 3, slash: false,
 
   async execute(client, ctx) {

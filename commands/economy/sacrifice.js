@@ -9,8 +9,8 @@ const eco        = require("../../emojis/ecoemoji");
 const huntConfig = require("../../ecoconfiguration/hunt");
 
 module.exports = {
-  name: "sacrifice", description: "Sacrifice a creature for coins.", category: "economy",
-  aliases: ["sac"], usage: "<position>", cooldown: 3, slash: false,
+  name: "ecosacrifice", description: "Sacrifice a creature for coins.", category: "economy",
+  aliases: ["ecosac"], usage: "<position>", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

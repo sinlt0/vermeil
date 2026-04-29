@@ -7,8 +7,8 @@ const { getProfile, withdrawFromBank, formatNum } = require("../../utils/ecoUtil
 const eco = require("../../emojis/ecoemoji");
 
 module.exports = {
-  name: "withdraw", description: "Withdraw coins from your bank.", category: "economy",
-  aliases: ["with", "wd"], usage: "<amount|all|half>", cooldown: 3, slash: false,
+  name: "ewithdraw", description: "Withdraw coins from your bank.", category: "economy",
+  aliases: ["ewith", "ewd"], usage: "<amount|all|half>", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

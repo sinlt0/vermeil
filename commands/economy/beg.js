@@ -9,7 +9,7 @@ const eco       = require("../../emojis/ecoemoji");
 const genConfig = require("../../ecoconfiguration/general");
 
 module.exports = {
-  name: "beg", description: "Beg for some coins.", category: "economy",
+  name: "ecobeg", description: "Beg for some coins.", category: "economy",
   aliases: [], usage: "", cooldown: 3, slash: false,
 
   async execute(client, ctx) {

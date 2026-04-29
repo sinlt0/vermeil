@@ -9,8 +9,8 @@ const eco       = require("../../emojis/ecoemoji");
 const genConfig = require("../../ecoconfiguration/general");
 
 module.exports = {
-  name: "give", description: "Give coins to another user.", category: "economy",
-  aliases: ["pay", "transfer"], usage: "<@user> <amount>", cooldown: 5, slash: false,
+  name: "ecogive", description: "Give coins to another user.", category: "economy",
+  aliases: ["ecopay", "ecotransfer"], usage: "<@user> <amount>", cooldown: 5, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

@@ -12,8 +12,8 @@ const huntConfig = require("../../ecoconfiguration/hunt");
 const genConfig  = require("../../ecoconfiguration/general");
 
 module.exports = {
-  name: "hunt", description: "Hunt for creatures!", category: "economy",
-  aliases: ["h"], usage: "", cooldown: 3, slash: false,
+  name: "ecohunt", description: "Hunt for creatures!", category: "economy",
+  aliases: ["ecoh"], usage: "", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

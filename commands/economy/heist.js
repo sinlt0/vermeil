@@ -6,7 +6,7 @@ const { getHeist, joinHeist, startHeist } = require("../../utils/eco/heistManage
 const eco = require("../../emojis/ecoemoji");
 
 module.exports = {
-  name: "heist", description: "Start or join a heist!", category: "economy",
+  name: "ecoheist", description: "Start or join a heist!", category: "economy",
   aliases: [], usage: "[join]", cooldown: 3, slash: false,
 
   async execute(client, ctx) {

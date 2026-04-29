@@ -10,7 +10,7 @@ const clanConf = require("../../ecoconfiguration/clan");
 const { v4: uuidv4 } = require("uuid");
 
 module.exports = {
-  name: "clan", description: "Manage your clan.", category: "economy",
+  name: "ecoclan", description: "Manage your clan.", category: "economy",
   aliases: ["guild"], usage: "<create|join|leave|info|kick|contribute|promote|demote>", cooldown: 3, slash: false,
 
   async execute(client, ctx) {

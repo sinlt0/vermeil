@@ -9,7 +9,7 @@ const eco          = require("../../emojis/ecoemoji");
 const marriageConf = require("../../ecoconfiguration/marriage");
 
 module.exports = {
-  name: "bond", description: "Create or manage bonds with users.", category: "economy",
+  name: "ecobond", description: "Create or manage bonds with users.", category: "economy",
   aliases: [], usage: "<@user | break @user | list>", cooldown: 5, slash: false,
 
   async execute(client, ctx) {

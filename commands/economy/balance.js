@@ -8,8 +8,8 @@ const eco        = require("../../emojis/ecoemoji");
 const bankConfig = require("../../ecoconfiguration/bank");
 
 module.exports = {
-  name: "balance", description: "Check your balance.", category: "economy",
-  aliases: ["bal", "coins", "money"], usage: "[@user]", cooldown: 3, slash: false,
+  name: "ecobalance", description: "Check your balance.", category: "economy",
+  aliases: ["bal", "ecocoins", "ecomoney"], usage: "[@user]", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

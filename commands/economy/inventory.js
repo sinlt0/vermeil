@@ -6,8 +6,8 @@ const { ecoCheck }     = require("../../utils/ecoMiddleware");
 const eco = require("../../emojis/ecoemoji");
 
 module.exports = {
-  name: "inventory", description: "View your item inventory.", category: "economy",
-  aliases: ["inv", "items"], usage: "[@user]", cooldown: 3, slash: false,
+  name: "ecoinventory", description: "View your item inventory.", category: "economy",
+  aliases: ["ecoinv", "ecoitems"], usage: "[@user]", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
     const message = ctx.message;

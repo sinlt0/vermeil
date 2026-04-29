@@ -9,7 +9,7 @@ const eco              = require("../../emojis/ecoemoji");
 const battleConfig     = require("../../ecoconfiguration/battle");
 
 module.exports = {
-  name: "team", description: "Manage your battle team.", category: "economy",
+  name: "ecoteam", description: "Manage your battle team.", category: "economy",
   aliases: [], usage: "[add <zoo pos> | remove <slot> | view]", cooldown: 3, slash: false,
 
   async execute(client, ctx) {
