@@ -175,6 +175,43 @@ module.exports = async (client) => {
     render(res, "embeds", { title: "Embed Builder", page: "embeds" });
   });
 
+  // ── Music Streaming ───────────────────────────────────
+  app.get("/music", (req, res) => {
+    render(res, "music", { title: "Vermeil Music", page: "music" });
+  });
+
+  app.get("/api/music/search", async (req, res) => {
+    const query = req.query.q;
+    if (!query) return res.status(400).json({ error: "Missing search query" });
+
+    if (!client.riffy) {
+      return res.status(500).json({ error: "Music engine not initialized" });
+    }
+
+    try {
+      const results = await client.riffy.resolve({ query, source: "ytsearch", requester: client.user });
+      
+      if (!results || results.loadType === "empty" || results.loadType === "error") {
+        return res.json({ tracks: [] });
+      }
+
+      // Format tracks for frontend
+      const tracks = results.tracks.map(t => ({
+        title: t.info.title,
+        author: t.info.author,
+        duration: t.info.length,
+        uri: t.info.uri,
+        thumbnail: t.info.thumbnail,
+        identifier: t.info.identifier,
+        isStream: t.info.isStream
+      }));
+
+      res.json({ tracks });
+    } catch (err) {
+      res.status(500).json({ error: "Search failed: " + err.message });
+    }
+  });
+
   app.post("/api/webhook", async (req, res) => {
     const { url, data } = req.body;
     if (!url || !data) return res.status(400).json({ error: "Missing URL or Data" });
