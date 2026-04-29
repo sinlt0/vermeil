@@ -180,6 +180,10 @@ module.exports = async (client) => {
     render(res, "music", { title: "Vermeil Music", page: "music" });
   });
 
+  app.get("/arcade", (req, res) => {
+    render(res, "arcade", { title: "Vermeil Arcade", page: "arcade" });
+  });
+
   app.get("/api/music/search", async (req, res) => {
     const query = req.query.q;
     if (!query) return res.status(400).json({ error: "Missing search query" });

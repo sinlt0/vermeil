@@ -1,0 +1,208 @@
+<div class="arcade-page-wrapper">
+  
+  <div class="music-header">
+    <div class="hero-badge" style="margin-bottom: 1rem;"><i class="fa-solid fa-gamepad"></i> Vermeil Arcade</div>
+    <h1>Space Playzone</h1>
+    <p>Take a break and enjoy some quick, interactive fun.</p>
+  </div>
+
+  <div class="arcade-grid">
+    
+    <!-- Magic 8-Ball -->
+    <div class="feature-card arcade-card">
+      <div class="card-title"><i class="fa-solid fa-circle-dot"></i> Magic 8-Ball</div>
+      <p style="margin-bottom: 1.5rem; font-size: 0.9rem;">Ask a question and seek the truth.</p>
+      <div class="input-group">
+        <input type="text" id="eightball-input" placeholder="Will I win today?">
+      </div>
+      <button class="btn btn-primary" onclick="askEightBall()" style="width: 100%;">Shake the Ball</button>
+      <div id="eightball-result" class="arcade-result" style="display:none;">
+        <div class="ball-visual">8</div>
+        <p id="eightball-text"></p>
+      </div>
+    </div>
+
+    <!-- Meme Machine -->
+    <div class="feature-card arcade-card">
+      <div class="card-title"><i class="fa-solid fa-face-laugh-squint"></i> Meme Machine</div>
+      <p style="margin-bottom: 1.5rem; font-size: 0.9rem;">Fresh memes delivered from space.</p>
+      <button class="btn btn-outline" onclick="getMeme()" id="meme-btn" style="width: 100%; border-style: dashed;">Get Random Meme</button>
+      <div id="meme-result" class="arcade-result" style="display:none; padding: 0; overflow: hidden; border-radius: 12px; margin-top: 1.5rem;">
+        <img src="" id="meme-img" style="width:100%; display:block;">
+      </div>
+    </div>
+
+    <!-- Animal Hub -->
+    <div class="feature-card arcade-card">
+      <div class="card-title"><i class="fa-solid fa-paw"></i> Animal Hub</div>
+      <p style="margin-bottom: 1.5rem; font-size: 0.9rem;">Your daily dose of cuteness.</p>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <button class="btn btn-outline" onclick="getAnimal('cat')">Cat</button>
+        <button class="btn btn-outline" onclick="getAnimal('dog')">Dog</button>
+      </div>
+      <div id="animal-result" class="arcade-result" style="display:none; padding: 0; overflow: hidden; border-radius: 12px; margin-top: 1.5rem;">
+        <img src="" id="animal-img" style="width:100%; display:block;">
+      </div>
+    </div>
+
+    <!-- Random Generator -->
+    <div class="feature-card arcade-card">
+      <div class="card-title"><i class="fa-solid fa-lightbulb"></i> Random Hub</div>
+      <p style="margin-bottom: 1.5rem; font-size: 0.9rem;">Facts, jokes, and more.</p>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem;">
+        <button class="btn btn-outline" onclick="getFun('joke')">Joke</button>
+        <button class="btn btn-outline" onclick="getFun('fact')">Fact</button>
+      </div>
+      <div id="fun-result" class="arcade-result" style="display:none; border-left: 3px solid var(--accent); background: var(--bg-midnight);">
+        <p id="fun-text" style="font-style: italic;"></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.arcade-page-wrapper {
+  padding: 100px 5% 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.arcade-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.arcade-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.arcade-result {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  animation: slideIn 0.3s ease;
+}
+
+/* ── 8 Ball ─────────────────────────────────────────── */
+.ball-visual {
+  width: 60px;
+  height: 60px;
+  background: #000;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin: 0 auto 1rem auto;
+  border: 4px solid #1a1a1a;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+#eightball-text {
+  text-align: center;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .arcade-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<script>
+// ── Magic 8-Ball ──
+function askEightBall() {
+  const input = document.getElementById('eightball-input');
+  const result = document.getElementById('eightball-result');
+  const text = document.getElementById('eightball-text');
+
+  if (!input.value) return alert("Please ask a question first!");
+
+  const answers = [
+    "It is certain.", "It is decidedly so.", "Without a doubt.", "Yes, definitely.",
+    "You may rely on it.", "As I see it, yes.", "Most likely.", "Outlook good.",
+    "Yes.", "Signs point to yes.", "Reply hazy, try again.", "Ask again later.",
+    "Better not tell you now.", "Cannot predict now.", "Concentrate and ask again.",
+    "Don't count on it.", "My reply is no.", "My sources say no.",
+    "Outlook not so good.", "Very doubtful."
+  ];
+
+  const random = answers[Math.floor(Math.random() * answers.length)];
+  
+  result.style.display = 'block';
+  text.innerText = "Thinking...";
+  
+  setTimeout(() => {
+    text.innerText = random;
+  }, 600);
+}
+
+// ── Memes ──
+async function getMeme() {
+  const btn = document.getElementById('meme-btn');
+  const result = document.getElementById('meme-result');
+  const img = document.getElementById('meme-img');
+
+  btn.innerText = "Fetching...";
+
+  try {
+    const res = await fetch('https://meme-api.com/gimme');
+    const data = await res.json();
+    img.src = data.url;
+    result.style.display = 'block';
+  } catch (err) {
+    alert("Space signal lost. Try again!");
+  } finally {
+    btn.innerText = "Get Random Meme";
+  }
+}
+
+// ── Animals ──
+async function getAnimal(type) {
+  const result = document.getElementById('animal-result');
+  const img = document.getElementById('animal-img');
+
+  try {
+    const url = type === 'cat' ? 'https://api.thecatapi.com/v1/images/search' : 'https://dog.ceo/api/breeds/image/random';
+    const res = await fetch(url);
+    const data = await res.json();
+    img.src = type === 'cat' ? data[0].url : data.message;
+    result.style.display = 'block';
+  } catch (err) {
+    alert("Animal escaped! Try again.");
+  }
+}
+
+// ── Fun ──
+async function getFun(type) {
+  const result = document.getElementById('fun-result');
+  const text = document.getElementById('fun-text');
+
+  try {
+    const url = type === 'joke' ? 'https://official-joke-api.appspot.com/random_joke' : 'https://uselessfacts.jsph.pl/random.json?language=en';
+    const res = await fetch(url);
+    const data = await res.json();
+    
+    if (type === 'joke') {
+      text.innerText = `${data.setup} \n\n ${data.punchline}`;
+    } else {
+      text.innerText = data.text;
+    }
+    result.style.display = 'block';
+  } catch (err) {
+    alert("Fun signal lost.");
+  }
+}
+</script>
