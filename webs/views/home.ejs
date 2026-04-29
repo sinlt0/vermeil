@@ -1,22 +1,24 @@
 <!-- Hero -->
 <section class="hero">
-  <div>
+  <div style="z-index: 10; display: flex; flex-direction: column; align-items: center;">
     <img src="<%= config.botLogo %>" alt="<%= config.botName %>" class="hero-logo" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
     <div class="hero-badge"><i class="fa-solid fa-bolt"></i> v<%= config.botVersion %></div>
-    <h1><%= config.botName %></h1>
+    <h1>Powerful, Secured, <br><span style="color: var(--accent-blue);">Versatile.</span></h1>
     <p><%= config.botDescription %></p>
     <div class="hero-buttons">
       <a href="<%= config.inviteLink %>" target="_blank" class="btn btn-primary">
         <i class="fa-solid fa-plus"></i> Add to Discord
       </a>
       <a href="<%= config.supportServer %>" target="_blank" class="btn btn-outline">
-        <i class="fa-brands fa-discord"></i> Support Server
+        <i class="fa-brands fa-discord"></i> Join Support
       </a>
     </div>
+
+    <!-- Counters -->
     <div class="hero-stats">
       <div class="stat">
         <div class="stat-icon"><i class="fa-solid fa-server"></i></div>
-        <div class="stat-value" id="guild-count"><%= stats.guilds %></div>
+        <div class="stat-value"><%= stats.guilds %>+</div>
         <div class="stat-label">Servers</div>
       </div>
       <div class="stat">
@@ -26,50 +28,50 @@
       </div>
       <div class="stat">
         <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
-        <div class="stat-value" id="user-count"><%= stats.users %></div>
+        <div class="stat-value"><%= (stats.users / 1000).toFixed(1) %>k</div>
         <div class="stat-label">Users</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Why Vermeil? -->
+<!-- Why Choose -->
 <section id="why-choose">
   <div class="section-header">
-    <span class="section-tag">Why us?</span>
-    <h2>Built for performance & security</h2>
-    <p>Discover why thousands of server owners trust <%= config.botName %> to manage their communities.</p>
+    <span class="section-tag">Reliability</span>
+    <h2>Built for Performance</h2>
+    <p>We provide a rock-solid foundation for your community with high-speed execution and advanced security layers.</p>
   </div>
   <div class="features-grid">
     <div class="feature-card">
       <span class="feature-icon" style="color: #5865f2;"><i class="fa-solid fa-bolt-lightning"></i></span>
-      <h3>Lightning Fast</h3>
-      <p>Optimized for speed and minimal latency, ensuring commands respond instantly even in large servers.</p>
+      <h3>Ultra-Fast Response</h3>
+      <p>Our distributed multi-cluster architecture ensures that <%= config.botName %> responds instantly, regardless of your server size.</p>
     </div>
     <div class="feature-card">
-      <span class="feature-icon" style="color: #57f287;"><i class="fa-solid fa-shield-check"></i></span>
-      <h3>Rock Solid Security</h3>
-      <p>Built with multiple layers of protection to keep your server safe from nukers and malicious users.</p>
+      <span class="feature-icon" style="color: #7c4dff;"><i class="fa-solid fa-shield-halved"></i></span>
+      <h3>Military-Grade Security</h3>
+      <p>From Anti-Nuke to Panic Mode, we give you all the tools to keep your community safe from any threat.</p>
     </div>
     <div class="feature-card">
-      <span class="feature-icon" style="color: #fee75c;"><i class="fa-solid fa-clock"></i></span>
-      <h3>99.9% Uptime</h3>
-      <p>Hosted on high-performance servers to ensure <%= config.botName %> is always online when you need it.</p>
+      <span class="feature-icon" style="color: #34d399;"><i class="fa-solid fa-cloud"></i></span>
+      <h3>99.9% Uptime SLA</h3>
+      <p>Rest easy knowing <%= config.botName %> is powered by high-end infrastructure, ensuring near-perfect availability 24/7.</p>
     </div>
   </div>
 </section>
 
-<!-- Features -->
+<!-- Feature Showcase -->
 <section id="features">
   <div class="section-header">
-    <span class="section-tag">Features</span>
-    <h2>Everything your server needs</h2>
-    <p>Packed with powerful features to take your Discord server to the next level.</p>
+    <span class="section-tag">Explore Features</span>
+    <h2>Everything You Need</h2>
+    <p>Vermeil is packed with professional-grade modules to replace multiple bots with one powerful solution.</p>
   </div>
   <div class="features-grid">
     <% config.features.forEach(f => { %>
     <div class="feature-card">
-      <span class="feature-icon"><%= f.icon %></span>
+      <i class="<%= f.icon %> feature-icon"></i>
       <h3><%= f.title %></h3>
       <p><%= f.description %></p>
     </div>
@@ -77,19 +79,20 @@
   </div>
 </section>
 
-<!-- CTA -->
-<section style="text-align: center; padding: 4rem 2rem;">
-  <div class="section-header">
-    <span class="section-tag">Get Started</span>
-    <h2>Ready to elevate your server?</h2>
-    <p>Add <%= config.botName %> to your Discord server today and unlock all features instantly.</p>
-  </div>
-  <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:1.5rem;">
-    <a href="<%= config.inviteLink %>" target="_blank" class="btn btn-primary" style="font-size:1rem; padding:0.8rem 2rem;">
-      <i class="fa-solid fa-plus"></i> Add <%= config.botName %>
-    </a>
-    <a href="/docs" class="btn btn-outline" style="font-size:1rem; padding:0.8rem 2rem;">
-      <i class="fa-solid fa-book"></i> Read the Docs
-    </a>
+<!-- Call to Action -->
+<section style="margin-bottom: 80px;">
+  <div class="feature-card" style="text-align: center; padding: 60px 40px; background: linear-gradient(135deg, rgba(124, 77, 255, 0.1) 0%, rgba(88, 101, 242, 0.1) 100%); border-color: var(--accent-glow); position: relative; z-index: 1;">
+    <div class="section-header" style="margin-bottom: 30px; position: relative; z-index: 2;">
+      <h2 style="margin-bottom: 10px;">Ready to Evolve Your Server?</h2>
+      <p>Join thousands of servers using <%= config.botName %> to automate, secure, and entertain.</p>
+    </div>
+    <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; position: relative; z-index: 3;">
+      <a href="<%= config.inviteLink %>" target="_blank" class="btn btn-primary" style="padding: 14px 40px;">
+        <i class="fa-solid fa-plus"></i> Get Started Now
+      </a>
+      <a href="/docs" class="btn btn-outline" style="padding: 14px 40px;">
+        <i class="fa-solid fa-book"></i> Documentation
+      </a>
+    </div>
   </div>
 </section>

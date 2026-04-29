@@ -1,0 +1,603 @@
+<div class="embed-builder-wrapper">
+  <div class="builder-container">
+    
+    <!-- Input Section -->
+    <div class="builder-inputs">
+      
+      <!-- Webhook Settings -->
+      <div class="builder-card">
+        <h3 class="card-title"><i class="fa-solid fa-link"></i> Webhook Settings</h3>
+        <div class="input-group">
+          <label>Webhook URL</label>
+          <input type="text" id="webhook-url" placeholder="https://discord.com/api/webhooks/..." oninput="updatePreview()">
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label>Username Override</label>
+            <input type="text" id="hook-username" placeholder="<%= config.botName %>" oninput="updatePreview()">
+          </div>
+          <div class="input-group">
+            <label>Avatar URL Override</label>
+            <input type="text" id="hook-avatar" placeholder="https://..." oninput="updatePreview()">
+          </div>
+        </div>
+      </div>
+
+      <!-- Message Content -->
+      <div class="builder-card">
+        <h3 class="card-title"><i class="fa-solid fa-message"></i> Message Content</h3>
+        <div class="input-group">
+          <label>Content (Plain text)</label>
+          <textarea id="msg-content" rows="3" placeholder="Hey @everyone!" oninput="updatePreview()"></textarea>
+        </div>
+      </div>
+
+      <!-- Multi-Embed Container -->
+      <div id="embeds-list"></div>
+
+      <!-- Add Embed Button -->
+      <div style="margin-bottom: 2rem;">
+        <button class="btn btn-outline" style="width: 100%; padding: 1rem; border-style: dashed; border-width: 2px;" onclick="addEmbed()">
+          <i class="fa-solid fa-plus-circle"></i> Add New Embed
+        </button>
+      </div>
+
+      <div style="padding: 1rem 0;">
+        <button class="btn btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.1rem;" onclick="sendWebhook()">
+          <i class="fa-solid fa-paper-plane"></i> Send Message
+        </button>
+      </div>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="builder-preview">
+      <div class="preview-sticky">
+        <h3 style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em;">Live Preview</h3>
+        
+        <div class="discord-msg">
+          <img src="<%= config.botLogo %>" id="pre-avatar" class="discord-avatar" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+          <div class="discord-content">
+            <div class="discord-header">
+              <span class="discord-username" id="pre-username"><%= config.botName %></span>
+              <span class="discord-bot-tag">Bot</span>
+              <span class="discord-timestamp">Today at 12:00 PM</span>
+            </div>
+            <div class="discord-text" id="pre-content">Hey there! This is a preview of your message content.</div>
+            
+            <!-- Embeds Preview List -->
+            <div id="pre-embeds-container"></div>
+          </div>
+        </div>
+
+        <div class="builder-card" style="margin-top: 2rem; border-color: var(--accent-glow);">
+          <h4 style="margin-bottom: 10px; font-size: 0.9rem;">Status</h4>
+          <div id="status-msg" style="font-size: 0.85rem; color: var(--text-muted);">Ready to send...</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.embed-builder-wrapper {
+  padding: 100px 5% 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.builder-container {
+  display: grid;
+  grid-template-columns: 1fr 500px;
+  gap: 3rem;
+}
+
+.builder-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-title i { color: var(--accent); }
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+input[type="text"], textarea {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--border);
+  padding: 12px 16px;
+  border-radius: 10px;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--accent);
+  background: rgba(0,0,0,0.4);
+}
+
+.preview-sticky {
+  position: sticky;
+  top: 100px;
+}
+
+/* ── Discord UI Preview ────────────────────────────────── */
+.discord-msg {
+  background: #313338;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  gap: 1rem;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.discord-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.discord-content { flex: 1; min-width: 0; }
+
+.discord-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.discord-username {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.discord-bot-tag {
+  background: #5865F2;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.discord-timestamp {
+  color: #949ba4;
+  font-size: 0.75rem;
+}
+
+.discord-text {
+  color: #dbdee1;
+  font-size: 0.95rem;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.discord-embed {
+  margin-top: 0.5rem;
+  background: #2b2d31;
+  border-left: 4px solid #7c4dff;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  max-width: 520px;
+  display: flex;
+  gap: 1rem;
+}
+
+.embed-inner { flex: 1; min-width: 0; }
+
+.embed-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.embed-author-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.embed-author-name {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.embed-title {
+  color: #00a8fc;
+  font-weight: 700;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 8px;
+  text-decoration: none;
+}
+
+.embed-description {
+  color: #dbdee1;
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+}
+
+.embed-fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.embed-field {
+  grid-column: span 3;
+}
+
+.embed-field-inline {
+  grid-column: span 1;
+}
+
+.embed-field-name {
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.875rem;
+  margin-bottom: 2px;
+}
+
+.embed-field-value {
+  color: #dbdee1;
+  font-size: 0.875rem;
+}
+
+.embed-thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.embed-image {
+  margin-top: 1rem;
+  width: 100%;
+  border-radius: 4px;
+  max-height: 300px;
+  object-fit: cover;
+}
+
+.embed-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.embed-footer-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.embed-footer-text {
+  color: #949ba4;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 1024px) {
+  .builder-container { grid-template-columns: 1fr; }
+  .builder-preview { order: -1; }
+  .preview-sticky { position: static; margin-bottom: 2rem; }
+}
+</style>
+
+<script>
+let embedCount = 0;
+
+function addEmbed() {
+  if (embedCount >= 10) return alert("Discord only supports up to 10 embeds per message.");
+  
+  embedCount++;
+  const embedId = `embed-${Date.now()}`;
+  const html = `
+    <div class="embed-config builder-card" id="${embedId}" data-embed-id="${embedId}">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+        <h3 class="card-title" style="margin:0;"><i class="fa-solid fa-square-poll-horizontal"></i> Embed #${embedCount}</h3>
+        <button class="btn btn-outline" style="padding: 5px 12px; color: #ef4444; border-color: rgba(239, 68, 68, 0.2);" onclick="removeEmbed('${embedId}')">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+      
+      <div class="input-group">
+        <label>Author Name</label>
+        <input type="text" class="emb-author-name" placeholder="Author" oninput="updatePreview()">
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Author Icon URL</label>
+          <input type="text" class="emb-author-icon" placeholder="https://..." oninput="updatePreview()">
+        </div>
+        <div class="input-group">
+          <label>Author Link URL</label>
+          <input type="text" class="emb-author-url" placeholder="https://..." oninput="updatePreview()">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Title</label>
+        <input type="text" class="emb-title" placeholder="Embed Title" oninput="updatePreview()">
+      </div>
+      <div class="input-group">
+        <label>Title URL</label>
+        <input type="text" class="emb-url" placeholder="https://..." oninput="updatePreview()">
+      </div>
+      <div class="input-group">
+        <label>Description</label>
+        <textarea rows="4" class="emb-description" placeholder="Description..." oninput="updatePreview()"></textarea>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label>Thumbnail URL</label>
+          <input type="text" class="emb-thumbnail" placeholder="https://..." oninput="updatePreview()">
+        </div>
+        <div class="input-group">
+          <label>Image URL</label>
+          <input type="text" class="emb-image" placeholder="https://..." oninput="updatePreview()">
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <label>Footer Text</label>
+          <input type="text" class="emb-footer-text" placeholder="Footer text" oninput="updatePreview()">
+        </div>
+        <div class="input-group">
+          <label>Footer Icon URL</label>
+          <input type="text" class="emb-footer-icon" placeholder="https://..." oninput="updatePreview()">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Embed Color</label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="color" class="emb-color" value="#7c4dff" oninput="updatePreview()" style="width: 50px; height: 40px; border: none; background: none; cursor: pointer;">
+        </div>
+      </div>
+
+      <!-- Fields for this embed -->
+      <div style="border-top: 1px solid var(--border); padding-top: 1.5rem; margin-top: 1rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <label style="color: var(--accent);">Embed Fields</label>
+          <button class="btn btn-outline" style="padding: 4px 10px; font-size: 0.75rem;" onclick="addField('${embedId}')">
+            <i class="fa-solid fa-plus"></i> Add Field
+          </button>
+        </div>
+        <div class="fields-list" id="fields-${embedId}"></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('embeds-list').insertAdjacentHTML('beforeend', html);
+  updatePreview();
+}
+
+function removeEmbed(id) {
+  document.getElementById(id).remove();
+  embedCount--;
+  updatePreview();
+}
+
+function addField(embedId) {
+  const container = document.getElementById(`fields-${embedId}`);
+  if (container.children.length >= 25) return alert("Discord only supports 25 fields per embed.");
+  
+  const fieldId = `field-${Date.now()}`;
+  const html = `
+    <div class="field-item builder-card" id="${fieldId}" style="padding: 1rem; border-style: dashed; margin-bottom: 10px; background: rgba(255,255,255,0.02);">
+      <div style="display:flex; justify-content:space-between; margin-bottom: 0.75rem;">
+        <label style="font-size: 0.7rem; opacity: 0.5;">Field</label>
+        <button class="btn btn-outline" style="padding: 2px 6px; color: #ef4444; border-color: rgba(239, 68, 68, 0.1); font-size: 0.7rem;" onclick="document.getElementById('${fieldId}').remove(); updatePreview();">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+      <input type="text" class="f-name" placeholder="Name" style="margin-bottom:8px; width:100%;" oninput="updatePreview()">
+      <textarea rows="2" class="f-value" placeholder="Value" style="width:100%;" oninput="updatePreview()"></textarea>
+      <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size: 0.7rem; text-transform:none; margin-top:8px;">
+        <input type="checkbox" class="f-inline" onchange="updatePreview()"> Inline
+      </label>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+  updatePreview();
+}
+
+function updatePreview() {
+  const get = (id) => document.getElementById(id).value;
+  const setDisplay = (id, cond) => document.getElementById(id).style.display = cond ? '' : 'none';
+  const setSrc = (id, val) => document.getElementById(id).src = val;
+
+  // Header Preview
+  document.getElementById('pre-username').innerText = get('hook-username') || '<%= config.botName %>';
+  document.getElementById('pre-avatar').src = get('hook-avatar') || '<%= config.botLogo %>';
+  document.getElementById('pre-content').innerText = get('msg-content') || '';
+  setDisplay('pre-content', get('msg-content'));
+
+  // Multi-Embed Preview
+  const preContainer = document.getElementById('pre-embeds-container');
+  preContainer.innerHTML = '';
+
+  document.querySelectorAll('.embed-config').forEach(emb => {
+    const title = emb.querySelector('.emb-title').value;
+    const desc = emb.querySelector('.emb-description').value;
+    const authorName = emb.querySelector('.emb-author-name').value;
+    const footerText = emb.querySelector('.emb-footer-text').value;
+    const thumb = emb.querySelector('.emb-thumbnail').value;
+    const img = emb.querySelector('.emb-image').value;
+    const color = emb.querySelector('.emb-color').value;
+
+    const hasContent = title || desc || authorName || footerText || thumb || img || emb.querySelector('.fields-list').children.length > 0;
+    if (!hasContent) return;
+
+    // Build Field HTML
+    let fieldsHtml = '';
+    emb.querySelectorAll('.field-item').forEach(f => {
+      const fName = f.querySelector('.f-name').value;
+      const fVal = f.querySelector('.f-value').value;
+      const fInline = f.querySelector('.f-inline').checked;
+      if (fName || fVal) {
+        fieldsHtml += `
+          <div class="embed-field ${fInline ? 'embed-field-inline' : ''}">
+            <div class="embed-field-name">${fName || 'Empty Name'}</div>
+            <div class="embed-field-value">${fVal || 'Empty Value'}</div>
+          </div>
+        `;
+      }
+    });
+
+    const embedHtml = `
+      <div class="discord-embed" style="border-color: ${color}">
+        <div class="embed-inner">
+          ${authorName ? `
+            <div class="embed-author">
+              ${emb.querySelector('.emb-author-icon').value ? `<img src="${emb.querySelector('.emb-author-icon').value}" class="embed-author-icon">` : ''}
+              <a href="${emb.querySelector('.emb-author-url').value || '#'}" class="embed-author-name">${authorName}</a>
+            </div>
+          ` : ''}
+          ${title ? `<a href="${emb.querySelector('.emb-url').value || '#'}" class="embed-title">${title}</a>` : ''}
+          ${desc ? `<div class="embed-description">${desc}</div>` : ''}
+          ${fieldsHtml ? `<div class="embed-fields">${fieldsHtml}</div>` : ''}
+          ${img ? `<img src="${img}" class="embed-image">` : ''}
+          ${footerText ? `
+            <div class="embed-footer">
+              ${emb.querySelector('.emb-footer-icon').value ? `<img src="${emb.querySelector('.emb-footer-icon').value}" class="embed-footer-icon">` : ''}
+              <span class="embed-footer-text">${footerText}</span>
+            </div>
+          ` : ''}
+        </div>
+        ${thumb ? `<img src="${thumb}" class="embed-thumbnail">` : ''}
+      </div>
+    `;
+    preContainer.insertAdjacentHTML('beforeend', embedHtml);
+  });
+}
+
+async function sendWebhook() {
+  const url = document.getElementById('webhook-url').value;
+  const status = document.getElementById('status-msg');
+
+  if (!url) {
+    status.innerText = "Error: Webhook URL is required.";
+    status.style.color = "#ef4444";
+    return;
+  }
+
+  const embeds = [];
+  document.querySelectorAll('.embed-config').forEach(emb => {
+    const fields = [];
+    emb.querySelectorAll('.field-item').forEach(f => {
+      const name = f.querySelector('.f-name').value;
+      const value = f.querySelector('.f-value').value;
+      if (name || value) {
+        fields.push({
+          name: name || "Empty Name",
+          value: value || "Empty Value",
+          inline: f.querySelector('.f-inline').checked
+        });
+      }
+    });
+
+    const eData = {
+      author: emb.querySelector('.emb-author-name').value ? {
+        name: emb.querySelector('.emb-author-name').value,
+        icon_url: emb.querySelector('.emb-author-icon').value || undefined,
+        url: emb.querySelector('.emb-author-url').value || undefined
+      } : undefined,
+      title: emb.querySelector('.emb-title').value || undefined,
+      url: emb.querySelector('.emb-url').value || undefined,
+      description: emb.querySelector('.emb-description').value || undefined,
+      color: parseInt(emb.querySelector('.emb-color').value.replace('#', ''), 16),
+      fields: fields.length > 0 ? fields : undefined,
+      thumbnail: emb.querySelector('.emb-thumbnail').value ? { url: emb.querySelector('.emb-thumbnail').value } : undefined,
+      image: emb.querySelector('.emb-image').value ? { url: emb.querySelector('.emb-image').value } : undefined,
+      footer: emb.querySelector('.emb-footer-text').value ? {
+        text: emb.querySelector('.emb-footer-text').value,
+        icon_url: emb.querySelector('.emb-footer-icon').value || undefined
+      } : undefined
+    };
+
+    // Only add if not empty
+    if (eData.title || eData.description || eData.author || eData.footer || eData.image || eData.thumbnail || fields.length > 0) {
+      embeds.push(eData);
+    }
+  });
+
+  const data = {
+    username: document.getElementById('hook-username').value || undefined,
+    avatar_url: document.getElementById('hook-avatar').value || undefined,
+    content: document.getElementById('msg-content').value || undefined,
+    embeds: embeds
+  };
+
+  status.innerText = "Sending to Discord...";
+  status.style.color = "var(--text-muted)";
+
+  try {
+    const res = await fetch('/api/webhook', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, data })
+    });
+
+    const result = await res.json();
+    if (res.ok) {
+      status.innerText = "✅ Success! All embeds sent.";
+      status.style.color = "#10b981";
+    } else {
+      status.innerText = "❌ Error: " + result.error;
+      status.style.color = "#ef4444";
+    }
+  } catch (err) {
+    status.innerText = "❌ Request failed: " + err.message;
+    status.style.color = "#ef4444";
+  }
+}
+
+// Start with one embed
+addEmbed();
+</script>

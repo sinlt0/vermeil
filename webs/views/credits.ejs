@@ -1,33 +1,63 @@
-<section>
+<section style="padding-top: 120px;">
   <div class="section-header">
-    <span class="section-tag">Team</span>
-    <h2>Meet the Team</h2>
-    <p>The people who built and maintain <%= config.botName %>.</p>
+    <span class="section-tag">Development Team</span>
+    <h2>The Minds Behind <%= config.botName %></h2>
+    <p>Meet the dedicated team working to provide you with the best Discord experience.</p>
   </div>
+
   <div class="credits-grid">
-    <% config.credits.forEach(dev => { %>
-    <div class="credit-card">
-      <img src="<%= dev.avatar %>" alt="<%= dev.name %>" class="credit-avatar" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-      <div class="credit-name"><%= dev.name %></div>
-      <div class="credit-role"><%= dev.role %></div>
-      <div class="credit-links">
-        <% if (dev.links.github) { %>
-        <a href="<%= dev.links.github %>" target="_blank" class="credit-link" title="GitHub">
-          <i class="fa-brands fa-github"></i>
-        </a>
+    <% if (config.credits && config.credits.length > 0) { %>
+      <% config.credits.forEach(member => { %>
+      <div class="feature-card" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <img src="<%= member.avatar %>" alt="<%= member.name %>" class="hero-logo" style="width: 100px; height: 100px;" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+        <div class="hero-badge"><%= member.role %></div>
+        <h3><%= member.name %></h3>
+        <% if (member.bio) { %>
+          <p><%= member.bio %></p>
         <% } %>
-        <% if (dev.links.discord) { %>
-        <a href="<%= dev.links.discord %>" target="_blank" class="credit-link" title="Discord">
-          <i class="fa-brands fa-discord"></i>
-        </a>
-        <% } %>
-        <% if (dev.links.youtube) { %>
-        <a href="<%= dev.links.youtube %>" target="_blank" class="credit-link" title="YouTube">
-          <i class="fa-brands fa-youtube"></i>
-        </a>
-        <% } %>
+        
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+          <% if (member.links) { %>
+            <% if (member.links.github) { %>
+              <a href="<%= member.links.github %>" target="_blank" class="btn btn-outline" style="padding: 8px; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-brands fa-github"></i>
+              </a>
+            <% } %>
+            <% if (member.links.discord) { %>
+              <a href="<%= member.links.discord %>" target="_blank" class="btn btn-outline" style="padding: 8px; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-brands fa-discord"></i>
+              </a>
+            <% } %>
+            <% if (member.links.youtube) { %>
+              <a href="<%= member.links.youtube %>" target="_blank" class="btn btn-outline" style="padding: 8px; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+            <% } %>
+            <% if (member.links.twitter) { %>
+              <a href="<%= member.links.twitter %>" target="_blank" class="btn btn-outline" style="padding: 8px; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-brands fa-twitter"></i>
+              </a>
+            <% } %>
+          <% } %>
+        </div>
       </div>
+      <% }); %>
+    <% } else { %>
+      <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-muted);">
+        <p>No credits information found in configuration.</p>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<section>
+  <div class="feature-card" style="border-style: dashed; text-align: center; border-color: var(--accent-glow);">
+    <h3>Special Thanks</h3>
+    <p style="max-width: 600px; margin: 0 auto;">To all our contributors, beta testers, and supporters who have helped <%= config.botName %> grow into what it is today.</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px;">
+      <span class="hero-badge" style="background: rgba(255,255,255,0.05); border-color: var(--border);">Open Source Community</span>
+      <span class="hero-badge" style="background: rgba(255,255,255,0.05); border-color: var(--border);">Discord.js Team</span>
+      <span class="hero-badge" style="background: rgba(255,255,255,0.05); border-color: var(--border);">Early Supporters</span>
     </div>
-    <% }); %>
   </div>
 </section>

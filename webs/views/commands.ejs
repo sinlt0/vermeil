@@ -1,44 +1,48 @@
-<div class="commands-layout">
-  <!-- Sidebar -->
-  <div class="cmd-sidebar">
-    <div class="cmd-sidebar-inner">
-      <h3>Categories</h3>
-      <% categories.forEach(cat => { %>
-      <a href="#<%= cat.name %>" onclick="scrollToCategory('<%= cat.name %>')">
-        <%= cat.emoji %> <%= cat.name %> <span style="margin-left:auto; font-size:0.75rem; color:var(--text-muted);"><%= cat.commands.length %></span>
-      </a>
-      <% }); %>
-    </div>
-  </div>
-
-  <!-- Commands list -->
-  <div>
-    <div style="margin-bottom: 2rem;">
-      <h1 style="font-size:2rem; font-weight:800; margin-bottom:0.5rem;">Commands</h1>
-      <p style="color:var(--text-secondary);">
-        <%= totalCommands %> commands across <%= categories.length %> categories.
-        Both prefix (<code style="font-size:0.85rem; background:var(--bg-card); padding:0.1rem 0.4rem; border-radius:4px; border:1px solid var(--border)"><%= prefix %></code>) and slash commands supported.
+<div class="commands-page-wrapper">
+  <div class="commands-container-new">
+    <div class="commands-header">
+      <div class="hero-badge" style="margin: 0 auto 1rem auto;"><i class="fa-solid fa-terminal"></i> Command Suite</div>
+      <h1>Explore Capabilities</h1>
+      <p>
+        Manage your server with ease using over <%= totalCommands %> professional commands across <%= categories.length %> categories.
+        Supported prefix: <code class="prefix-code"><%= prefix %></code>
       </p>
     </div>
 
-    <div class="search-bar">
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
-      <input type="text" id="cmd-search" placeholder="Search commands..." oninput="filterCommands(this.value)">
+    <div class="search-section">
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="cmd-search" placeholder="Search for a specific command..." oninput="filterCommands(this.value)">
+      </div>
     </div>
 
-    <div id="commands-container">
-      <% categories.forEach(cat => { %>
-      <div class="cmd-category" id="cat-<%= cat.name %>">
+    <!-- Category Tabs -->
+    <div class="category-tabs-wrapper">
+      <div class="category-tabs">
+        <% categories.forEach((cat, index) => { %>
+        <button class="cat-tab <%= index === 0 ? 'active' : '' %>" onclick="showCategory('<%= cat.name %>')">
+          <i class="<%= cat.emoji %>"></i>
+          <span><%= cat.name %></span>
+        </button>
+        <% }); %>
+      </div>
+    </div>
+
+    <div id="commands-content">
+      <% categories.forEach((cat, index) => { %>
+      <div class="cmd-category-view <%= index === 0 ? 'active' : '' %>" id="cat-<%= cat.name %>">
         <div class="cmd-category-header">
-          <span style="font-size:1.5rem;"><%= cat.emoji %></span>
+          <i class="<%= cat.emoji %> category-icon"></i>
           <h2><%= cat.name %></h2>
-          <span class="cmd-count"><%= cat.commands.length %></span>
+          <span class="cmd-count"><%= cat.commands.length %> Commands</span>
         </div>
         <div class="cmd-list">
           <% cat.commands.forEach(cmd => { %>
           <div class="cmd-item" data-name="<%= cmd.name %>" data-desc="<%= cmd.description %>">
-            <span class="cmd-name"><%= prefix %><%= cmd.name %><%= cmd.usage ? ' ' + cmd.usage : '' %></span>
-            <span class="cmd-desc"><%= cmd.description || 'No description.' %></span>
+            <div class="cmd-main">
+              <span class="cmd-name"><%= prefix %><%= cmd.name %><%= cmd.usage ? ' ' + cmd.usage : '' %></span>
+              <span class="cmd-desc"><%= cmd.description || 'No description.' %></span>
+            </div>
             <div class="cmd-badges">
               <% if (cmd.slash !== false) { %><span class="badge badge-slash">Slash</span><% } %>
               <span class="badge badge-prefix">Prefix</span>
@@ -53,39 +57,313 @@
       <% }); %>
     </div>
 
-    <div id="no-results" style="display:none; text-align:center; padding:3rem; color:var(--text-muted);">
-      <i class="fa-solid fa-magnifying-glass" style="font-size:2rem; margin-bottom:1rem;"></i>
-      <p>No commands found.</p>
+    <div id="no-results" style="display:none; text-align:center; padding:5rem 1rem; color:var(--text-muted);">
+      <i class="fa-solid fa-magnifying-glass" style="font-size:3.5rem; margin-bottom:1.5rem; opacity: 0.2;"></i>
+      <p style="font-size: 1.2rem;">No commands match your search query.</p>
     </div>
   </div>
 </div>
 
+<style>
+.commands-page-wrapper {
+  padding: 80px 1rem 100px 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.commands-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.commands-header h1 {
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-weight: 900;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.03em;
+}
+
+.commands-header p {
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-size: 1.1rem;
+}
+
+.prefix-code {
+  font-size: 0.9rem;
+  background: var(--bg-card);
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  color: var(--accent-blue);
+}
+
+.search-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.search-bar {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+.search-bar input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.25rem 1rem 3.5rem;
+  color: var(--text-main);
+  font-size: 1.1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.search-bar input:focus {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1.2rem;
+}
+
+.category-tabs-wrapper {
+  margin-bottom: 3.5rem;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: none;
+}
+
+.category-tabs-wrapper::-webkit-scrollbar { display: none; }
+
+.category-tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  min-width: max-content;
+  padding: 4px;
+  margin: 0 auto;
+}
+
+.cat-tab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cat-tab i { font-size: 1.1rem; opacity: 0.7; }
+
+.cat-tab:hover {
+  border-color: var(--accent-glow);
+  color: var(--text-main);
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.05);
+}
+
+.cat-tab.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+.cat-tab.active i { opacity: 1; }
+
+.cmd-category-view {
+  display: none;
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cmd-category-view.active { display: block; }
+
+.cmd-category-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.category-icon { font-size: 1.8rem; color: var(--accent); }
+
+.cmd-category-header h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-main);
+}
+
+.cmd-count {
+  margin-left: auto;
+  background: rgba(255,255,255,0.05);
+  padding: 0.3rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.cmd-list { display: flex; flex-direction: column; gap: 12px; }
+
+.cmd-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.cmd-item:hover {
+  border-color: var(--accent-blue);
+  transform: translateX(6px);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.cmd-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.cmd-name {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  color: var(--accent-blue);
+  font-size: 1.15rem;
+  white-space: normal;
+  word-break: break-word;
+  min-width: 0;
+  line-height: 1.4;
+}
+
+.cmd-desc {
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.cmd-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-left: 20px;
+}
+
+.badge {
+  padding: 0.3rem 0.7rem;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-slash { background: #5865F2; color: white; }
+.badge-prefix { background: #10b981; color: white; }
+.badge-db { background: #f59e0b; color: white; }
+.badge-owner { background: #ef4444; color: white; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .commands-page-wrapper { padding: 40px 0.75rem 60px 0.75rem; }
+  .category-tabs { justify-content: flex-start; padding: 0.5rem 0.25rem; }
+  .cmd-item { flex-direction: column; align-items: flex-start; gap: 1.25rem; padding: 1.5rem; }
+  .cmd-badges { justify-content: flex-start; width: 100%; margin-left: 0; }
+  .cmd-name { font-size: 1.05rem; }
+}
+</style>
+
 <script>
-function scrollToCategory(name) {
-  const el = document.getElementById('cat-' + name);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+function showCategory(name) {
+  document.querySelectorAll('.cat-tab').forEach(btn => {
+    const btnText = btn.querySelector('span').innerText.trim();
+    btn.classList.toggle('active', btnText === name);
+  });
+
+  document.querySelectorAll('.cmd-category-view').forEach(view => {
+    view.classList.toggle('active', view.id === 'cat-' + name);
+  });
+
+  document.getElementById('cmd-search').value = '';
+  document.getElementById('no-results').style.display = 'none';
+  document.getElementById('commands-content').style.display = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function filterCommands(query) {
   query = query.toLowerCase();
-  const categories = document.querySelectorAll('.cmd-category');
+  const views = document.querySelectorAll('.cmd-category-view');
+  const tabsWrapper = document.querySelector('.category-tabs-wrapper');
   let anyVisible = false;
 
-  categories.forEach(cat => {
-    const items = cat.querySelectorAll('.cmd-item');
-    let catVisible = false;
-    items.forEach(item => {
-      const name = item.dataset.name?.toLowerCase() || '';
-      const desc = item.dataset.desc?.toLowerCase() || '';
-      const match = !query || name.includes(query) || desc.includes(query);
-      item.style.display = match ? '' : 'none';
-      if (match) catVisible = true;
+  if (query.length > 0) {
+    tabsWrapper.style.display = 'none';
+    views.forEach(view => {
+      view.classList.add('active');
+      const items = view.querySelectorAll('.cmd-item');
+      let catVisible = false;
+      items.forEach(item => {
+        const name = item.dataset.name?.toLowerCase() || '';
+        const desc = item.dataset.desc?.toLowerCase() || '';
+        const match = name.includes(query) || desc.includes(query);
+        item.style.display = match ? 'flex' : 'none';
+        if (match) catVisible = true;
+      });
+      view.style.display = catVisible ? 'block' : 'none';
+      if (catVisible) anyVisible = true;
     });
-    cat.style.display = catVisible ? '' : 'none';
-    if (catVisible) anyVisible = true;
-  });
+  } else {
+    tabsWrapper.style.display = 'block';
+    const activeTabBtn = document.querySelector('.cat-tab.active');
+    const activeTab = activeTabBtn ? activeTabBtn.querySelector('span').innerText.trim() : '';
+    
+    views.forEach(view => {
+      view.style.display = '';
+      view.classList.toggle('active', view.id === 'cat-' + activeTab);
+      view.querySelectorAll('.cmd-item').forEach(item => item.style.display = 'flex');
+    });
+    anyVisible = true;
+  }
 
   document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
-  document.getElementById('commands-container').style.display = anyVisible ? '' : 'none';
+  document.getElementById('commands-content').style.display = anyVisible ? '' : 'none';
 }
 </script>

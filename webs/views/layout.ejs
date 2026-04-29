@@ -8,14 +8,24 @@
   <meta property="og:title" content="<%= config.botName %>">
   <meta property="og:description" content="<%= config.botDescription %>">
   <meta property="og:image" content="<%= config.botLogo %>">
-  <meta name="theme-color" content="#5865f2">
+  <meta name="theme-color" content="#7c4dff">
   <link rel="icon" href="<%= config.botLogo %>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+<!-- Space Background -->
+<div class="space-bg">
+  <div class="stars stars-1"></div>
+  <div class="stars stars-2"></div>
+  <div class="comet comet-1"></div>
+  <div class="comet comet-2"></div>
+  <div class="comet comet-3"></div>
+  <div class="comet comet-4"></div>
+</div>
 
 <nav class="navbar">
   <a href="/" class="navbar-brand">
@@ -25,41 +35,37 @@
   <ul class="navbar-links">
     <li><a href="/" class="<%= page === 'home' ? 'active' : '' %>">Home</a></li>
     <li><a href="/commands" class="<%= page === 'commands' ? 'active' : '' %>">Commands</a></li>
+    <li><a href="/embeds" class="<%= page === 'embeds' ? 'active' : '' %>">Embeds</a></li>
     <li><a href="/docs" class="<%= page === 'docs' ? 'active' : '' %>">Docs</a></li>
     <li><a href="/changelog" class="<%= page === 'changelog' ? 'active' : '' %>">Changelog</a></li>
     <li><a href="/credits" class="<%= page === 'credits' ? 'active' : '' %>">Credits</a></li>
-    <% if (config.supportServer) { %>
-    <li><a href="<%= config.supportServer %>" target="_blank">Support</a></li>
-    <% } %>
   </ul>
-  <div class="navbar-actions">
-    <a href="<%= config.inviteLink %>" target="_blank" class="btn btn-primary nav-invite">
-      <i class="fa-solid fa-plus"></i> Invite Bot
+  <div class="navbar-actions" style="display:flex; align-items:center; gap:1.5rem;">
+    <a href="<%= config.inviteLink %>" target="_blank" class="btn btn-primary nav-invite" style="padding: 10px 20px; font-size: 0.9rem;">
+      <i class="fa-solid fa-plus"></i> Invite
     </a>
     <button class="mobile-menu-toggle" aria-label="Toggle Menu">
-      <i class="fa-solid fa-bars"></i>
+      <i class="fa-solid fa-bars-staggered"></i>
     </button>
   </div>
 </nav>
 
 <div class="mobile-nav">
-  <div class="mobile-nav-header">
-    <a href="/" class="navbar-brand">
-      <img src="<%= config.botLogo %>" alt="<%= config.botName %>">
+  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem;">
+    <span class="navbar-brand">
+      <img src="<%= config.botLogo %>" alt="">
       <%= config.botName %>
-    </a>
-    <button class="mobile-menu-close"><i class="fa-solid fa-xmark"></i></button>
+    </span>
+    <button class="mobile-menu-close" style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
   </div>
   <ul class="mobile-nav-links">
     <li><a href="/" class="<%= page === 'home' ? 'active' : '' %>"><i class="fa-solid fa-house"></i> Home</a></li>
     <li><a href="/commands" class="<%= page === 'commands' ? 'active' : '' %>"><i class="fa-solid fa-terminal"></i> Commands</a></li>
+    <li><a href="/embeds" class="<%= page === 'embeds' ? 'active' : '' %>"><i class="fa-solid fa-square-poll-horizontal"></i> Embeds</a></li>
     <li><a href="/docs" class="<%= page === 'docs' ? 'active' : '' %>"><i class="fa-solid fa-book"></i> Docs</a></li>
     <li><a href="/changelog" class="<%= page === 'changelog' ? 'active' : '' %>"><i class="fa-solid fa-clock-rotate-left"></i> Changelog</a></li>
     <li><a href="/credits" class="<%= page === 'credits' ? 'active' : '' %>"><i class="fa-solid fa-star"></i> Credits</a></li>
-    <li><a href="/privacy" class="<%= page === 'privacy' ? 'active' : '' %>"><i class="fa-solid fa-shield-halved"></i> Privacy</a></li>
-    <li><a href="/tos" class="<%= page === 'tos' ? 'active' : '' %>"><i class="fa-solid fa-file-contract"></i> Terms</a></li>
-    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
-    <li><a href="<%= config.inviteLink %>" target="_blank" class="mobile-invite-btn"><i class="fa-solid fa-plus"></i> Invite Bot</a></li>
+    <li><a href="<%= config.inviteLink %>" target="_blank" style="background:var(--accent); color:white; margin-top:1rem; justify-content:center;"><i class="fa-solid fa-plus"></i> Invite Bot</a></li>
   </ul>
 </div>
 
@@ -68,18 +74,94 @@
 </div>
 
 <footer>
-  <p>
-    <%= config.footerText %>
-    <% if (config.githubLink) { %>
-    · <a href="<%= config.githubLink %>" target="_blank">GitHub</a>
-    <% } %>
-    · <a href="<%= config.supportServer %>" target="_blank">Support</a>
-    · <a href="/privacy">Privacy</a>
-    · <a href="/tos">Terms</a>
-    · <a href="/credits">Credits</a>
-  </p>
+  <div style="max-width:1200px; margin:0 auto;">
+    <p style="margin-bottom:1.5rem; font-weight:600;"><%= config.botName %> — <%= config.botDescription.split('.')[0] %></p>
+    <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin-bottom:2rem;">
+      <a href="/">Home</a>
+      <a href="/commands">Commands</a>
+      <a href="/docs">Docs</a>
+      <a href="/credits">Credits</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/tos">Terms</a>
+      <% if (config.supportServer) { %>
+      <a href="<%= config.supportServer %>" target="_blank">Support</a>
+      <% } %>
+    </div>
+    <p style="font-size:0.85rem; opacity:0.6;">
+      <%= config.footerText %>
+    </p>
+  </div>
 </footer>
 
-<script src="/js/main.js"></script>
+<script>
+// Mobile Menu Logic
+const toggle = document.querySelector('.mobile-menu-toggle');
+const close = document.querySelector('.mobile-menu-close');
+const nav = document.querySelector('.mobile-nav');
+
+if (toggle && nav) {
+  toggle.addEventListener('click', () => nav.classList.add('active'));
+}
+if (close && nav) {
+  close.addEventListener('click', () => nav.classList.remove('active'));
+}
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  const navbar = document.querySelector('.navbar');
+  if (window.scrollY > 50) {
+    navbar.style.background = 'rgba(8, 10, 15, 0.9)';
+    navbar.style.height = '64px';
+  } else {
+    navbar.style.background = 'rgba(13, 17, 23, 0.7)';
+    navbar.style.height = '72px';
+  }
+});
+
+// Copy to Clipboard Logic
+document.querySelectorAll('pre').forEach(block => {
+  if (block.querySelector('code')) {
+    const button = document.createElement('button');
+    button.className = 'copy-btn';
+    button.innerHTML = '<i class="fa-regular fa-copy"></i>';
+    block.style.position = 'relative';
+    block.appendChild(button);
+
+    button.addEventListener('click', async () => {
+      const text = block.querySelector('code').innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+        button.innerHTML = '<i class="fa-solid fa-check" style="color:#10b981"></i>';
+        setTimeout(() => {
+          button.innerHTML = '<i class="fa-regular fa-copy"></i>';
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy!', err);
+      }
+    });
+  }
+});
+</script>
+
+<style>
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.8rem;
+}
+.copy-btn:hover {
+  background: var(--accent-glow);
+  color: var(--text-main);
+  border-color: var(--accent);
+}
+</style>
 </body>
 </html>

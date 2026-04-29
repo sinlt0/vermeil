@@ -1,34 +1,321 @@
-<div class="docs-layout">
-  <!-- Sidebar -->
-  <div class="docs-sidebar">
-    <div class="docs-sidebar-section">
-      <h4>Documentation</h4>
-      <% sidebar.forEach(section => { %>
-        <% if (section.type === 'file') { %>
-          <a href="/docs/<%= section.slug %>" class="<%= currentSlug === section.slug ? 'active' : '' %>">
-            <%= section.title %>
-          </a>
-        <% } else if (section.type === 'category') { %>
-          <div class="docs-sidebar-section" style="margin-bottom:0.75rem;">
-            <h4><%= section.name %></h4>
-            <% section.files.forEach(f => { %>
-              <a href="/docs/<%= f.slug %>" class="<%= currentSlug === f.slug ? 'active' : '' %>" style="padding-left:1.25rem;">
-                <%= f.title %>
-              </a>
-            <% }); %>
-          </div>
-        <% } %>
-      <% }); %>
-    </div>
-  </div>
+<div class="docs-page-container">
+  <!-- Mobile Docs Toggle -->
+  <button class="docs-mobile-toggle" onclick="toggleDocsSidebar()">
+    <i class="fa-solid fa-list-ul"></i>
+    <span>Documentation Menu</span>
+  </button>
 
-  <!-- Content -->
-  <div class="docs-content">
-    <% if (content) { %>
-      <%- content %>
-    <% } else { %>
-      <h1>Documentation</h1>
-      <p>Select a topic from the sidebar to get started.</p>
-    <% } %>
+  <div class="docs-layout-new">
+    <!-- Sidebar -->
+    <aside class="docs-sidebar-new" id="docsSidebar">
+      <div class="sidebar-header">
+        <i class="fa-solid fa-book-open"></i>
+        <span>Documentation</span>
+        <button class="sidebar-close" onclick="toggleDocsSidebar()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="sidebar-nav">
+        <% sidebar.forEach(section => { %>
+          <% if (section.type === 'file') { %>
+            <a href="/docs/<%= section.slug %>" class="sidebar-item <%= currentSlug === section.slug ? 'active' : '' %>">
+              <i class="fa-solid fa-file-lines"></i>
+              <span><%= section.title %></span>
+            </a>
+          <% } else if (section.type === 'category') { %>
+            <div class="sidebar-group">
+              <div class="sidebar-group-label">
+                <i class="fa-solid fa-folder"></i>
+                <span><%= section.name %></span>
+              </div>
+              <div class="sidebar-group-items">
+                <% section.files.forEach(f => { %>
+                  <a href="/docs/<%= f.slug %>" class="sidebar-item <%= currentSlug === f.slug ? 'active' : '' %>">
+                    <span><%= f.title %></span>
+                  </a>
+                <% }); %>
+              </div>
+            </div>
+          <% } %>
+        <% }); %>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="docs-content-new">
+      <% if (content) { %>
+        <div class="markdown-body">
+          <%- content %>
+        </div>
+      <% } else { %>
+        <div class="docs-welcome">
+          <div class="welcome-icon"><i class="fa-solid fa-book-sparkles"></i></div>
+          <h1>Documentation</h1>
+          <p>Everything you need to know about setting up and configuring <%= config.botName %> for your server.</p>
+          <div class="welcome-grid">
+            <div class="welcome-card" onclick="location.href='/docs/getting-started'">
+              <i class="fa-solid fa-rocket"></i>
+              <h3>Getting Started</h3>
+              <p>Learn the basics of inviting and setting up the bot.</p>
+            </div>
+            <div class="welcome-card" onclick="location.href='/commands'">
+              <i class="fa-solid fa-terminal"></i>
+              <h3>Commands</h3>
+              <p>Explore the full list of available commands.</p>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </main>
   </div>
 </div>
+
+<style>
+.docs-page-container {
+  min-height: calc(100vh - 72px);
+  padding: 0;
+  position: relative;
+}
+
+.docs-layout-new {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 0;
+}
+
+/* ── Sidebar ─────────────────────────────────────────── */
+.docs-sidebar-new {
+  width: 300px;
+  height: calc(100vh - 72px);
+  position: sticky;
+  top: 72px;
+  background: rgba(8, 10, 15, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+  flex-shrink: 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2rem;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--text-main);
+}
+
+.sidebar-header i { color: var(--accent); }
+
+.sidebar-close {
+  display: none;
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
+.sidebar-item.active {
+  background: var(--accent-glow);
+  color: var(--accent);
+  border: 1px solid rgba(124, 77, 255, 0.2);
+}
+
+.sidebar-group {
+  margin-top: 1.5rem;
+}
+
+.sidebar-group-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.sidebar-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 4px;
+  border-left: 1px solid var(--border);
+  margin-left: 1.25rem;
+  padding-left: 0.5rem;
+}
+
+/* ── Content ─────────────────────────────────────────── */
+.docs-content-new {
+  flex: 1;
+  padding: 4rem 5rem;
+  max-width: 900px;
+  min-height: 100vh;
+}
+
+.markdown-body {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-main); /* Improved visibility */
+}
+
+.markdown-body h1 { font-size: 3rem; font-weight: 900; color: #fff; margin-bottom: 2rem; letter-spacing: -0.02em; }
+.markdown-body h2 { font-size: 2rem; font-weight: 800; color: #fff; margin: 3.5rem 0 1.5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+.markdown-body h3 { font-size: 1.5rem; font-weight: 700; color: #fff; margin: 2.5rem 0 1rem; }
+
+.markdown-body p { margin-bottom: 1.5rem; opacity: 0.9; }
+
+.markdown-body ul, .markdown-body ol { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+.markdown-body li { margin-bottom: 0.5rem; }
+
+.markdown-body code {
+  background: rgba(124, 77, 255, 0.1);
+  border: 1px solid rgba(124, 77, 255, 0.2);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--accent);
+}
+
+.markdown-body pre {
+  background: #05070a;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  overflow-x: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.markdown-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #e6edf3;
+  font-size: 0.95rem;
+}
+
+.markdown-body blockquote {
+  border-left: 4px solid var(--accent);
+  background: linear-gradient(90deg, var(--accent-glow), transparent);
+  padding: 1.5rem 2rem;
+  border-radius: 0 16px 16px 0;
+  margin: 2.5rem 0;
+  font-style: italic;
+}
+
+.docs-mobile-toggle {
+  display: none;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: var(--bg-card);
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-main);
+  font-weight: 700;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: sticky;
+  top: 72px;
+  z-index: 90;
+}
+
+/* ── Welcome Page ────────────────────────────────────── */
+.docs-welcome {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.welcome-icon { font-size: 4rem; color: var(--accent); margin-bottom: 1.5rem; text-shadow: 0 0 30px var(--accent-glow); }
+.docs-welcome h1 { font-size: 3.5rem; font-weight: 900; margin-bottom: 1rem; color: #fff; }
+.docs-welcome p { color: var(--text-muted); font-size: 1.3rem; max-width: 600px; margin: 0 auto 4rem; }
+
+.welcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.welcome-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  padding: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: left;
+}
+
+.welcome-card:hover { 
+  transform: translateY(-10px); 
+  border-color: var(--accent); 
+  background: var(--accent-glow);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.welcome-card i { font-size: 2.5rem; color: var(--accent-blue); margin-bottom: 1.5rem; }
+.welcome-card h3 { font-size: 1.4rem; margin-bottom: 12px; color: #fff; }
+.welcome-card p { font-size: 1rem; opacity: 0.7; line-height: 1.6; }
+
+/* ── Mobile ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .docs-sidebar-new {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 2000;
+    transform: translateX(-100%);
+    background: #080a0f;
+    width: 280px;
+  }
+  
+  .docs-sidebar-new.active { transform: translateX(0); }
+  .sidebar-close { display: block; }
+  .docs-mobile-toggle { display: flex; }
+  .docs-content-new { padding: 3rem 1.5rem; width: 100%; }
+  .markdown-body h1 { font-size: 2.5rem; }
+}
+</style>
+
+<script>
+function toggleDocsSidebar() {
+  const sidebar = document.getElementById('docsSidebar');
+  if (sidebar) sidebar.classList.toggle('active');
+}
+</script>

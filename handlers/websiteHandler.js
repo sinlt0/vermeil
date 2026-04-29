@@ -6,6 +6,7 @@
 const express    = require("express");
 const path       = require("path");
 const fs         = require("fs");
+const axios      = require("axios");
 const { marked } = require("marked");
 const chalk      = require("chalk");
 const webconfig  = require("../webconfig");
@@ -18,6 +19,10 @@ module.exports = async (client) => {
 
   const app  = express();
   const WEB  = path.join(__dirname, "../webs");
+
+  // ── Middleware ────────────────────────────────────────
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
   // ── Template engine ───────────────────────────────────
   app.set("view engine", "ejs");
@@ -32,10 +37,27 @@ module.exports = async (client) => {
     });
   }
 
-  // ── Helper: get category emoji ────────────────────────
-  function getCategoryEmoji(cat) {
-    const map = { utility: "🔧", moderation: "🔨", admin: "⚙️", music: "🎵", fun: "🎉", nsfw: "🔞", collection: "🎴", economy: "💰", leveling: "📈", info: "📋", ticket: "🎫", modmail: "📬", autorole: "👋", welcome: "🎊", owner: "👑", general: "📌" };
-    return map[cat.toLowerCase()] || "📁";
+  // ── Helper: get category icon ────────────────────────
+  function getCategoryIcon(cat) {
+    const map = {
+      utility: "fa-solid fa-wrench",
+      moderation: "fa-solid fa-hammer",
+      admin: "fa-solid fa-cog",
+      music: "fa-solid fa-music",
+      fun: "fa-solid fa-gamepad",
+      nsfw: "fa-solid fa-eye-slash",
+      collection: "fa-solid fa-images",
+      economy: "fa-solid fa-dollar-sign",
+      leveling: "fa-solid fa-chart-line",
+      info: "fa-solid fa-info-circle",
+      ticket: "fa-solid fa-ticket",
+      modmail: "fa-solid fa-headset",
+      autorole: "fa-solid fa-user-plus",
+      welcome: "fa-solid fa-bullhorn",
+      owner: "fa-solid fa-crown",
+      general: "fa-solid fa-th-large"
+    };
+    return map[cat.toLowerCase()] || "fa-solid fa-folder";
   }
 
   // ── Home ──────────────────────────────────────────────
@@ -64,7 +86,7 @@ module.exports = async (client) => {
 
     const categories = [...categoryMap.entries()]
       .sort(([a], [b]) => a.localeCompare(b))
-      .map(([name, cmds]) => ({ name: name.charAt(0).toUpperCase() + name.slice(1), emoji: getCategoryEmoji(name), commands: cmds }));
+      .map(([name, cmds]) => ({ name: name.charAt(0).toUpperCase() + name.slice(1), emoji: getCategoryIcon(name), commands: cmds }));
 
     const totalCommands = categories.reduce((a, c) => a + c.commands.length, 0);
     const prefix        = webconfig.prefix ?? "!";
@@ -109,15 +131,9 @@ module.exports = async (client) => {
   }
 
   function getDocContent(slug) {
-    // Try direct path
-    const directPath = path.join(DOCS_DIR, `${slug}.md`);
-    if (fs.existsSync(directPath)) {
-      return fs.readFileSync(directPath, "utf-8");
-    }
-    // Try nested path (e.g. moderation/warn)
-    const nestedPath = path.join(DOCS_DIR, `${slug}.md`);
-    if (fs.existsSync(nestedPath)) {
-      return fs.readFileSync(nestedPath, "utf-8");
+    const fullPath = path.join(DOCS_DIR, `${slug}.md`);
+    if (fs.existsSync(fullPath)) {
+      return fs.readFileSync(fullPath, "utf-8");
     }
     return null;
   }
@@ -152,6 +168,34 @@ module.exports = async (client) => {
   // ── Credits ───────────────────────────────────────────
   app.get("/credits", (req, res) => {
     render(res, "credits", { title: "Credits", page: "credits" });
+  });
+
+  // ── Embed Builder ─────────────────────────────────────
+  app.get("/embeds", (req, res) => {
+    render(res, "embeds", { title: "Embed Builder", page: "embeds" });
+  });
+
+  app.post("/api/webhook", async (req, res) => {
+    const { url, data } = req.body;
+    if (!url || !data) return res.status(400).json({ error: "Missing URL or Data" });
+    if (!url.startsWith("https://discord.com/api/webhooks/")) {
+      return res.status(400).json({ error: "Invalid Webhook URL" });
+    }
+
+    try {
+      const response = await axios.post(url, data, {
+        headers: { "Content-Type": "application/json" }
+      });
+
+      if (response.status >= 200 && response.status < 300) {
+        res.json({ success: true });
+      } else {
+        res.status(response.status).json({ error: "Discord API Error: " + response.statusText });
+      }
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || err.message;
+      res.status(err.response?.status || 500).json({ error: errorMsg });
+    }
   });
 
   // ── Changelog ─────────────────────────────────────────
