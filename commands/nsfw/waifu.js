@@ -6,7 +6,7 @@ module.exports = {
   name: "nsfwwaifu",
   description: "Get a random NSFW waifu image.",
   category: "nsfw",
-  aliases: ["waifu"],
+  aliases: ["nwaifu"],
   usage: "",
   cooldown: 3,
   slash: false,
