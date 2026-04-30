@@ -33,6 +33,7 @@ module.exports = {
   modmail:      "📩",
   autorole:     "🎭",
   welcome:      "👋",
+  booster:      "💎",
   verification: "🛡️",
   default:      "📁",
 
